@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import RxSwift
 
 final class UnsplashAPIManager {
     //MARK: Properties
@@ -23,96 +24,139 @@ final class UnsplashAPIManager {
 extension UnsplashAPIManager {
     func searchPhotos<T: Decodable>(type: T.Type,
                                     query: String,
-                                    page: Int,
-                                    completion: @escaping (Result<T, Error>) -> Void) {
+                                    page: Int) -> Observable<T> {
         
-        guard isFetching == false else { return }
+        guard isFetching == false else { return Observable.empty() }
         
         self.isFetching = true
-        sessionManager.request(UnsplashRouter.searchPhotos(query: query, page: page))
-            .responseData { responseData in
-                
-                self.isFetching = false
-                switch responseData.result {
-                case .success(let data):
-                    do {
-                        let decodedData = try PasingManager.decode(type: type, data: data)
-                        completion(.success(decodedData))
-                    } catch (let error) {
-                        completion(.failure(error))
+        
+        return Observable.create { observer in
+            let request =  self.sessionManager.request(UnsplashRouter.searchPhotos(query: query,
+                                                                             page: page))
+                .responseData { responseData in
+                    
+                    self.isFetching = false
+                    switch responseData.result {
+                    case .success(let data):
+                        do {
+                            let decodedData = try PasingManager.decode(type: type, data: data)
+                            observer.onNext(decodedData)
+                            observer.onCompleted()
+                        } catch (let error) {
+                            observer.onError(error)
+                        }
+                    case .failure(let error):
+                        observer.onError(error)
                     }
-                case .failure(let error):
-                    completion(.failure(error))
                 }
-            }
-    }
-    
-    func fetchAccessToken(accessCode: String, completion: @escaping (Bool) -> Void) {
-        sessionManager.request(UnsplashRouter.fetchAccessToken(accessCode: accessCode)).responseDecodable(of: UnsplashAccessToken.self) { reponseJson in
-            guard let token = reponseJson.value else { return completion(false) }
-            
-            do {
-                try TokenManager.shared.saveAccessToken(unsplashToken: token)
-                completion(true)
-            } catch {
-                completion(false)
+            return Disposables.create {
+                request.cancel()
             }
         }
     }
     
-    func photoLike(id: String, completion: @escaping (Result<PhotoLike, Error>) -> Void) {
-        sessionManager.request(UnsplashRouter.photoLike(id: id))
-            .responseDecodable(of: PhotoLike.self) { responseJson in
-                switch responseJson.result {
-                case .success(let decodedPhoto):
-                    completion(.success(decodedPhoto))
-                case .failure(let error):
-                    completion(.failure(error))
+    func fetchAccessToken(accessCode: String) -> Observable<Bool> {
+        return Observable.create { observer in
+            self.sessionManager.request(UnsplashRouter.fetchAccessToken(accessCode: accessCode)).responseDecodable(of: UnsplashAccessToken.self) { reponseJson in
+                guard let token = reponseJson.value else {
+                    observer.onNext(false)
+                    return
                 }
-            }
-    }
-    
-    func photoUnlike(id: String, completion: @escaping (Result<PhotoLike, Error>) -> Void) {
-        sessionManager.request(UnsplashRouter.photoUnlike(id: id))
-            .responseDecodable(of: PhotoLike.self) { responseJson in
-                switch responseJson.result {
-                case .success(let decodedPhoto):
-                    completion(.success(decodedPhoto))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
-    }
-    
-    func fetchUserProfile(completion: @escaping (Result<Profile, Error>) -> Void) {
-        sessionManager.request(UnsplashRouter.myProfile)
-            .responseDecodable(of: Profile.self) { responseJson in
-                switch responseJson.result {
-                case .success(let profile):
-                    completion(.success(profile))
-                case .failure(let error):
-                    debugPrint(error)
-                    completion(.failure(error))
-                }
-            }
-    }
-    
-    func fetchUserLikePhotos(userName: String,
-                             page: Int,
-                             completion: @escaping (Result<[Photo], Error>) -> Void) {
-        guard isFetching == false else { return }
-        
-        self.isFetching = true
-        sessionManager.request(UnsplashRouter.listUserLike(userName: userName, page: page))
-            .responseDecodable(of: [Photo].self) { responseData in
                 
-                self.isFetching = false
-                switch responseData.result {
-                case .success(let photos):
-                    completion(.success(photos))
-                case .failure(let error):
-                    completion(.failure(error))
+                do {
+                    try TokenManager.shared.saveAccessToken(unsplashToken: token)
+                    observer.onNext(true)
+                    observer.onCompleted()
+                } catch (let saveError) {
+                    observer.onError(saveError)
                 }
             }
+            
+            return Disposables.create()
+        }
+    }
+    
+    func photoLike(id: String) -> Observable<PhotoLike> {
+        return Observable.create { observer in
+           let request = self.sessionManager.request(UnsplashRouter.photoLike(id: id)).responseDecodable(of: PhotoLike.self) { responseJson in
+                    switch responseJson.result {
+                    case .success(let decodedPhoto):
+                        observer.onNext(decodedPhoto)
+                        observer.onCompleted()
+                    case .failure(let error):
+                        observer.onError(error)
+                    }
+                }
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+    
+    func photoUnlike(id: String) -> Observable<PhotoLike> {
+        return Observable.create { observer in
+           let request = self.sessionManager.request(UnsplashRouter.photoUnlike(id: id))
+                .responseDecodable(of: PhotoLike.self) { responseJson in
+                    switch responseJson.result {
+                    case .success(let decodedPhoto):
+                        observer.onNext(decodedPhoto)
+                        observer.onCompleted()
+                    case .failure(let error):
+                        observer.onError(error)
+                    }
+                }
+            
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+
+    }
+    
+    func fetchUserProfile() -> Observable<Profile> {
+        return Observable.create { observer in
+           let request = self.sessionManager.request(UnsplashRouter.myProfile)
+                .responseDecodable(of: Profile.self) { responseJson in
+                    switch responseJson.result {
+                    case .success(let profile):
+                        observer.onNext(profile)
+                        observer.onCompleted()
+                    case .failure(let error):
+                        debugPrint(error)
+                        observer.onError(error)
+                    }
+                }
+            
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+    
+    func fetchUserLikePhotos(userName: String, page: Int) -> Observable<[Photo]> {
+        guard isFetching == false else {
+            return Observable.empty()
+        }
+        self.isFetching = true
+        
+        return Observable.create { observer in
+            let request = self.sessionManager.request(UnsplashRouter.listUserLike(userName: userName,
+                                                                                  page: page))
+                .responseDecodable(of: [Photo].self) { responseData in
+                    
+                    self.isFetching = false
+                    switch responseData.result {
+                    case .success(let photos):
+                        observer.onNext(photos)
+                        observer.onCompleted()
+                    case .failure(let error):
+                        observer.onError(error)
+                    }
+                }
+            
+            return Disposables.create {
+                request.cancel()
+            }
+        }
     }
 }
