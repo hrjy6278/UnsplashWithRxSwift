@@ -7,11 +7,7 @@
 
 import Foundation
 import Security
-
-
-protocol KeyChainStoreDelegate: AnyObject {
-    func didFinishedDeleteValue()
-}
+import RxSwift
 
 struct KeyChainStore {
     enum KeyChainError: Error {
@@ -21,7 +17,7 @@ struct KeyChainStore {
     
     //MARK: Properties
     private var queryable: KeyChainQueryable
-    weak var delegate: KeyChainStoreDelegate?
+    private(set) var isDeleteValue = BehaviorSubject<Bool>(value: false)
     
     //MARK: init
     init(queryable: KeyChainQueryable) {
@@ -88,21 +84,28 @@ extension KeyChainStore {
         query[String(kSecAttrAccount)] = userAccount
         
         SecItemDelete(query as CFDictionary)
-        delegate?.didFinishedDeleteValue()
+        isDeleteValue.onNext(true)
+        isDeleteValue.onCompleted()
     }
     
     func removeAll() {
         let query = queryable.query
         
         SecItemDelete(query as CFDictionary)
-        delegate?.didFinishedDeleteValue()
+        isDeleteValue.onNext(true)
+        isDeleteValue.onCompleted()
     }
     
-    func isKeySaved(for userAccount: String) -> Bool {
-        if let _ = try? getValue(for: userAccount) {
-            return true
-        } else {
-            return false
+    func isKeySaved(for userAccount: String) -> Observable<Bool> {
+        return Observable.create { observer in
+            if let _ = try? getValue(for: userAccount) {
+                observer.onNext(true)
+            } else {
+                observer.onNext(false)
+            }
+            observer.onCompleted()
+            
+            return Disposables.create()
         }
     }
     

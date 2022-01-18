@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 final class TokenManager {
     enum TokenManagerError: Error {
@@ -17,16 +18,14 @@ final class TokenManager {
     private let userAccount = "accessToken"
     private var keyChaineStore = KeyChainStore(queryable: TokenQuery())
     
-    var isTokenSaved: Bool {
-        return keyChaineStore.isKeySaved(for: userAccount) ? true : false
+    var isTokenSaved: Observable<Bool> {
+        return keyChaineStore.isKeySaved(for: userAccount)
     }
     
     static let shared = TokenManager()
     
     //MARK: init
-    private init() {
-        keyChaineStore.delegate = self
-    }
+    private init() { }
 }
 
 //MARK: - Method
@@ -50,12 +49,5 @@ extension TokenManager {
     
     func clearAccessToken() {
         keyChaineStore.removeValue(for: userAccount)
-    }
-}
-
-//MARK: - KeyChain Store Delegate
-extension TokenManager: KeyChainStoreDelegate {
-    func didFinishedDeleteValue() {
-        NotificationCenter.default.post(name: .didFinishedDeleteKeyChainValue, object: nil)
     }
 }
