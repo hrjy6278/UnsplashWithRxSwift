@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 final class SearchViewController: UIViewController {
     //MARK: - Properties
@@ -33,6 +34,8 @@ final class SearchViewController: UIViewController {
         return tableView
     }()
     
+    private var dataSource: RxTableViewSectionedReloadDataSource<SearchSection>?
+    
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +44,7 @@ final class SearchViewController: UIViewController {
         configureTableView()
         configureTapGesture()
         configureNavigationBar()
+        configureDataSource()
         bindViewModel()
     }
 }
@@ -76,6 +80,21 @@ extension SearchViewController: HierarchySetupable {
                                                                  action: nil)
     }
     
+    private func configureDataSource() {
+        dataSource = RxTableViewSectionedReloadDataSource<SearchSection> { _, tableView, indexPath, cellModel in
+            let cell = tableView.dequeueReusableCell(withIdentifier: ImageListTableViewCell.cellID,
+                                                     for: indexPath) as! ImageListTableViewCell
+            
+            cell.configure(id: cellModel.id,
+                           photographerName: cellModel.profile.userName,
+                           likeCount: String(cellModel.likes),
+                           isUserLike: cellModel.isUserLike,
+                           imageUrl: cellModel.urls.regularURL)
+            
+            return cell
+        }
+    }
+    
     private func configureTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self,
                                                 action: #selector(dissmissKeyboard))
@@ -84,17 +103,6 @@ extension SearchViewController: HierarchySetupable {
     
     @objc func dissmissKeyboard() {
         view.endEditing(true)
-    }
-    
-    private func loadNextPageTrigger() -> ControlEvent<Bool> {
-        let source = self.tableView.rx.contentOffset.map { contentOffset -> Bool in
-                let visibleHeight = self.tableView.frame.height - self.tableView.contentInset.top - self.tableView.contentInset.bottom
-                let y = contentOffset.y + self.tableView.contentInset.top + self.tableView.contentInset.bottom
-                let threshold = max(30, self.tableView.contentSize.height - visibleHeight - 30)
-                return y >= threshold
-        }.distinctUntilChanged()
-        
-        return ControlEvent(events: source)
     }
 }
 
@@ -105,9 +113,13 @@ extension SearchViewController {
             .searchButtonClicked
             .do(onNext: {_ in self.view.endEditing(true) })
             .withLatestFrom(searchBar.rx.text.orEmpty)
+         
+        let loadMore = tableView.rx.contentOffset.flatMap { CGPoint in
+            self.tableView.rx.loadNextPageTrigger(offset: CGPoint)
+        }
         
         let input = SearchViewModel.Input(searchAction: searchObservable,
-                                          loadMore: loadNextPageTrigger())
+                                          loadMore: loadMore)
         
         let output = viewModel.bind(input: input)
         
@@ -116,16 +128,11 @@ extension SearchViewController {
             .drive(navigationItem.rx.title)
             .disposed(by: disposeBag)
         
-        output.searchPhotos
-            .drive(tableView.rx.items(cellIdentifier: ImageListTableViewCell.cellID,
-                                      cellType: ImageListTableViewCell.self)) { indexPath, photo, cell in
-                cell.configure(id: photo.id,
-                               photographerName: photo.profile.userName,
-                               likeCount: String(photo.likes),
-                               isUserLike: photo.isUserLike,
-                               imageUrl: photo.urls.regularURL)
-            }
-            .disposed(by: disposeBag)
+        dataSource.flatMap { dataSource in
+            output.tavleViewModel
+                    .bind(to: tableView.rx.items(dataSource: dataSource))
+                    .disposed(by: disposeBag)
+        }
     }
 }
 

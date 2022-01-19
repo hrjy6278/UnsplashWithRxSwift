@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 protocol ViewModelType {
     associatedtype Input
@@ -15,6 +16,8 @@ protocol ViewModelType {
     
     func bind(input: Input) -> Output
 }
+
+typealias SearchSection = SectionModel<String, Photo>
 
 final class SearchViewModel: ViewModelType {
     private let networkService = UnsplashAPIManager()
@@ -25,12 +28,12 @@ final class SearchViewModel: ViewModelType {
     
     struct Input {
         let searchAction: Observable<String>
-        let loadMore: ControlEvent<Bool>
+        let loadMore: Observable<Bool>
     }
     
     struct Output {
         let navigationTitle: Driver<String>
-        let searchPhotos: Driver<[Photo]>
+        let tavleViewModel: Observable<[SearchSection]>
     }
     
     func bind(input: Input) -> Output {
@@ -53,7 +56,7 @@ final class SearchViewModel: ViewModelType {
             })
         
         let requestFirst = searchFirstResult.map { $0.photos }
-        
+                
         let requestNext = input.loadMore
             .filter { _ in self.totalPage != .zero }
             .take(while: { _ in self.pageCounter != self.totalPage ? true : false })
@@ -66,7 +69,6 @@ final class SearchViewModel: ViewModelType {
                     .map{ $0.photos }
             }
         
-        
         Observable.merge(requestFirst, requestNext)
             .subscribe(onNext: { newPhotos in
                 if let originalPhotos = try? searchBehaviorSubject.value() {
@@ -75,9 +77,12 @@ final class SearchViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
+        let tableViewModel = searchBehaviorSubject.map { photos in
+            [SearchSection(model: "Photo", items: photos)]
+        }
         
         let output = Output(navigationTitle: navigationTitle.asDriver(onErrorJustReturn: ""),
-                            searchPhotos: searchBehaviorSubject.asDriver(onErrorJustReturn: []))
+                            tavleViewModel: tableViewModel)
         return output
     }
 }
