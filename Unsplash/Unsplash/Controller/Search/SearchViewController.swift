@@ -12,9 +12,7 @@ import RxCocoa
 final class SearchViewController: UIViewController {
     //MARK: - Properties
     private let viewModel = SearchViewModel()
-    
-    private let tableViewDataSource = ImageListDataSource()
-
+    private let disposeBag = DisposeBag()
     
     private let searchBar: UISearchBar = {
         let search = UISearchBar()
@@ -42,6 +40,7 @@ final class SearchViewController: UIViewController {
         setupView()
         configureTableView()
         configureTapGesture()
+        bindViewModel()
     }
 }
 
@@ -66,14 +65,8 @@ extension SearchViewController: HierarchySetupable {
     }
     
     private func configureTableView() {
-        tableView.dataSource = tableViewDataSource
-        tableView.delegate = tableViewDataSource
         tableView.rowHeight = view.frame.size.height / 4
     }
-    
-//    private func configureImageListDataSource() {
-//        tableViewDataSource.delegate = self
-//    }
     
     private func configureTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self,
@@ -84,111 +77,49 @@ extension SearchViewController: HierarchySetupable {
     @objc func dissmissKeyboard() {
         view.endEditing(true)
     }
+    
+    private func loadNextPageTrigger() -> ControlEvent<Bool> {
+        let source = self.tableView.rx.contentOffset.map { contentOffset -> Bool in
+                let visibleHeight = self.tableView.frame.height - self.tableView.contentInset.top - self.tableView.contentInset.bottom
+                let y = contentOffset.y + self.tableView.contentInset.top + self.tableView.contentInset.bottom
+                let threshold = max(30, self.tableView.contentSize.height - visibleHeight - 30)
+                return y >= threshold
+        }.distinctUntilChanged()
+        
+        return ControlEvent(events: source)
+    }
 }
 
+//MARK: - Method
 extension SearchViewController {
     func bindViewModel() {
         let searchObservable = searchBar.rx
             .searchButtonClicked
+            .do(onNext: {_ in self.view.endEditing(true) })
             .withLatestFrom(searchBar.rx.text.orEmpty)
         
-        let input = SearchViewModel.Input(searchAction: searchObservable)
+        let input = SearchViewModel.Input(searchAction: searchObservable,
+                                          loadMore: loadNextPageTrigger())
         
-        //아웃풋에 뭐가 나와야될까요? 테이블뷰를 그릴 수 있는 모델이 필요해.
         let output = viewModel.bind(input: input)
         
+        output
+            .navigationTitle
+            .drive(navigationItem.rx.title)
+            .disposed(by: disposeBag)
+        
+        output.searchPhotos
+            .drive(tableView.rx.items(cellIdentifier: ImageListTableViewCell.cellID,
+                                      cellType: ImageListTableViewCell.self)) { indexPath, photo, cell in
+                cell.configure(id: photo.id,
+                               photographerName: photo.profile.userName,
+                               likeCount: String(photo.likes),
+                               isUserLike: photo.isUserLike,
+                               imageUrl: photo.urls.regularURL)
+            }
+            .disposed(by: disposeBag)
     }
 }
-
-//MARK: - NetworkService
-//extension SearchViewController {
-//    private func reloadPhotos() {
-//        guard photos.isEmpty == false,
-//              query != "",
-//              TokenManager.shared.isTokenSaved else { return }
-//        photos = []
-//        page = .initialPage
-//        searchPhotos()
-//    }
-//
-//    private func searchPhotos() {
-//        networkService.searchPhotos(type: SearchPhoto.self,
-//                                    query: query,
-//                                    page: page) { [weak self] result in
-//            guard let self = self else { return }
-//
-//            switch result {
-//            case .success(let photoResult):
-//                photoResult.photos.forEach { self.photos.append($0) }
-//                self.tableViewDataSource.configure(self.photos)
-//                self.tableView.reloadData()
-//                self.page.addPage()
-//
-//            case .failure(let error):
-//                let errorMessage = "이미지를 가져오는데 실패하였습니다. 다시한번 시도해주세요."
-//                self.showAlert(message: errorMessage)
-//                debugPrint(error.localizedDescription)
-//            }
-//        }
-//    }
-//
-//    private func fetchLikePhoto(photoId: String) {
-//        guard let index = photos.firstIndex(where: { $0.id == photoId }) else { return }
-//
-//        if photos[index].isUserLike {
-//            networkService.photoUnlike(id: photoId, completion: judgeLikeResult(_:))
-//        } else {
-//            networkService.photoLike(id: photoId, completion: judgeLikeResult(_:))
-//        }
-//    }
-//
-//    private func judgeLikeResult(_ result: Result<PhotoLike, Error>) {
-//        switch result {
-//        case .success(let photoResult):
-//            photos.firstIndex { $0.id == photoResult.photo.id }
-//            .map { Int($0) }
-//            .flatMap {
-//                photos[$0].isUserLike = photoResult.photo.isUserLike
-//                photos[$0].likes = photoResult.photo.likes
-//            }
-//            self.tableViewDataSource.configure(self.photos)
-//            self.tableView.reloadData()
-//
-//        case .failure:
-//            print("좋아요를 실패하였습니다.")
-//        }
-//    }
-//}
-//
-////MARK: - UISearchBarDelegate
-//extension SearchViewController: UISearchBarDelegate {
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        guard let query = searchBar.text else { return }
-//        self.query = query
-//        self.photos = []
-//        self.page = .initialPage
-//        searchPhotos()
-//        searchBar.text = ""
-//        searchBar.resignFirstResponder()
-//    }
-//}
-//
-////MARK: - Image List DataSource Delegate
-//extension SearchViewController: ImageListDataSourceDelegate {
-//    func morePhotos() {
-//        searchPhotos()
-//    }
-//
-//    func didTapedLikeButton(photoId: String) {
-//        guard TokenManager.shared.isTokenSaved else {
-//            let message = "로그인 후 이용해주세요."
-//            showAlert(message: message)
-//            return
-//        }
-//
-//        fetchLikePhoto(photoId: photoId)
-//    }
-//}
 
 //MARK: - TabBar Image Info Protocol
 extension SearchViewController: TabBarImageInfo {

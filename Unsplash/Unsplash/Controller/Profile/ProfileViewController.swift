@@ -13,7 +13,7 @@ final class ProfileViewController: UIViewController {
     private var photos = [Photo]()
     
     private let networkService = UnsplashAPIManager()
-    private let tableViewDataSource = ImageListDataSource()
+   // private let tableViewDataSource = ImageListDataSource()
     private let tableViewHeaderView = ProfileHeaderView()
     
     private var tableView: UITableView = {
