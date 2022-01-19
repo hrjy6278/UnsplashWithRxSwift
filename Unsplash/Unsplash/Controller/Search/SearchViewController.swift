@@ -21,6 +21,7 @@ final class SearchViewController: UIViewController {
         search.translatesAutoresizingMaskIntoConstraints = false
         search.placeholder = "검색어를 입력해주세요."
         search.autocapitalizationType = .none
+        
         return search
     }()
     
@@ -111,13 +112,16 @@ extension SearchViewController {
     func bindViewModel() {
         let searchObservable = searchBar.rx
             .searchButtonClicked
-            .do(onNext: {_ in self.view.endEditing(true) })
+            .do(onNext: { _ in
+                self.view.endEditing(true)
+                self.tableView.setContentOffset(.zero, animated: true)
+            })
             .withLatestFrom(searchBar.rx.text.orEmpty)
          
-        let loadMore = tableView.rx.contentOffset.flatMap { CGPoint in
-            self.tableView.rx.loadNextPageTrigger(offset: CGPoint)
+        let loadMore = tableView.rx.contentOffset.flatMap { cgPoint in
+            self.tableView.rx.loadNextPageTrigger(offset: cgPoint)
         }
-        
+                
         let input = SearchViewModel.Input(searchAction: searchObservable,
                                           loadMore: loadMore)
         

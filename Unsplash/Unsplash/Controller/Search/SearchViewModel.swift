@@ -25,7 +25,6 @@ final class SearchViewModel: ViewModelType {
     private var pageCounter: Int = .initialPage
     private var totalPage: Int = .zero
     
-    
     struct Input {
         let searchAction: Observable<String>
         let loadMore: Observable<Bool>
@@ -44,13 +43,13 @@ final class SearchViewModel: ViewModelType {
         let searchFirstResult = input.searchAction
             .flatMap { query -> Observable<SearchPhoto> in
                 searchQuery = query
+                self.pageCounter = .initialPage
                 return self.networkService.searchPhotos(type: SearchPhoto.self,
                                                         query: query,
                                                         page: self.pageCounter)
             }
             .do(onNext: {
                 searchBehaviorSubject.onNext([])
-                self.pageCounter = .initialPage
                 self.totalPage = $0.totalPages
                 navigationTitle.onNext("\(searchQuery) 검색결과")
             })
@@ -61,8 +60,8 @@ final class SearchViewModel: ViewModelType {
             .filter { _ in self.totalPage != .zero }
             .take(while: { _ in self.pageCounter != self.totalPage ? true : false })
             .flatMap { isLoadMore -> Observable<[Photo]> in
-                guard isLoadMore else { return .empty() }
-                self.pageCounter += 1
+                guard isLoadMore else { return .never() }
+                self.pageCounter.addPage()
                 return self.networkService.searchPhotos(type: SearchPhoto.self,
                                                         query: searchQuery,
                                                         page: self.pageCounter)
@@ -81,7 +80,9 @@ final class SearchViewModel: ViewModelType {
             [SearchSection(model: "Photo", items: photos)]
         }
         
-        let output = Output(navigationTitle: navigationTitle.asDriver(onErrorJustReturn: ""),
+        let outputNavigationTitle = navigationTitle.asDriver(onErrorJustReturn: "")
+        
+        let output = Output(navigationTitle: outputNavigationTitle,
                             tavleViewModel: tableViewModel)
         return output
     }

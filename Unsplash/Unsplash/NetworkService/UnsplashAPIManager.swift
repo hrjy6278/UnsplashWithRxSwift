@@ -34,8 +34,6 @@ extension UnsplashAPIManager {
             let request =  self.sessionManager.request(UnsplashRouter.searchPhotos(query: query,
                                                                              page: page))
                 .responseData { responseData in
-                    
-                    self.isFetching = false
                     switch responseData.result {
                     case .success(let data):
                         do {
@@ -48,11 +46,13 @@ extension UnsplashAPIManager {
                     case .failure(let error):
                         observer.onError(error)
                     }
+                    self.isFetching = false
                 }
             return Disposables.create {
                 request.cancel()
             }
         }
+        .observe(on: CurrentThreadScheduler.instance)
     }
     
     func fetchAccessToken(accessCode: String) -> Observable<Bool> {

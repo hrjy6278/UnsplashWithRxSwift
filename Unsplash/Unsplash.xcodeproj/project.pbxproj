@@ -215,8 +215,8 @@
 		74A225C827722A6A002DB300 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				74BCE1BE276C703B0093B1E6 /* SearchViewController.swift */,
 				740FF21B2796B0C50025235F /* SearchViewModel.swift */,
+				74BCE1BE276C703B0093B1E6 /* SearchViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
