@@ -19,7 +19,7 @@ final class TokenManager {
     private var keyChaineStore = KeyChainStore(queryable: TokenQuery())
     
     var isTokenSaved: Observable<Bool> {
-        return keyChaineStore.isKeySaved(for: userAccount)
+        return keyChaineStore.isKeySaved(for: userAccount).share(replay: 1)
     }
     
     static let shared = TokenManager()

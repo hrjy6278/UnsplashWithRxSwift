@@ -60,7 +60,7 @@ extension LoginViewController: HierarchySetupable {
 //MARK: - Login Button Action
 extension LoginViewController {
     @objc func didTapLoginButton(_ sender: UIButton) {
-        navigationController?.pushViewController(Oauth2ViewController(), animated: true)
+        navigationController?.pushViewController(OAuth2ViewController(), animated: true)
     }
 }
 

@@ -25,7 +25,7 @@
 		74A225BB2770B93A002DB300 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225BA2770B93A002DB300 /* TokenManager.swift */; };
 		74A225BD2770BEA1002DB300 /* KeyChainQueryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225BC2770BEA1002DB300 /* KeyChainQueryable.swift */; };
 		74A225BF2770BF93002DB300 /* TokenQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225BE2770BF93002DB300 /* TokenQuery.swift */; };
-		74A225C32771750C002DB300 /* Oauth2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225C22771750B002DB300 /* Oauth2ViewController.swift */; };
+		74A225C32771750C002DB300 /* OAuth2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225C22771750B002DB300 /* OAuth2ViewController.swift */; };
 		74A225C5277188EA002DB300 /* Extension + URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225C4277188EA002DB300 /* Extension + URL.swift */; };
 		74A225C72771FF78002DB300 /* PhotoLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225C62771FF78002DB300 /* PhotoLike.swift */; };
 		74A225CC2772C5C1002DB300 /* UnsplashImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225CB2772C5C1002DB300 /* UnsplashImagesView.swift */; };
@@ -47,6 +47,7 @@
 		74BF06EE2797B7B5001DBD14 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 74BF06ED2797B7B5001DBD14 /* Differentiator */; };
 		74BF06F02797B7B5001DBD14 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 74BF06EF2797B7B5001DBD14 /* RxDataSources */; };
 		74BF06F42797E213001DBD14 /* Extension + Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BF06F32797E213001DBD14 /* Extension + Rx.swift */; };
+		74BF06F62797FCB8001DBD14 /* OAuth2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BF06F52797FCB8001DBD14 /* OAuth2ViewModel.swift */; };
 		74CE8D30277494B1008BD593 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE8D2F277494B1008BD593 /* LoginViewController.swift */; };
 		74CE8D32277560AB008BD593 /* Extention + Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE8D31277560AB008BD593 /* Extention + Notification.Name.swift */; };
 		74CE8D3427759634008BD593 /* Extension + Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE8D3327759634008BD593 /* Extension + Int.swift */; };
@@ -87,7 +88,7 @@
 		74A225BA2770B93A002DB300 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		74A225BC2770BEA1002DB300 /* KeyChainQueryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainQueryable.swift; sourceTree = "<group>"; };
 		74A225BE2770BF93002DB300 /* TokenQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenQuery.swift; sourceTree = "<group>"; };
-		74A225C22771750B002DB300 /* Oauth2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oauth2ViewController.swift; sourceTree = "<group>"; };
+		74A225C22771750B002DB300 /* OAuth2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2ViewController.swift; sourceTree = "<group>"; };
 		74A225C4277188EA002DB300 /* Extension + URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + URL.swift"; sourceTree = "<group>"; };
 		74A225C62771FF78002DB300 /* PhotoLike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLike.swift; sourceTree = "<group>"; };
 		74A225CB2772C5C1002DB300 /* UnsplashImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashImagesView.swift; sourceTree = "<group>"; };
@@ -109,6 +110,7 @@
 		74BCE1DD276C703E0093B1E6 /* UnsplashUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		74BCE1EA276C75380093B1E6 /* UnsplashTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashTabbarController.swift; sourceTree = "<group>"; };
 		74BF06F32797E213001DBD14 /* Extension + Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Rx.swift"; sourceTree = "<group>"; };
+		74BF06F52797FCB8001DBD14 /* OAuth2ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2ViewModel.swift; sourceTree = "<group>"; };
 		74CE8D2F277494B1008BD593 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		74CE8D31277560AB008BD593 /* Extention + Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + Notification.Name.swift"; sourceTree = "<group>"; };
 		74CE8D3327759634008BD593 /* Extension + Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Int.swift"; sourceTree = "<group>"; };
@@ -234,7 +236,8 @@
 			isa = PBXGroup;
 			children = (
 				74CE8D2F277494B1008BD593 /* LoginViewController.swift */,
-				74A225C22771750B002DB300 /* Oauth2ViewController.swift */,
+				74BF06F52797FCB8001DBD14 /* OAuth2ViewModel.swift */,
+				74A225C22771750B002DB300 /* OAuth2ViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -502,7 +505,7 @@
 				74A225C5277188EA002DB300 /* Extension + URL.swift in Sources */,
 				74A22598276CDAF0002DB300 /* PasingManager.swift in Sources */,
 				74A225D627730866002DB300 /* ProfileViewController.swift in Sources */,
-				74A225C32771750C002DB300 /* Oauth2ViewController.swift in Sources */,
+				74A225C32771750C002DB300 /* OAuth2ViewController.swift in Sources */,
 				74A225A0276ECBE1002DB300 /* Extension + UITableView.swift in Sources */,
 				74CE8D3C2775A6EC008BD593 /* Extension + UIViewController.swift in Sources */,
 				74BCE1BF276C703B0093B1E6 /* SearchViewController.swift in Sources */,
@@ -514,6 +517,7 @@
 				74A225BB2770B93A002DB300 /* TokenManager.swift in Sources */,
 				74BF06F42797E213001DBD14 /* Extension + Rx.swift in Sources */,
 				74BCE1BD276C703B0093B1E6 /* SceneDelegate.swift in Sources */,
+				74BF06F62797FCB8001DBD14 /* OAuth2ViewModel.swift in Sources */,
 				74CE8D32277560AB008BD593 /* Extention + Notification.Name.swift in Sources */,
 				74A225BF2770BF93002DB300 /* TokenQuery.swift in Sources */,
 				74A225DA27732A6E002DB300 /* ProfileHeaderView.swift in Sources */,

@@ -75,10 +75,10 @@ extension SearchViewController: HierarchySetupable {
     }
     
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "로그인",
-                                                                 style: .plain,
-                                                                 target: nil,
-                                                                 action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: nil,
+                                                            style: .plain,
+                                                            target: nil,
+                                                            action: nil)
     }
     
     private func configureDataSource() {
@@ -121,14 +121,26 @@ extension SearchViewController {
         let loadMore = tableView.rx.contentOffset.flatMap { cgPoint in
             self.tableView.rx.loadNextPageTrigger(offset: cgPoint)
         }
-                
+        
+        let rightButtonTap = navigationItem.rightBarButtonItem?.rx.tap.asObservable() ?? .empty()
+        
         let input = SearchViewModel.Input(searchAction: searchObservable,
-                                          loadMore: loadMore)
+                                          loadMore: loadMore,
+                                          login: rightButtonTap)
         
         let output = viewModel.bind(input: input)
         
-        output
-            .navigationTitle
+        output.loginPresenting
+                .subscribe(onNext: { _ in
+                    self.present(OAuth2ViewController(), animated: true, completion: nil)
+                })
+                .disposed(by: disposeBag)
+                
+        output.barbuttonTitle
+                .bind(to: navigationItem.rightBarButtonItem!.rx.title)
+                .disposed(by: disposeBag)
+        
+        output.navigationTitle
             .drive(navigationItem.rx.title)
             .disposed(by: disposeBag)
         
