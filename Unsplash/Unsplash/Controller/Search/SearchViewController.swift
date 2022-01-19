@@ -40,6 +40,7 @@ final class SearchViewController: UIViewController {
         setupView()
         configureTableView()
         configureTapGesture()
+        configureNavigationBar()
         bindViewModel()
     }
 }
@@ -66,6 +67,13 @@ extension SearchViewController: HierarchySetupable {
     
     private func configureTableView() {
         tableView.rowHeight = view.frame.size.height / 4
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "로그인",
+                                                                 style: .plain,
+                                                                 target: nil,
+                                                                 action: nil)
     }
     
     private func configureTapGesture() {

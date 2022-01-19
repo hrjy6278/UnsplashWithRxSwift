@@ -21,7 +21,7 @@ final class SearchViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
     private var pageCounter: Int = .initialPage
     private var totalPage: Int = .zero
-    private var query = ""
+    
     
     struct Input {
         let searchAction: Observable<String>
@@ -35,17 +35,21 @@ final class SearchViewModel: ViewModelType {
     
     func bind(input: Input) -> Output {
         let searchBehaviorSubject = BehaviorSubject<[Photo]>(value: [])
+        let navigationTitle = BehaviorSubject<String>(value: "검색")
+        var searchQuery = ""
         
         let searchFirstResult = input.searchAction
             .flatMap { query -> Observable<SearchPhoto> in
-                self.query = query
+                searchQuery = query
                 return self.networkService.searchPhotos(type: SearchPhoto.self,
                                                         query: query,
                                                         page: self.pageCounter)
             }
             .do(onNext: {
-                self.pageCounter += 1
+                searchBehaviorSubject.onNext([])
+                self.pageCounter = .initialPage
                 self.totalPage = $0.totalPages
+                navigationTitle.onNext("\(searchQuery) 검색결과")
             })
         
         let requestFirst = searchFirstResult.map { $0.photos }
@@ -56,25 +60,24 @@ final class SearchViewModel: ViewModelType {
             .flatMap { isLoadMore -> Observable<[Photo]> in
                 guard isLoadMore else { return .empty() }
                 self.pageCounter += 1
-                    return self.networkService.searchPhotos(type: SearchPhoto.self,
-                                                            query: self.query,
-                                                            page: self.pageCounter)
-                        .map{ $0.photos }
-                }
+                return self.networkService.searchPhotos(type: SearchPhoto.self,
+                                                        query: searchQuery,
+                                                        page: self.pageCounter)
+                    .map{ $0.photos }
+            }
         
         
         Observable.merge(requestFirst, requestNext)
-            .do(onNext: { photos in
-                let value = try searchBehaviorSubject.value()
-                searchBehaviorSubject.onNext(value + photos)
+            .subscribe(onNext: { newPhotos in
+                if let originalPhotos = try? searchBehaviorSubject.value() {
+                    searchBehaviorSubject.onNext(originalPhotos + newPhotos)
+                }
             })
-                .subscribe()
-                .disposed(by: disposeBag)
-                
-            let navigationTitle = Driver<String>.just("검색")
-                
-            let output = Output(navigationTitle: navigationTitle,
-                                    searchPhotos: searchBehaviorSubject.asDriver(onErrorJustReturn: []))
-            return output
+            .disposed(by: disposeBag)
+        
+        
+        let output = Output(navigationTitle: navigationTitle.asDriver(onErrorJustReturn: ""),
+                            searchPhotos: searchBehaviorSubject.asDriver(onErrorJustReturn: []))
+        return output
     }
 }

@@ -45,6 +45,8 @@
 		74BCE1EB276C75380093B1E6 /* UnsplashTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BCE1EA276C75380093B1E6 /* UnsplashTabbarController.swift */; };
 		74BCE1EE276C76DF0093B1E6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 74BCE1ED276C76DF0093B1E6 /* Alamofire */; };
 		74BCE1F1276C76F80093B1E6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 74BCE1F0276C76F80093B1E6 /* Kingfisher */; };
+		74BF06EE2797B7B5001DBD14 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 74BF06ED2797B7B5001DBD14 /* Differentiator */; };
+		74BF06F02797B7B5001DBD14 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 74BF06EF2797B7B5001DBD14 /* RxDataSources */; };
 		74CE8D30277494B1008BD593 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE8D2F277494B1008BD593 /* LoginViewController.swift */; };
 		74CE8D32277560AB008BD593 /* Extention + Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE8D31277560AB008BD593 /* Extention + Notification.Name.swift */; };
 		74CE8D3427759634008BD593 /* Extension + Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE8D3327759634008BD593 /* Extension + Int.swift */; };
@@ -123,6 +125,8 @@
 				74BCE1F1276C76F80093B1E6 /* Kingfisher in Frameworks */,
 				740FF20C279688C70025235F /* RxSwift in Frameworks */,
 				740FF20A279688C70025235F /* RxRelay in Frameworks */,
+				74BF06F02797B7B5001DBD14 /* RxDataSources in Frameworks */,
+				74BF06EE2797B7B5001DBD14 /* Differentiator in Frameworks */,
 				74BCE1EE276C76DF0093B1E6 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,6 +378,8 @@
 				740FF207279688C70025235F /* RxCocoa */,
 				740FF209279688C70025235F /* RxRelay */,
 				740FF20B279688C70025235F /* RxSwift */,
+				74BF06ED2797B7B5001DBD14 /* Differentiator */,
+				74BF06EF2797B7B5001DBD14 /* RxDataSources */,
 			);
 			productName = Unsplash;
 			productReference = 74BCE1B7276C703B0093B1E6 /* Unsplash.app */;
@@ -451,6 +457,7 @@
 				74BCE1EC276C76DF0093B1E6 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				74BCE1EF276C76F80093B1E6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				740FF206279688C70025235F /* XCRemoteSwiftPackageReference "RxSwift" */,
+				74BF06EC2797B7B5001DBD14 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 74BCE1B8276C703B0093B1E6 /* Products */;
 			projectDirPath = "";
@@ -906,6 +913,14 @@
 				kind = branch;
 			};
 		};
+		74BF06EC2797B7B5001DBD14 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -933,6 +948,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 74BCE1EF276C76F80093B1E6 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		74BF06ED2797B7B5001DBD14 /* Differentiator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 74BF06EC2797B7B5001DBD14 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = Differentiator;
+		};
+		74BF06EF2797B7B5001DBD14 /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 74BF06EC2797B7B5001DBD14 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
