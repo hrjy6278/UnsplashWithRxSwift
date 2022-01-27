@@ -16,16 +16,18 @@ final class TokenManager {
     
     //MARK: Properties
     private let userAccount = "accessToken"
-    private var keyChaineStore = KeyChainStore(queryable: TokenQuery())
+    private let keyChaineStore = KeyChainStore(queryable: TokenQuery())
+    private let disposeBag = DisposeBag()
     
-    var isTokenSaved: Observable<Bool> {
-        return keyChaineStore.isKeySaved(for: userAccount).share(replay: 1)
-    }
+    var isTokenSaved = BehaviorSubject<Bool>(value: false)
     
     static let shared = TokenManager()
     
     //MARK: init
-    private init() { }
+    private init() {
+        let isTokenSaved = self.keyChaineStore.isValueSaved(for: self.userAccount)
+        self.isTokenSaved.onNext(isTokenSaved)
+    }
 }
 
 //MARK: - Method
@@ -33,6 +35,8 @@ extension TokenManager {
     func saveAccessToken(unsplashToken: UnsplashAccessToken) throws {
         do {
             try keyChaineStore.setValue(unsplashToken.accessToken, for: userAccount)
+            let isTokenSaved = self.keyChaineStore.isValueSaved(for: self.userAccount)
+            self.isTokenSaved.onNext(isTokenSaved)
         } catch let error {
             throw TokenManagerError.saveError(message: error.localizedDescription)
         }
@@ -49,5 +53,7 @@ extension TokenManager {
     
     func clearAccessToken() {
         keyChaineStore.removeValue(for: userAccount)
+        let isTokenSaved = self.keyChaineStore.isValueSaved(for: self.userAccount)
+        self.isTokenSaved.onNext(isTokenSaved)
     }
 }

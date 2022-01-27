@@ -112,14 +112,18 @@ extension SearchViewController {
     func bindViewModel() {
         let searchObservable = searchBar.rx
             .searchButtonClicked
-            .do(onNext: { _ in
+            .withUnretained(self)
+            .do(onNext: { `self`, _ in
                 self.view.endEditing(true)
                 self.tableView.setContentOffset(.zero, animated: true)
             })
             .withLatestFrom(searchBar.rx.text.orEmpty)
          
-        let loadMore = tableView.rx.contentOffset.flatMap { cgPoint in
-            self.tableView.rx.loadNextPageTrigger(offset: cgPoint)
+        let loadMore = tableView.rx
+                .contentOffset
+                .withUnretained(self)
+                .flatMap { `self`, _ in
+            self.tableView.rx.loadNextPageTrigger(offset: CGPoint())
         }
         
         let rightButtonTap = navigationItem.rightBarButtonItem?.rx.tap.asObservable() ?? .empty()
@@ -131,7 +135,8 @@ extension SearchViewController {
         let output = viewModel.bind(input: input)
         
         output.loginPresenting
-                .subscribe(onNext: { _ in
+                .withUnretained(self)
+                .subscribe(onNext: { `self`, _ in
                     self.present(OAuth2ViewController(), animated: true, completion: nil)
                 })
                 .disposed(by: disposeBag)

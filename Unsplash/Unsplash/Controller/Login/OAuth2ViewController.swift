@@ -24,9 +24,9 @@ final class OAuth2ViewController: UIViewController {
 //MARK: - Method
 extension OAuth2ViewController {
     func bindViewModel() {
-        let viewDidLoad = rx.sentMessage(#selector(UIViewController.viewDidAppear(_:))).map { _ in }
+        let viewDidAppear = rx.sentMessage(#selector(UIViewController.viewDidAppear(_:))).map { _ in }
         
-        let input = OAuth2ViewModel.Input(viewDidLoad: viewDidLoad)
+        let input = OAuth2ViewModel.Input(viewDidAppear: viewDidAppear)
         
         let output = viewModel.bind(input: input)
         

@@ -17,8 +17,7 @@ struct KeyChainStore {
     
     //MARK: Properties
     private var queryable: KeyChainQueryable
-    private(set) var isDeleteValue = BehaviorSubject<Bool>(value: false)
-    
+  
     //MARK: init
     init(queryable: KeyChainQueryable) {
         self.queryable = queryable
@@ -43,7 +42,6 @@ extension KeyChainStore {
             var attributesToUpdate = [String: Any]()
             attributesToUpdate[String(kSecValueData)] = encodedPassword
             status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
-            
         case errSecItemNotFound:
             query[String(kSecValueData)] = encodedPassword
             status = SecItemAdd(query as CFDictionary, nil)
@@ -84,28 +82,19 @@ extension KeyChainStore {
         query[String(kSecAttrAccount)] = userAccount
         
         SecItemDelete(query as CFDictionary)
-        isDeleteValue.onNext(true)
-        isDeleteValue.onCompleted()
     }
     
     func removeAll() {
         let query = queryable.query
         
         SecItemDelete(query as CFDictionary)
-        isDeleteValue.onNext(true)
-        isDeleteValue.onCompleted()
     }
     
-    func isKeySaved(for userAccount: String) -> Observable<Bool> {
-        return Observable.create { observer in
-            if let _ = try? getValue(for: userAccount) {
-                observer.onNext(true)
-            } else {
-                observer.onNext(false)
-            }
-            observer.onCompleted()
-            
-            return Disposables.create()
+    func isValueSaved(for value: String) -> Bool {
+        if let _ = try? getValue(for: value) {
+            return true
+        } else {
+            return false
         }
     }
     

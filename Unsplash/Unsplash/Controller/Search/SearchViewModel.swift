@@ -41,13 +41,15 @@ final class SearchViewModel: ViewModelType {
     func bind(input: Input) -> Output {
         let searchBehaviorSubject = BehaviorSubject<[Photo]>(value: [])
         let navigationTitle = BehaviorSubject<String>(value: "검색")
-        let barButtonTitle = BehaviorSubject<String>(value: "로그인")
+        let barButtonText = BehaviorSubject<String>(value: "로그인")
+        let loginButtonTaped = PublishSubject<Void>()
         
         var searchQuery = ""
         
         //검색결과 가져오는 옵저버블
         let searchFirstResult = input.searchAction
-            .flatMap { query -> Observable<SearchPhoto> in
+            .withUnretained(self)
+            .flatMap { `self`, query -> Observable<SearchPhoto> in
                 searchQuery = query
                 self.pageCounter = .initialPage
                 return self.networkService.searchPhotos(type: SearchPhoto.self,
@@ -64,16 +66,17 @@ final class SearchViewModel: ViewModelType {
         
         //검색결과를 더 가져오는 옵저버블
         let requestNext = input.loadMore
-            .filter { _ in self.totalPage != .zero }
-            .take(while: { _ in self.pageCounter != self.totalPage ? true : false })
-            .flatMap { isLoadMore -> Observable<[Photo]> in
-                guard isLoadMore else { return .never() }
-                self.pageCounter.addPage()
-                return self.networkService.searchPhotos(type: SearchPhoto.self,
-                                                        query: searchQuery,
-                                                        page: self.pageCounter)
-                    .map{ $0.photos }
-            }
+            .withUnretained(self)
+                .filter { `self`, _ in self.totalPage != .zero }
+                .take(while: { `self`, _ in self.pageCounter != self.totalPage ? true : false })
+                .flatMap { `self`, isLoadMore -> Observable<[Photo]> in
+                    guard isLoadMore else { return .empty() }
+                    self.pageCounter.addPage()
+                    return self.networkService.searchPhotos(type: SearchPhoto.self,
+                                                            query: searchQuery,
+                                                            page: self.pageCounter)
+                        .map{ $0.photos }
+                }
         
         //검색결과를 머지한 뒤 Emit하는 옵저버블
         Observable.merge(requestFirst, requestNext)
@@ -93,19 +96,30 @@ final class SearchViewModel: ViewModelType {
         let outputNavigationTitle = navigationTitle.asDriver(onErrorJustReturn: "")
         
         
-        TokenManager.shared.isTokenSaved.subscribe(onNext: { isSavedToken in
-            isSavedToken ? barButtonTitle.onNext("로그아웃") : barButtonTitle.onNext("로그인")
+        //사용자가 로그인을 했는지 여부를 판단하는 옵저버블
+        let isUserTokenSaved = TokenManager.shared.isTokenSaved
+        
+        isUserTokenSaved.subscribe(onNext: { state in
+            state ? barButtonText.onNext("로그아웃") : barButtonText.onNext("로그인")
         })
             .disposed(by: disposeBag)
         
-        let loginPresenting = input.login.withLatestFrom(TokenManager.shared.isTokenSaved)
-            .filter { $0 == false }
-            .map { _ in }
+        input.login.subscribe(onNext: { _ in
+            guard let isTokenSaved = try? isUserTokenSaved.value() else { return }
+            
+            if isTokenSaved {
+                TokenManager.shared.clearAccessToken()
+            } else {
+                loginButtonTaped.onNext(())
+            }
+        })
+            .disposed(by: disposeBag)
+        
         
         let output = Output(navigationTitle: outputNavigationTitle,
                             tavleViewModel: tableViewModel,
-                            loginPresenting: loginPresenting,
-                            barbuttonTitle: barButtonTitle)
+                            loginPresenting: loginButtonTaped,
+                            barbuttonTitle: barButtonText)
         return output
     }
 }

@@ -17,7 +17,7 @@ final class OAuth2ViewModel: NSObject, ViewModelType {
     private var isLogin = PublishSubject<Bool>()
 
     struct Input {
-        let viewDidLoad: Observable<Void>
+        let viewDidAppear: Observable<Void>
     }
     
     struct Output {
@@ -28,7 +28,7 @@ final class OAuth2ViewModel: NSObject, ViewModelType {
 
 extension OAuth2ViewModel {
     func bind(input: Input) -> Output {
-        input.viewDidLoad
+        input.viewDidAppear
             .subscribe(onNext: { self.authenticate() })
             .disposed(by: disposeBag)
             
