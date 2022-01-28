@@ -28,7 +28,7 @@ final class SearchViewModel: ViewModelType {
     struct Input {
         let searchAction: Observable<String>
         let loadMore: Observable<Bool>
-        let login: Observable<Void>
+        let loginButtonTaped: Observable<Void>
     }
     
     struct Output {
@@ -46,8 +46,32 @@ final class SearchViewModel: ViewModelType {
         
         var searchQuery = ""
         
+        //사용자가 로그인을 했는지 여부를 판단하는 옵저버블
+        let isUserTokenSaved = TokenManager.shared.isTokenSaved
+        
+        isUserTokenSaved.subscribe(onNext: { state in
+            state ? barButtonText.onNext("로그아웃") : barButtonText.onNext("로그인")
+        })
+            .disposed(by: disposeBag)
+        
+        input.loginButtonTaped.subscribe(onNext: { _ in
+            guard let isTokenSaved = try? isUserTokenSaved.value() else { return }
+            
+            if isTokenSaved {
+                TokenManager.shared.clearAccessToken()
+            } else {
+                loginButtonTaped.onNext(())
+            }
+        })
+            .disposed(by: disposeBag)
+        
         //검색결과 가져오는 옵저버블
-        let searchFirstResult = input.searchAction
+        let photoSearchQuery = Observable.combineLatest(isUserTokenSaved,
+                                                        input.searchAction) { _, searchQuery in
+            return searchQuery
+        }
+        
+        let firstSearchPhoto = photoSearchQuery
             .withUnretained(self)
             .flatMap { `self`, query -> Observable<SearchPhoto> in
                 searchQuery = query
@@ -61,8 +85,9 @@ final class SearchViewModel: ViewModelType {
                 self.totalPage = $0.totalPages
                 navigationTitle.onNext("\(searchQuery) 검색결과")
             })
+            
         
-        let requestFirst = searchFirstResult.map { $0.photos }
+        let requestFirst = firstSearchPhoto.map { $0.photos }
         
         //검색결과를 더 가져오는 옵저버블
         let requestNext = input.loadMore
@@ -94,26 +119,6 @@ final class SearchViewModel: ViewModelType {
         
         //네비게이션 타이틀을 방출하는 드라이버
         let outputNavigationTitle = navigationTitle.asDriver(onErrorJustReturn: "")
-        
-        
-        //사용자가 로그인을 했는지 여부를 판단하는 옵저버블
-        let isUserTokenSaved = TokenManager.shared.isTokenSaved
-        
-        isUserTokenSaved.subscribe(onNext: { state in
-            state ? barButtonText.onNext("로그아웃") : barButtonText.onNext("로그인")
-        })
-            .disposed(by: disposeBag)
-        
-        input.login.subscribe(onNext: { _ in
-            guard let isTokenSaved = try? isUserTokenSaved.value() else { return }
-            
-            if isTokenSaved {
-                TokenManager.shared.clearAccessToken()
-            } else {
-                loginButtonTaped.onNext(())
-            }
-        })
-            .disposed(by: disposeBag)
         
         
         let output = Output(navigationTitle: outputNavigationTitle,

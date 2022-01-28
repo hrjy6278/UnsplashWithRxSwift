@@ -130,7 +130,7 @@ extension SearchViewController {
         
         let input = SearchViewModel.Input(searchAction: searchObservable,
                                           loadMore: loadMore,
-                                          login: rightButtonTap)
+                                          loginButtonTaped: rightButtonTap)
         
         let output = viewModel.bind(input: input)
         
