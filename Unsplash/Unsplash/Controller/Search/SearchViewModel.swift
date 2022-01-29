@@ -24,12 +24,19 @@ final class SearchViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
     private var pageCounter: Int = .initialPage
     private var totalPage: Int = .zero
+    private let searchPhotosSubject = BehaviorSubject<[Photo]>(value: [])
+    private let errorMessage = PublishSubject<String>()
+    
+    enum InputAction {
+        case likeButtonTaped(photoID: String)
+    }
     
     struct Input {
         let searchAction: Observable<String>
         let loadMore: Observable<Bool>
         let loginButtonTaped: Observable<Void>
     }
+    
     
     struct Output {
         let navigationTitle: Driver<String>
@@ -38,8 +45,34 @@ final class SearchViewModel: ViewModelType {
         let barbuttonTitle: Observable<String>
     }
     
+    func inputAction(_ action: InputAction) {
+        switch action {
+        case .likeButtonTaped(let photoID):
+            //MARK: ToDo: 로그인이 안되어있으면 로그인하라는 에러메시지 Emit 해야됨.
+            guard let isTokenSaved = try? TokenManager.shared.isTokenSaved.value(),
+                  isTokenSaved == true else { return }
+            
+            guard var photos = try? searchPhotosSubject.value(),
+                  let index = photos.firstIndex(where: { $0.id == photoID }) else { return }
+            
+            let likeObservable: Observable<Photo>
+            
+            if photos[index].isUserLike {
+                likeObservable = networkService.photoUnlike(id: photoID).map { $0.photo }
+            } else {
+               likeObservable = networkService.photoLike(id: photoID).map { $0.photo }
+            }
+           
+            likeObservable.subscribe(onNext: { [weak self] likeResultPhoto in
+                    photos[index].isUserLike = likeResultPhoto.isUserLike
+                    photos[index].likes = likeResultPhoto.likes
+                    self?.searchPhotosSubject.onNext(photos)
+            })
+                .disposed(by: disposeBag)
+        }
+    }
+    
     func bind(input: Input) -> Output {
-        let searchBehaviorSubject = BehaviorSubject<[Photo]>(value: [])
         let navigationTitle = BehaviorSubject<String>(value: "검색")
         let barButtonText = BehaviorSubject<String>(value: "로그인")
         let loginButtonTaped = PublishSubject<Void>()
@@ -81,7 +114,7 @@ final class SearchViewModel: ViewModelType {
                                                         page: self.pageCounter)
             }
             .do(onNext: {
-                searchBehaviorSubject.onNext([])
+                self.searchPhotosSubject.onNext([])
                 self.totalPage = $0.totalPages
                 navigationTitle.onNext("\(searchQuery) 검색결과")
             })
@@ -105,15 +138,16 @@ final class SearchViewModel: ViewModelType {
         
         //검색결과를 머지한 뒤 Emit하는 옵저버블
         Observable.merge(requestFirst, requestNext)
-            .subscribe(onNext: { newPhotos in
-                if let originalPhotos = try? searchBehaviorSubject.value() {
-                    searchBehaviorSubject.onNext(originalPhotos + newPhotos)
+            .withUnretained(self)
+            .subscribe(onNext: { `self`, newPhotos in
+                if let originalPhotos = try? self.searchPhotosSubject.value() {
+                    self.searchPhotosSubject.onNext(originalPhotos + newPhotos)
                 }
             })
             .disposed(by: disposeBag)
         
         //검색결과를 테이블뷰 모델에 맞게 변환하는 로직이 담긴 옵저버블
-        let tableViewModel = searchBehaviorSubject.map { photos in
+        let tableViewModel = searchPhotosSubject.map { photos in
             [SearchSection(model: "Photo", items: photos)]
         }
         

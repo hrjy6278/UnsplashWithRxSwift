@@ -92,6 +92,13 @@ extension SearchViewController: HierarchySetupable {
                            isUserLike: cellModel.isUserLike,
                            imageUrl: cellModel.urls.regularURL)
             
+            cell.imageButtonObservable
+                .take(1)
+                .subscribe(onNext: { [weak self] photoID in
+                self?.viewModel.inputAction(.likeButtonTaped(photoID: photoID))
+            })
+                .disposed(by: self.disposeBag)
+            
             return cell
         }
     }

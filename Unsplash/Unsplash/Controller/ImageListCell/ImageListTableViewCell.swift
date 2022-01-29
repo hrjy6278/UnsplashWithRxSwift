@@ -7,24 +7,23 @@
 
 import UIKit
 import Kingfisher
-
-protocol ImageListTableViewCellDelegate: AnyObject {
-    func didTapedLikeButton(_ id: String)
-}
+import RxCocoa
+import RxSwift
 
 class ImageListTableViewCell: UITableViewCell {
-    
     //MARK: - Properties
-    
-    weak var delegate: ImageListTableViewCellDelegate?
-    
     private var photoId: String = ""
+    private let disposeBag = DisposeBag()
+    private let imageButtonSubject = PublishSubject<String>()
     
-    private lazy var likeButton: UIButton = {
+    var imageButtonObservable: Observable<String> {
+        return imageButtonSubject.asObservable()
+    }
+    
+    private var likeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .clear
-        button.addTarget(self, action: #selector(didTapedLikeButton), for: .touchUpInside)
         
         return button
     }()
@@ -40,6 +39,7 @@ class ImageListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -78,11 +78,18 @@ extension ImageListTableViewCell: HierarchySetupable {
                                      imageUrl: imageUrl)
     }
     
-    @objc func didTapedLikeButton() {
-        delegate?.didTapedLikeButton(photoId)
-    }
-    
     override func prepareForReuse() {
         unsplashImagesView.clearItems()
+    }
+    
+    private func bind() {
+        likeButton.rx.tap
+            .withUnretained(self)
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .flatMap { `self`, _ in
+                Observable.just(self.photoId)
+            }
+            .bind(to: imageButtonSubject)
+            .disposed(by: disposeBag)
     }
 }
