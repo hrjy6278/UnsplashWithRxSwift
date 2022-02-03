@@ -63,18 +63,3 @@ extension LoginViewController {
         navigationController?.pushViewController(OAuth2ViewController(), animated: true)
     }
 }
-
-//MARK: - TabBar Image Info Protocol
-extension LoginViewController: TabBarImageInfo {
-    var nomal: String {
-        return "person"
-    }
-    
-    var selected: String {
-        return "person.fill"
-    }
-    
-    var barTitle: String {
-        return "Profile"
-    }
-}

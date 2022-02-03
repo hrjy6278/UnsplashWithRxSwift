@@ -163,18 +163,3 @@ extension SearchViewController {
         }
     }
 }
-
-//MARK: - TabBar Image Info Protocol
-extension SearchViewController: TabBarImageInfo {
-    var nomal: String {
-        return "magnifyingglass.circle"
-    }
-    
-    var selected: String {
-        return "magnifyingglass.circle.fill"
-    }
-    
-    var barTitle: String {
-        return "Search"
-    }
-}

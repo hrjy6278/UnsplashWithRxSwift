@@ -7,6 +7,38 @@
 
 import UIKit
 
+enum TabBarType: CustomStringConvertible {
+    case search
+    case profile
+    
+    var description: String {
+        switch self {
+        case .search:
+            return "Search"
+        case .profile:
+            return "Profile"
+        }
+    }
+    
+    var normalImage: UIImage? {
+        switch self {
+        case .search:
+            return UIImage(systemName: "magnifyingglass.circle")
+        case .profile:
+            return UIImage(systemName: "person")
+        }
+    }
+    
+    var selectedImage: UIImage? {
+        switch self {
+        case .search:
+            return UIImage(systemName: "magnifyingglass.circle.fill")
+        case .profile:
+            return UIImage(systemName: "person.fill")
+        }
+    }
+}
+
 final class UnsplashTabbarController: UITabBarController {
     //MARK: Properties
     private let searchViewController = SearchViewController()
@@ -17,9 +49,8 @@ final class UnsplashTabbarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTabBarController()
-        setupTabBarItem(for: searchViewController)
-        setupTabBarItem(for: profileViewController)
-        setupTabBarItem(for: loginViewController)
+        setupTabBarItem(for: .search)
+        setupTabBarItem(for: .profile)
         
         viewControllers = [
             UINavigationController(rootViewController: searchViewController),
@@ -34,17 +65,16 @@ extension UnsplashTabbarController {
         delegate = self
     }
     
-    private func setupTabBarItem(for controller: UIViewController) {
-        guard let info = controller as? TabBarImageInfo else { return }
-        
-        let tabBarNomalImage = UIImage(systemName: info.nomal)
-        let tabBarSelectedImage = UIImage(systemName: info.selected)
-        
-        let tabBarItem = UITabBarItem(title: info.barTitle,
-                                      image: tabBarNomalImage,
-                                      selectedImage: tabBarSelectedImage)
-        
-        controller.tabBarItem = tabBarItem
+    private func setupTabBarItem(for type: TabBarType) {
+        let tabBarItem = UITabBarItem(title: String(describing: type),
+                                      image: type.normalImage,
+                                      selectedImage: type.selectedImage)
+        switch type {
+        case .search:
+            searchViewController.tabBarItem = tabBarItem
+        case .profile:
+            profileViewController.tabBarItem = tabBarItem
+        }
     }
 }
 

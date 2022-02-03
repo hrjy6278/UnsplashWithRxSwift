@@ -125,17 +125,3 @@ final class ProfileViewController: UIViewController {
 //    }
 //}
 
-//MARK: - TabBar Image Info Protocol
-extension ProfileViewController: TabBarImageInfo {
-    var nomal: String {
-        return "person"
-    }
-    
-    var selected: String {
-        return "person.fill"
-    }
-    
-    var barTitle: String {
-        return "Profile"
-    }
-}
