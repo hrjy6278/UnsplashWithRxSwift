@@ -2,16 +2,17 @@
 
 ## 기술 스택
 ### 사용언어 : Swift
-### 아키텍처 : MVC
+### 아키텍처 : MVVM
 ### 의존성 도구: SPM(Swift Package Manager)
-### 라이브러리: Alamofire, Kingfisher
+### 라이브러리: Alamofire, Kingfisher, RxSwift, RxCocoa, RxDataSource
 ### 기타 
 - StoryBoard를 쓰지않고 UIKit 코드로 구현 
 - OAuth2를 이용한 유저 권한 획득
 - OAuth2 유저 토큰 저장시 `KeyChain` 활용
-- Delegation,Notification 활용한 이벤트 처리
 - 유저에게 보여줄 Message를 `UIAlertController` 활용하여 구현
 - RESTful `GET`, `POST`, `DELETE` 사용
+- RxSwift를 이용한 `ViewModel` 과 `View`의 Binding 구현
+- RxDataSource 를 이용한 `TableView` DataSource 구현
 
 ---
 ## 동작구현
