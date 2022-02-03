@@ -42,14 +42,17 @@ final class SearchViewModel: ViewModelType {
         let tavleViewModel: Observable<[SearchSection]>
         let loginPresenting: Observable<Void>
         let barbuttonTitle: Observable<String>
+        let errorMessage: Observable<String>
     }
     
     func inputAction(_ action: InputAction) {
         switch action {
         case .likeButtonTaped(let photoID):
-            //MARK: ToDo: 로그인이 안되어있으면 로그인하라는 에러메시지 Emit 해야됨.
             guard let isTokenSaved = try? TokenManager.shared.isTokenSaved.value(),
-                  isTokenSaved == true else { return }
+                  isTokenSaved == true else {
+                      errorMessage.onNext("로그인 후 이용해주세요.")
+                      return
+                  }
             
             guard var photos = try? searchPhotosSubject.value(),
                   let index = photos.firstIndex(where: { $0.id == photoID }) else { return }
@@ -159,7 +162,8 @@ final class SearchViewModel: ViewModelType {
         let output = Output(navigationTitle: outputNavigationTitle,
                             tavleViewModel: tableViewModel,
                             loginPresenting: loginButtonTaped,
-                            barbuttonTitle: barButtonText)
+                            barbuttonTitle: barButtonText,
+                            errorMessage: errorMessage)
         return output
     }
 }

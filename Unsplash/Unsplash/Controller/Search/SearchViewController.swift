@@ -156,6 +156,12 @@ extension SearchViewController {
             .drive(navigationItem.rx.title)
             .disposed(by: disposeBag)
         
+        output.errorMessage
+            .subscribe(onNext: { [weak self] description in
+                self?.showAlert(message: description, completion: nil)
+        })
+            .disposed(by: disposeBag)
+        
         dataSource.flatMap { dataSource in
             output.tavleViewModel
                     .bind(to: tableView.rx.items(dataSource: dataSource))
