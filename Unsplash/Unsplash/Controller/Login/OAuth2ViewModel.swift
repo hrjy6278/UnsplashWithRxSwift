@@ -29,23 +29,24 @@ final class OAuth2ViewModel: NSObject, ViewModelType {
 extension OAuth2ViewModel {
     func bind(input: Input) -> Output {
         input.viewDidAppear
-            .subscribe(onNext: { self.authenticate() })
+            .withUnretained(self)
+            .subscribe(onNext: { `self`, _ in self.authenticate() })
             .disposed(by: disposeBag)
             
-        return Output(tryLoginResult: self.isLogin.asObservable())
+        return Output(tryLoginResult: isLogin.asObservable())
     }
     
     private func authenticate() {
         guard let URL = try? UnsplashRouter.userAuthorize.asURLRequest().url else { return }
         let callbackURLScheme = "jissCallback"
         
-        self.authSession = ASWebAuthenticationSession(
+        authSession = ASWebAuthenticationSession(
             url: URL,
             callbackURLScheme: callbackURLScheme,
-            completionHandler: { callbackURL, error in
+            completionHandler: { [weak self] callbackURL, error in
                 guard let callbackURL = callbackURL else { return }
                 let accessCode = callbackURL.getValue(for: "code")
-                self.rediection(accessCode: accessCode)
+                self?.rediection(accessCode: accessCode)
             })
         
         authSession?.presentationContextProvider = self
@@ -53,12 +54,10 @@ extension OAuth2ViewModel {
     }
     
     private func rediection(accessCode: String?) {
-        guard let accessCode = accessCode else {
-            return
-        }
+        guard let accessCode = accessCode else { return }
         
         networkService.fetchAccessToken(accessCode: accessCode)
-            .bind(to: self.isLogin)
+            .bind(to: isLogin)
             .disposed(by: disposeBag)
     }
 }

@@ -28,7 +28,7 @@ extension UnsplashAPIManager {
         
         guard isFetching == false else { return Observable.empty() }
         
-        self.isFetching = true
+        isFetching = true
         
         return Observable.create { observer in
             let request =  self.sessionManager.request(UnsplashRouter.searchPhotos(query: query,
@@ -134,10 +134,9 @@ extension UnsplashAPIManager {
     }
     
     func fetchUserLikePhotos(userName: String, page: Int) -> Observable<[Photo]> {
-        guard isFetching == false else {
-            return Observable.empty()
-        }
-        self.isFetching = true
+        guard isFetching == false else { return Observable.empty() }
+
+        isFetching = true
         
         return Observable.create { observer in
             let request = self.sessionManager.request(UnsplashRouter.listUserLike(userName: userName,

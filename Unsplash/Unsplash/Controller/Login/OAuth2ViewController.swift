@@ -31,7 +31,8 @@ extension OAuth2ViewController {
         let output = viewModel.bind(input: input)
         
         output.tryLoginResult
-            .subscribe(onNext: { _ in
+            .withUnretained(self)
+            .subscribe(onNext: { `self`, _ in
                 self.dismiss(animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
