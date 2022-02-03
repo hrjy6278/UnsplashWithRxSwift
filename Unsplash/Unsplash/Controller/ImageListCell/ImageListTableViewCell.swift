@@ -12,9 +12,9 @@ import RxSwift
 
 class ImageListTableViewCell: UITableViewCell {
     //MARK: - Properties
-    private var photoId: String = ""
-    private let disposeBag = DisposeBag()
+    private let photoId = PublishSubject<String>()
     private let imageButtonSubject = PublishSubject<String>()
+    var disposeBag = DisposeBag()
     
     var imageButtonObservable: Observable<String> {
         return imageButtonSubject.asObservable()
@@ -39,7 +39,6 @@ class ImageListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
-        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -71,24 +70,23 @@ extension ImageListTableViewCell: HierarchySetupable {
     }
     
     func configure(id: String, photographerName: String?, likeCount: String?, isUserLike: Bool, imageUrl: URL?) {
-        photoId = id
         unsplashImagesView.configure(photographer: photographerName,
                                      likeCount: likeCount,
                                      isUserLike: isUserLike,
                                      imageUrl: imageUrl)
+        bind()
+        photoId.onNext(id)
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         unsplashImagesView.clearItems()
+        disposeBag = DisposeBag()
     }
     
     private func bind() {
         likeButton.rx.tap
-            .withUnretained(self)
-            .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .flatMap { `self`, _ in
-                Observable.just(self.photoId)
-            }
+            .withLatestFrom(photoId)
             .bind(to: imageButtonSubject)
             .disposed(by: disposeBag)
     }

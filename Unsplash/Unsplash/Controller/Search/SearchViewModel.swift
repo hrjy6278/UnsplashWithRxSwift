@@ -37,7 +37,6 @@ final class SearchViewModel: ViewModelType {
         let loginButtonTaped: Observable<Void>
     }
     
-    
     struct Output {
         let navigationTitle: Driver<String>
         let tavleViewModel: Observable<[SearchSection]>
@@ -55,19 +54,22 @@ final class SearchViewModel: ViewModelType {
             guard var photos = try? searchPhotosSubject.value(),
                   let index = photos.firstIndex(where: { $0.id == photoID }) else { return }
             
-            let likeObservable: Observable<Photo>
+            var likeObservable = Observable<Photo>.empty()
+            var unLikeObservable = Observable<Photo>.empty()
             
             if photos[index].isUserLike {
-                likeObservable = networkService.photoUnlike(id: photoID).map { $0.photo }
+                unLikeObservable = networkService.photoUnlike(id: photoID).map { $0.photo }
             } else {
-               likeObservable = networkService.photoLike(id: photoID).map { $0.photo }
+                likeObservable = networkService.photoLike(id: photoID).map { $0.photo }
             }
-           
-            likeObservable.subscribe(onNext: { [weak self] likeResultPhoto in
-                    photos[index].isUserLike = likeResultPhoto.isUserLike
-                    photos[index].likes = likeResultPhoto.likes
-                    self?.searchPhotosSubject.onNext(photos)
-            })
+            
+            Observable.merge(likeObservable, unLikeObservable)
+                .withUnretained(self)
+                .subscribe(onNext: { `self`, photoResult in
+                    photos[index].isUserLike = photoResult.isUserLike
+                    photos[index].likes = photoResult.likes
+                    self.searchPhotosSubject.onNext(photos)
+                })
                 .disposed(by: disposeBag)
         }
     }
@@ -153,7 +155,6 @@ final class SearchViewModel: ViewModelType {
         
         //네비게이션 타이틀을 방출하는 드라이버
         let outputNavigationTitle = navigationTitle.asDriver(onErrorJustReturn: "")
-        
         
         let output = Output(navigationTitle: outputNavigationTitle,
                             tavleViewModel: tableViewModel,
