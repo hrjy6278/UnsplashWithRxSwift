@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class LoginView: UIView {
     //MARK: Properties
@@ -22,13 +24,17 @@ final class LoginView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Login", for: .normal)
-        button.titleLabel?.font = UIFont.generateFont(font: .SDGothichRegular, size: 16)
-        button.layer.cornerRadius = 5
-        button.backgroundColor = .gray
+        button.titleLabel?.font = UIFont.generateFont(font: .SDGothichRegular, size: 18)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = .lightGray
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         return button
     }()
+    
+    var loginButtonTaped: Observable<Void> {
+        return loginButton.rx.tap.asObservable()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
