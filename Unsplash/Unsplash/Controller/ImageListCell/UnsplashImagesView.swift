@@ -22,7 +22,7 @@ class UnsplashImagesView: UIView {
     private var photographerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.generateFont(font: .SDGothichBold, size: 18)
         
         return label
     }()
@@ -30,7 +30,7 @@ class UnsplashImagesView: UIView {
     private var likeCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.font = UIFont.generateFont(font: .SDGothichBold, size: 16)
         
         return label
     }()

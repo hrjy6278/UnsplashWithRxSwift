@@ -12,7 +12,7 @@ final class LoginView: UIView {
     private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.font = UIFont.generateFont(font: .SDGothichBold, size: 20)
         label.text = "로그인후 이용해 주세요."
         
         return label
@@ -22,7 +22,7 @@ final class LoginView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Login", for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+        button.titleLabel?.font = UIFont.generateFont(font: .SDGothichRegular, size: 16)
         button.layer.cornerRadius = 5
         button.backgroundColor = .gray
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)

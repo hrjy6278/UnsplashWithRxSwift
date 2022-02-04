@@ -13,6 +13,7 @@
 		740FF21C2796B0C50025235F /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740FF21B2796B0C50025235F /* SearchViewModel.swift */; };
 		745630AD27ACC55D000CA812 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630AC27ACC55D000CA812 /* ProfileViewModel.swift */; };
 		745630AF27ACC5E4000CA812 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630AE27ACC5E4000CA812 /* LoginView.swift */; };
+		745630B127ACCA55000CA812 /* Extension + UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630B027ACCA55000CA812 /* Extension + UIFont.swift */; };
 		74A22596276CD625002DB300 /* UnsplashAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22595276CD625002DB300 /* UnsplashAPIManager.swift */; };
 		74A22598276CDAF0002DB300 /* PasingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22597276CDAF0002DB300 /* PasingManager.swift */; };
 		74A2259C276CE0CB002DB300 /* SearchPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259B276CE0CB002DB300 /* SearchPhoto.swift */; };
@@ -76,6 +77,7 @@
 		740FF21B2796B0C50025235F /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		745630AC27ACC55D000CA812 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		745630AE27ACC5E4000CA812 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		745630B027ACCA55000CA812 /* Extension + UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Extension + UIFont.swift"; path = "Unsplash/Supporting/Extension/Extension + UIFont.swift"; sourceTree = SOURCE_ROOT; };
 		74A22595276CD625002DB300 /* UnsplashAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPIManager.swift; sourceTree = "<group>"; };
 		74A22597276CDAF0002DB300 /* PasingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasingManager.swift; sourceTree = "<group>"; };
 		74A2259B276CE0CB002DB300 /* SearchPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhoto.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				74CE8D3327759634008BD593 /* Extension + Int.swift */,
 				74CE8D3927759F16008BD593 /* Extension + UIAlertController.swift */,
 				74CE8D3B2775A6EC008BD593 /* Extension + UIViewController.swift */,
+				745630B027ACCA55000CA812 /* Extension + UIFont.swift */,
 				74BF06F32797E213001DBD14 /* Extension + Rx.swift */,
 			);
 			path = Extension;
@@ -509,6 +512,7 @@
 				74A225A0276ECBE1002DB300 /* Extension + UITableView.swift in Sources */,
 				74CE8D3C2775A6EC008BD593 /* Extension + UIViewController.swift in Sources */,
 				74BCE1BF276C703B0093B1E6 /* SearchViewController.swift in Sources */,
+				745630B127ACCA55000CA812 /* Extension + UIFont.swift in Sources */,
 				74A225AF27706A97002DB300 /* KeyChainStore.swift in Sources */,
 				74BCE1BB276C703B0093B1E6 /* AppDelegate.swift in Sources */,
 				74A2259C276CE0CB002DB300 /* SearchPhoto.swift in Sources */,
