@@ -43,7 +43,6 @@ final class UnsplashTabbarController: UITabBarController {
     //MARK: Properties
     private let searchViewController = SearchViewController()
     private let profileViewController = ProfileViewController()
-    private let loginViewController = LoginViewController()
 
     //MARK: View Life Cycle
     override func viewDidLoad() {

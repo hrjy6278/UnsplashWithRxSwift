@@ -11,6 +11,8 @@
 		740FF20A279688C70025235F /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 740FF209279688C70025235F /* RxRelay */; };
 		740FF20C279688C70025235F /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 740FF20B279688C70025235F /* RxSwift */; };
 		740FF21C2796B0C50025235F /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740FF21B2796B0C50025235F /* SearchViewModel.swift */; };
+		745630AD27ACC55D000CA812 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630AC27ACC55D000CA812 /* ProfileViewModel.swift */; };
+		745630AF27ACC5E4000CA812 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630AE27ACC5E4000CA812 /* LoginView.swift */; };
 		74A22596276CD625002DB300 /* UnsplashAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22595276CD625002DB300 /* UnsplashAPIManager.swift */; };
 		74A22598276CDAF0002DB300 /* PasingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22597276CDAF0002DB300 /* PasingManager.swift */; };
 		74A2259C276CE0CB002DB300 /* SearchPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259B276CE0CB002DB300 /* SearchPhoto.swift */; };
@@ -47,7 +49,6 @@
 		74BF06F02797B7B5001DBD14 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 74BF06EF2797B7B5001DBD14 /* RxDataSources */; };
 		74BF06F42797E213001DBD14 /* Extension + Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BF06F32797E213001DBD14 /* Extension + Rx.swift */; };
 		74BF06F62797FCB8001DBD14 /* OAuth2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BF06F52797FCB8001DBD14 /* OAuth2ViewModel.swift */; };
-		74CE8D30277494B1008BD593 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE8D2F277494B1008BD593 /* LoginViewController.swift */; };
 		74CE8D32277560AB008BD593 /* Extention + Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE8D31277560AB008BD593 /* Extention + Notification.Name.swift */; };
 		74CE8D3427759634008BD593 /* Extension + Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE8D3327759634008BD593 /* Extension + Int.swift */; };
 		74CE8D3A27759F16008BD593 /* Extension + UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE8D3927759F16008BD593 /* Extension + UIAlertController.swift */; };
@@ -73,6 +74,8 @@
 
 /* Begin PBXFileReference section */
 		740FF21B2796B0C50025235F /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		745630AC27ACC55D000CA812 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		745630AE27ACC5E4000CA812 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		74A22595276CD625002DB300 /* UnsplashAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPIManager.swift; sourceTree = "<group>"; };
 		74A22597276CDAF0002DB300 /* PasingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasingManager.swift; sourceTree = "<group>"; };
 		74A2259B276CE0CB002DB300 /* SearchPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhoto.swift; sourceTree = "<group>"; };
@@ -109,7 +112,6 @@
 		74BCE1EA276C75380093B1E6 /* UnsplashTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashTabbarController.swift; sourceTree = "<group>"; };
 		74BF06F32797E213001DBD14 /* Extension + Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Rx.swift"; sourceTree = "<group>"; };
 		74BF06F52797FCB8001DBD14 /* OAuth2ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2ViewModel.swift; sourceTree = "<group>"; };
-		74CE8D2F277494B1008BD593 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		74CE8D31277560AB008BD593 /* Extention + Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + Notification.Name.swift"; sourceTree = "<group>"; };
 		74CE8D3327759634008BD593 /* Extension + Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Int.swift"; sourceTree = "<group>"; };
 		74CE8D3927759F16008BD593 /* Extension + UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIAlertController.swift"; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				74A225DB27732A71002DB300 /* View */,
+				745630AC27ACC55D000CA812 /* ProfileViewModel.swift */,
 				74A225D527730866002DB300 /* ProfileViewController.swift */,
 			);
 			path = Profile;
@@ -232,7 +235,6 @@
 		74A225CA27722A89002DB300 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				74CE8D2F277494B1008BD593 /* LoginViewController.swift */,
 				74BF06F52797FCB8001DBD14 /* OAuth2ViewModel.swift */,
 				74A225C22771750B002DB300 /* OAuth2ViewController.swift */,
 			);
@@ -251,6 +253,7 @@
 		74A225DB27732A71002DB300 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				745630AE27ACC5E4000CA812 /* LoginView.swift */,
 				74A225D927732A6E002DB300 /* ProfileHeaderView.swift */,
 			);
 			path = View;
@@ -494,13 +497,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				740FF21C2796B0C50025235F /* SearchViewModel.swift in Sources */,
-				74CE8D30277494B1008BD593 /* LoginViewController.swift in Sources */,
 				74A225CC2772C5C1002DB300 /* UnsplashImagesView.swift in Sources */,
 				74A2259E276ECB7F002DB300 /* ImageListTableViewCell.swift in Sources */,
 				74A22596276CD625002DB300 /* UnsplashAPIManager.swift in Sources */,
 				74A225B82770A781002DB300 /* UnsplashAccessToken.swift in Sources */,
 				74A225C5277188EA002DB300 /* Extension + URL.swift in Sources */,
 				74A22598276CDAF0002DB300 /* PasingManager.swift in Sources */,
+				745630AF27ACC5E4000CA812 /* LoginView.swift in Sources */,
 				74A225D627730866002DB300 /* ProfileViewController.swift in Sources */,
 				74A225C32771750C002DB300 /* OAuth2ViewController.swift in Sources */,
 				74A225A0276ECBE1002DB300 /* Extension + UITableView.swift in Sources */,
@@ -523,6 +526,7 @@
 				74A225AA277053DA002DB300 /* UnsplashParameter.swift in Sources */,
 				74CE8D3A27759F16008BD593 /* Extension + UIAlertController.swift in Sources */,
 				74BCE1EB276C75380093B1E6 /* UnsplashTabbarController.swift in Sources */,
+				745630AD27ACC55D000CA812 /* ProfileViewModel.swift in Sources */,
 				74A225AC2770642B002DB300 /* UnsplashInterceptor.swift in Sources */,
 				74A225DD277354DB002DB300 /* Profile.swift in Sources */,
 				74A225C72771FF78002DB300 /* PhotoLike.swift in Sources */,
