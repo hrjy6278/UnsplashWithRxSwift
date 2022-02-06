@@ -39,6 +39,7 @@ class ImageListViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        setupLayer()
     }
     
     required init?(coder: NSCoder) {
@@ -49,7 +50,7 @@ class ImageListViewCell: UICollectionViewCell {
 //MARK: - Method
 extension ImageListViewCell: HierarchySetupable {
     func setupViewHierarchy() {
-        addSubview(unsplashImagesView)
+        contentView.addSubview(unsplashImagesView)
         contentView.addSubview(likeButton)
     }
     
@@ -82,6 +83,22 @@ extension ImageListViewCell: HierarchySetupable {
         super.prepareForReuse()
         unsplashImagesView.clearItems()
         disposeBag = DisposeBag()
+    }
+    
+    private func setupLayer() {
+        let shadowRadius: CGFloat = 3
+        let shadowOpacity: Float = 0.40
+        let shadowOffsetHeight: CGFloat = 5
+        
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowRadius = shadowRadius
+        layer.shadowOpacity = shadowOpacity
+        layer.shadowOffset = CGSize(width: .zero, height: shadowOffsetHeight)
+        layer.shadowPath = UIBezierPath(roundedRect: bounds,
+                                        cornerRadius: shadowRadius).cgPath
+        
+        contentView.layer.cornerRadius = 5
+        contentView.layer.masksToBounds = true
     }
     
     private func bind() {
