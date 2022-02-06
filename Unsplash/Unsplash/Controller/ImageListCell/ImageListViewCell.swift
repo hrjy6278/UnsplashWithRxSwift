@@ -10,7 +10,7 @@ import Kingfisher
 import RxCocoa
 import RxSwift
 
-class ImageListTableViewCell: UITableViewCell {
+class ImageListViewCell: UICollectionViewCell {
     //MARK: - Properties
     private let photoId = PublishSubject<String>()
     private let imageButtonSubject = PublishSubject<String>()
@@ -36,8 +36,8 @@ class ImageListTableViewCell: UITableViewCell {
     }()
     
     //MARK: - init
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupView()
     }
     
@@ -47,7 +47,7 @@ class ImageListTableViewCell: UITableViewCell {
 }
 
 //MARK: - Method
-extension ImageListTableViewCell: HierarchySetupable {
+extension ImageListViewCell: HierarchySetupable {
     func setupViewHierarchy() {
         addSubview(unsplashImagesView)
         contentView.addSubview(likeButton)

@@ -14,10 +14,11 @@
 		745630AD27ACC55D000CA812 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630AC27ACC55D000CA812 /* ProfileViewModel.swift */; };
 		745630AF27ACC5E4000CA812 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630AE27ACC5E4000CA812 /* LoginView.swift */; };
 		745630B127ACCA55000CA812 /* Extension + UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630B027ACCA55000CA812 /* Extension + UIFont.swift */; };
+		745630B327AF8B93000CA812 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630B227AF8B93000CA812 /* ColumnFlowLayout.swift */; };
 		74A22596276CD625002DB300 /* UnsplashAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22595276CD625002DB300 /* UnsplashAPIManager.swift */; };
 		74A22598276CDAF0002DB300 /* PasingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22597276CDAF0002DB300 /* PasingManager.swift */; };
 		74A2259C276CE0CB002DB300 /* SearchPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259B276CE0CB002DB300 /* SearchPhoto.swift */; };
-		74A2259E276ECB7F002DB300 /* ImageListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259D276ECB7F002DB300 /* ImageListTableViewCell.swift */; };
+		74A2259E276ECB7F002DB300 /* ImageListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259D276ECB7F002DB300 /* ImageListViewCell.swift */; };
 		74A225A0276ECBE1002DB300 /* Extension + UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259F276ECBE1002DB300 /* Extension + UITableView.swift */; };
 		74A225A6276ED23D002DB300 /* HierarchySetupable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225A5276ED23D002DB300 /* HierarchySetupable.swift */; };
 		74A225A8277048CE002DB300 /* UnsplashRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225A7277048CE002DB300 /* UnsplashRouter.swift */; };
@@ -78,10 +79,11 @@
 		745630AC27ACC55D000CA812 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		745630AE27ACC5E4000CA812 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		745630B027ACCA55000CA812 /* Extension + UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Extension + UIFont.swift"; path = "Unsplash/Supporting/Extension/Extension + UIFont.swift"; sourceTree = SOURCE_ROOT; };
+		745630B227AF8B93000CA812 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		74A22595276CD625002DB300 /* UnsplashAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPIManager.swift; sourceTree = "<group>"; };
 		74A22597276CDAF0002DB300 /* PasingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasingManager.swift; sourceTree = "<group>"; };
 		74A2259B276CE0CB002DB300 /* SearchPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhoto.swift; sourceTree = "<group>"; };
-		74A2259D276ECB7F002DB300 /* ImageListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImageListTableViewCell.swift; path = Unsplash/Controller/ImageListCell/ImageListTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		74A2259D276ECB7F002DB300 /* ImageListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImageListViewCell.swift; path = Unsplash/Controller/ImageListCell/ImageListViewCell.swift; sourceTree = SOURCE_ROOT; };
 		74A2259F276ECBE1002DB300 /* Extension + UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITableView.swift"; sourceTree = "<group>"; };
 		74A225A5276ED23D002DB300 /* HierarchySetupable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchySetupable.swift; sourceTree = "<group>"; };
 		74A225A7277048CE002DB300 /* UnsplashRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashRouter.swift; sourceTree = "<group>"; };
@@ -247,8 +249,9 @@
 		74A225D22772EC0C002DB300 /* ImageListCell */ = {
 			isa = PBXGroup;
 			children = (
+				745630B227AF8B93000CA812 /* ColumnFlowLayout.swift */,
 				74A225CB2772C5C1002DB300 /* UnsplashImagesView.swift */,
-				74A2259D276ECB7F002DB300 /* ImageListTableViewCell.swift */,
+				74A2259D276ECB7F002DB300 /* ImageListViewCell.swift */,
 			);
 			path = ImageListCell;
 			sourceTree = "<group>";
@@ -500,8 +503,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				740FF21C2796B0C50025235F /* SearchViewModel.swift in Sources */,
+				745630B327AF8B93000CA812 /* ColumnFlowLayout.swift in Sources */,
 				74A225CC2772C5C1002DB300 /* UnsplashImagesView.swift in Sources */,
-				74A2259E276ECB7F002DB300 /* ImageListTableViewCell.swift in Sources */,
+				74A2259E276ECB7F002DB300 /* ImageListViewCell.swift in Sources */,
 				74A22596276CD625002DB300 /* UnsplashAPIManager.swift in Sources */,
 				74A225B82770A781002DB300 /* UnsplashAccessToken.swift in Sources */,
 				74A225C5277188EA002DB300 /* Extension + URL.swift in Sources */,

@@ -25,24 +25,23 @@ final class SearchViewController: UIViewController {
         return search
     }()
     
-    private let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.keyboardDismissMode = .onDrag
-        tableView.register(ImageListTableViewCell.self,
-                           forCellReuseIdentifier: ImageListTableViewCell.cellID)
+    private let searchCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero,
+                                              collectionViewLayout: ColumnFlowLayout())
+        collectionView.register(ImageListViewCell.self,
+                                forCellWithReuseIdentifier: ImageListViewCell.cellID)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.keyboardDismissMode = .onDrag
         
-        return tableView
+        return collectionView
     }()
     
-    private var dataSource: RxTableViewSectionedReloadDataSource<SearchSection>?
-    
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SearchSection>?
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupView()
-        configureTableView()
         configureTapGesture()
         configureNavigationBar()
         configureDataSource()
@@ -53,7 +52,7 @@ final class SearchViewController: UIViewController {
 //MARK: - Configure Views And Layout
 extension SearchViewController: HierarchySetupable {
     func setupViewHierarchy() {
-        view.addSubview(tableView)
+        view.addSubview(searchCollectionView)
         view.addSubview(searchBar)
     }
     
@@ -63,15 +62,11 @@ extension SearchViewController: HierarchySetupable {
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            searchCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            searchCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    private func configureTableView() {
-        tableView.rowHeight = view.frame.size.height / 4
     }
     
     private func configureNavigationBar() {
@@ -82,9 +77,9 @@ extension SearchViewController: HierarchySetupable {
     }
     
     private func configureDataSource() {
-        dataSource = RxTableViewSectionedReloadDataSource<SearchSection> { _, tableView, indexPath, cellModel in
-            let cell = tableView.dequeueReusableCell(withIdentifier: ImageListTableViewCell.cellID,
-                                                     for: indexPath) as! ImageListTableViewCell
+        dataSource = RxCollectionViewSectionedReloadDataSource<SearchSection> { _, tableView, indexPath, cellModel in
+            let cell = tableView.dequeueReusableCell(withReuseIdentifier: ImageListViewCell.cellID,
+                                                     for: indexPath) as! ImageListViewCell
             
             cell.configure(id: cellModel.id,
                            photographerName: cellModel.profile.userName,
@@ -122,15 +117,15 @@ extension SearchViewController {
             .withUnretained(self)
             .do(onNext: { `self`, _ in
                 self.view.endEditing(true)
-                self.tableView.setContentOffset(.zero, animated: true)
+                self.searchCollectionView.setContentOffset(.zero, animated: true)
             })
             .withLatestFrom(searchBar.rx.text.orEmpty)
          
-        let loadMore = tableView.rx
+        let loadMore = searchCollectionView.rx
                 .contentOffset
                 .withUnretained(self)
                 .flatMap { `self`, _ in
-            self.tableView.rx.loadNextPageTrigger(offset: CGPoint())
+            self.searchCollectionView.rx.loadNextPageTrigger(offset: CGPoint())
         }
         
         let rightButtonTap = navigationItem.rightBarButtonItem?.rx.tap.asObservable() ?? .empty()
@@ -164,7 +159,7 @@ extension SearchViewController {
         
         dataSource.flatMap { dataSource in
             output.tavleViewModel
-                    .bind(to: tableView.rx.items(dataSource: dataSource))
+                    .bind(to: searchCollectionView.rx.items(dataSource: dataSource))
                     .disposed(by: disposeBag)
         }
     }

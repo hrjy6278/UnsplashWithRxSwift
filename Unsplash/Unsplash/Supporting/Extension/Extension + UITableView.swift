@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UITableViewCell {
+extension UICollectionViewCell {
     static var cellID: String {
         return String(describing: self)
     }
