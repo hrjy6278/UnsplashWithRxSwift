@@ -14,18 +14,20 @@ final class ProfileViewController: UIViewController {
     //MARK: Properties
     private let viewModel = ProfileViewModel()
     private let disposeBag = DisposeBag()
-    private let tableViewHeaderView = ProfileHeaderView()
     private let loginView = LoginView()
     
     private var collectionView: UICollectionView = {
         let collectionView = UICollectionView.init(frame: .zero,
-                                                   collectionViewLayout: ColumnFlowLayout())
+                                                   collectionViewLayout: .createCompositinalLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(ImageListViewCell.self,
-                                forCellWithReuseIdentifier: ImageListViewCell.cellID)
+        collectionView.register(InformationCell.self,
+                                forCellWithReuseIdentifier: InformationCell.cellID)
+        collectionView.clipsToBounds = false
 
         return collectionView
     }()
+    
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionProfile>?
     
     //MARK: View Life Cycle
     override func viewDidLoad() {
@@ -33,6 +35,7 @@ final class ProfileViewController: UIViewController {
         view.backgroundColor = .white
         setupView()
         setupNavigationItem()
+        configureDataSource()
         bindViewModel()
     }
 }
@@ -46,7 +49,7 @@ extension ProfileViewController: HierarchySetupable {
     
     func setupLayout() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor ,constant: 80),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -64,6 +67,19 @@ extension ProfileViewController: HierarchySetupable {
                                                             style: .plain,
                                                             target: nil,
                                                             action: nil)
+    }
+    
+    private func configureDataSource() {
+        dataSource = RxCollectionViewSectionedReloadDataSource { _, collectionView, row, model in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InformationCell.cellID, for: row) as! InformationCell
+            
+            cell.configureCell(name: model.name,
+                               profileURL: model.profileImage?.mediumURL,
+                               follower: String(100),
+                               follwing: String(100),
+                               post: String(100))
+            return cell
+        }
     }
 }
 
@@ -84,12 +100,23 @@ extension ProfileViewController {
             .bind(to: loginView.rx.isHidden)
             .disposed(by: disposeBag)
         
+        output.isLogin
+            .withUnretained(self)
+            .subscribe(onNext: { `self`, isLogin in
+                isLogin ? (self.collectionView.isHidden = false) : (self.collectionView.isHidden = true)
+            })
+            .disposed(by: disposeBag)
+        
         output.loginProgress
             .withUnretained(self)
             .subscribe(onNext: { `self`, _ in
                 self.present(OAuth2ViewController(), animated: true)
         })
             .disposed(by: disposeBag)
-       
+        
+        dataSource.flatMap { dataSource in
+            output.profileModel.bind(to: collectionView.rx.items(dataSource: dataSource))
+                .disposed(by: disposeBag)
+        }
     }
 }
