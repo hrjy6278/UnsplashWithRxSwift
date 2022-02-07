@@ -139,7 +139,7 @@ extension UnsplashAPIManager {
         isFetching = true
         
         return Observable.create { observer in
-            let request = self.sessionManager.request(UnsplashRouter.listUserLike(userName: userName,
+            let request = self.sessionManager.request(UnsplashRouter.userLikePhotos(userName: userName,
                                                                                   page: page))
                 .responseDecodable(of: [Photo].self) { responseData in
                     

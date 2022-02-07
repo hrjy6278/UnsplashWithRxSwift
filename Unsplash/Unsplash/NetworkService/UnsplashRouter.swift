@@ -15,11 +15,11 @@ enum UnsplashRouter {
     case photoLike(id: String)
     case photoUnlike(id: String)
     case myProfile
-    case listUserLike(userName: String, page: Int)
+    case userLikePhotos(userName: String, page: Int)
     
     var baseURL: String {
         switch self {
-        case .searchPhotos, .photoLike, .photoUnlike, .myProfile, .listUserLike:
+        case .searchPhotos, .photoLike, .photoUnlike, .myProfile, .userLikePhotos:
             return "https://api.unsplash.com"
         case .fetchAccessToken, .userAuthorize:
             return "https://unsplash.com"
@@ -32,7 +32,7 @@ enum UnsplashRouter {
             return "/search/photos"
         case .photoLike (let id), .photoUnlike(let id):
             return "/photos/\(id)/like"
-        case .listUserLike(let userName, _):
+        case .userLikePhotos(let userName, _):
             return "/users/\(userName)/likes"
         case .myProfile:
             return "/me"
@@ -46,7 +46,7 @@ enum UnsplashRouter {
     
     var method: HTTPMethod {
         switch self {
-        case .searchPhotos, .userAuthorize, .myProfile, .listUserLike:
+        case .searchPhotos, .userAuthorize, .myProfile, .userLikePhotos:
             return .get
         case .fetchAccessToken, .photoLike:
             return .post
@@ -77,7 +77,7 @@ enum UnsplashRouter {
                 "code": code,
                 "grant_type": UnsplashParameter.grandType
             ]
-        case .listUserLike(_, let page):
+        case .userLikePhotos(_, let page):
             return ["page": String(page)]
         case .photoLike, .photoUnlike, .myProfile:
             return [:]
@@ -93,7 +93,7 @@ extension UnsplashRouter: URLRequestConvertible {
         request.method = method
         
         switch self {
-        case .searchPhotos, .userAuthorize, .photoLike, .photoUnlike, .myProfile, .listUserLike:
+        case .searchPhotos, .userAuthorize, .photoLike, .photoUnlike, .myProfile, .userLikePhotos:
             let url = request.url?.appendingQueryParameters(parameters)
             request.url = url
         case .fetchAccessToken:
