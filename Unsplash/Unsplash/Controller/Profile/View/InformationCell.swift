@@ -26,7 +26,7 @@ class InformationCell: UICollectionViewCell {
         return label
     }()
     
-    private let followerCount: UILabel = {
+    private let totalLikesCountLabel: UILabel = {
         let label = UILabel()
         label.font = .generateFont(font: .SDGothichBold, size: 26)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +35,7 @@ class InformationCell: UICollectionViewCell {
         return label
     }()
     
-    private let followingCount: UILabel = {
+    private let totalPhotosCountLabel: UILabel = {
         let label = UILabel()
         label.font = .generateFont(font: .SDGothichBold, size: 26)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +44,7 @@ class InformationCell: UICollectionViewCell {
         return label
     }()
     
-    private let postCount: UILabel = {
+    private let totalCollectionsCountLabel: UILabel = {
         let label = UILabel()
         label.font = .generateFont(font: .SDGothichBold, size: 26)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -53,37 +53,40 @@ class InformationCell: UICollectionViewCell {
         return label
     }()
     
-    private let followingDescriptionLabel: UILabel = {
+    private let likesDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .generateFont(font: .SDGothichBold, size: 20)
+        label.font = .generateFont(font: .SDGothichRegular, size: 18)
+        label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.text = "팔로잉"
+        label.text = "좋아요"
         
         return label
     }()
     
-    private let followerDescriptionLabel: UILabel = {
+    private let photosDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .generateFont(font: .SDGothichBold, size: 20)
+        label.font = .generateFont(font: .SDGothichRegular, size: 18)
+        label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.text = "팔로워"
+        label.text = "내 사진"
         
         return label
     }()
     
-    private let postDescriptionLabel: UILabel = {
+    private let collectionsDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .generateFont(font: .SDGothichBold, size: 20)
+        label.font = .generateFont(font: .SDGothichRegular, size: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .darkGray
         label.textAlignment = .center
-        label.text = "게시물"
+        label.text = "내 콜렉션"
         
         return label
     }()
     
-    private let followerStackView: UIStackView = {
+    private let likesStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -93,7 +96,7 @@ class InformationCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let followingStackView: UIStackView = {
+    private let photosStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -103,7 +106,7 @@ class InformationCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let postStackView: UIStackView = {
+    private let collectionsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -138,15 +141,19 @@ class InformationCell: UICollectionViewCell {
 
 extension InformationCell: HierarchySetupable {
     func setupViewHierarchy() {
-        followerStackView.addArrangedSubview(followerCount)
-        followerStackView.addArrangedSubview(followerDescriptionLabel)
-        followingStackView.addArrangedSubview(followingCount)
-        followingStackView.addArrangedSubview(followingDescriptionLabel)
-        postStackView.addArrangedSubview(postCount)
-        postStackView.addArrangedSubview(postDescriptionLabel)
-        containerStackView.addArrangedSubview(followerStackView)
-        containerStackView.addArrangedSubview(followingStackView)
-        containerStackView.addArrangedSubview(postStackView)
+        likesStackView.addArrangedSubview(totalLikesCountLabel)
+        likesStackView.addArrangedSubview(likesDescriptionLabel)
+        
+        photosStackView.addArrangedSubview(totalPhotosCountLabel)
+        photosStackView.addArrangedSubview(photosDescriptionLabel)
+        
+        collectionsStackView.addArrangedSubview(totalCollectionsCountLabel)
+        collectionsStackView.addArrangedSubview(collectionsDescriptionLabel)
+        
+        containerStackView.addArrangedSubview(likesStackView)
+        containerStackView.addArrangedSubview(photosStackView)
+        containerStackView.addArrangedSubview(collectionsStackView)
+        
         contentView.addSubview(containerStackView)
         contentView.addSubview(profileImageView)
         contentView.addSubview(namaLabel)
@@ -159,17 +166,21 @@ extension InformationCell: HierarchySetupable {
             namaLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor,constant: 8),
             namaLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             containerStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
     }
     
-    func configureCell(name: String, profileURL: URL?, follower: String, follwing: String, post: String) {
-        namaLabel.text = name
-        followerCount.text = follower
-        followingCount.text = follwing
-        postCount.text = post
+    func configureCell(userName: String,
+                       profileURL: URL?,
+                       totalLikes: String,
+                       totalPhotos: String,
+                       totalCollections: String) {
+        namaLabel.text = userName
+        totalLikesCountLabel.text = totalLikes
+        totalPhotosCountLabel.text = totalPhotos
+        totalCollectionsCountLabel.text = totalCollections
         
         let processor = RoundCornerImageProcessor(cornerRadius: 25)
         profileImageView.kf.setImage(with: profileURL,options: [.processor(processor)])

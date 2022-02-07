@@ -73,11 +73,11 @@ extension ProfileViewController: HierarchySetupable {
         dataSource = RxCollectionViewSectionedReloadDataSource { _, collectionView, row, model in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InformationCell.cellID, for: row) as! InformationCell
             
-            cell.configureCell(name: model.name,
+            cell.configureCell(userName: model.name,
                                profileURL: model.profileImage?.mediumURL,
-                               follower: String(100),
-                               follwing: String(100),
-                               post: String(100))
+                               totalLikes: String(model.totalLikes),
+                               totalPhotos: String(model.totalPhotos),
+                               totalCollections: String(model.totalCollections))
             return cell
         }
     }
@@ -103,7 +103,7 @@ extension ProfileViewController {
         output.isLogin
             .withUnretained(self)
             .subscribe(onNext: { `self`, isLogin in
-                isLogin ? (self.collectionView.isHidden = false) : (self.collectionView.isHidden = true)
+                isLogin ? (`self`.collectionView.isHidden = false) : (`self`.collectionView.isHidden = true)
             })
             .disposed(by: disposeBag)
         

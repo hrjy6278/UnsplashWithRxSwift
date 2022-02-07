@@ -14,7 +14,7 @@ extension UICollectionViewLayout {
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .fractionalHeight(0.35))
+                                               heightDimension: .fractionalHeight(0.3))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                        subitems: [layoutItem])
         let section = NSCollectionLayoutSection(group: group)
