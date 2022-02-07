@@ -36,7 +36,6 @@
 		74A225C72771FF78002DB300 /* PhotoLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225C62771FF78002DB300 /* PhotoLike.swift */; };
 		74A225CC2772C5C1002DB300 /* UnsplashImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225CB2772C5C1002DB300 /* UnsplashImagesView.swift */; };
 		74A225D627730866002DB300 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225D527730866002DB300 /* ProfileViewController.swift */; };
-		74A225DA27732A6E002DB300 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225D927732A6E002DB300 /* ProfileHeaderView.swift */; };
 		74A225DD277354DB002DB300 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225DC277354DB002DB300 /* Profile.swift */; };
 		74BCE1BB276C703B0093B1E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BCE1BA276C703B0093B1E6 /* AppDelegate.swift */; };
 		74BCE1BD276C703B0093B1E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BCE1BC276C703B0093B1E6 /* SceneDelegate.swift */; };
@@ -103,7 +102,6 @@
 		74A225C62771FF78002DB300 /* PhotoLike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLike.swift; sourceTree = "<group>"; };
 		74A225CB2772C5C1002DB300 /* UnsplashImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashImagesView.swift; sourceTree = "<group>"; };
 		74A225D527730866002DB300 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		74A225D927732A6E002DB300 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		74A225DC277354DB002DB300 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		74BCE1B7276C703B0093B1E6 /* Unsplash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unsplash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74BCE1BA276C703B0093B1E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -266,7 +264,6 @@
 			children = (
 				745630AE27ACC5E4000CA812 /* LoginView.swift */,
 				745630C027B0BC33000CA812 /* InformationCell.swift */,
-				74A225D927732A6E002DB300 /* ProfileHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -534,7 +531,6 @@
 				74BF06F62797FCB8001DBD14 /* OAuth2ViewModel.swift in Sources */,
 				74CE8D32277560AB008BD593 /* Extention + Notification.Name.swift in Sources */,
 				74A225BF2770BF93002DB300 /* TokenQuery.swift in Sources */,
-				74A225DA27732A6E002DB300 /* ProfileHeaderView.swift in Sources */,
 				74A225A6276ED23D002DB300 /* HierarchySetupable.swift in Sources */,
 				74CE8D3427759634008BD593 /* Extension + Int.swift in Sources */,
 				74A225A8277048CE002DB300 /* UnsplashRouter.swift in Sources */,

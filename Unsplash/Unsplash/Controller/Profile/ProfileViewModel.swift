@@ -17,6 +17,7 @@ final class ProfileViewModel: ViewModelType {
     
     struct Input {
         let loginButtonTaped: Observable<Void>
+        let viewWillAppear: Observable<Void>
     }
     
     struct Output {
@@ -34,7 +35,7 @@ extension ProfileViewModel {
         let isTokenSaved = TokenManager.shared.isTokenSaved.share(replay: 1)
         let loginProgress = PublishSubject<Void>()
         
-        let profileModel = isTokenSaved
+        let profileModel = input.viewWillAppear.withLatestFrom(isTokenSaved)
             .filter { $0 == true }
             .withUnretained(self)
             .flatMap { `self`, _ in  `self`.networkService.fetchUserProfile() }

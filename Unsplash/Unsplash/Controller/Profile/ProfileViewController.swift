@@ -23,8 +23,20 @@ final class ProfileViewController: UIViewController {
         collectionView.register(InformationCell.self,
                                 forCellWithReuseIdentifier: InformationCell.cellID)
         collectionView.clipsToBounds = false
-
+        collectionView.backgroundColor = .clear
+        
         return collectionView
+    }()
+    
+    private let backgroundView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemBlue
+        view.layer.cornerRadius = 30
+        view.layer.masksToBounds = true
+        view.isHidden = true
+        
+        return view
     }()
     
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionProfile>?
@@ -43,13 +55,14 @@ final class ProfileViewController: UIViewController {
 //MARK: - Setup View And Layout
 extension ProfileViewController: HierarchySetupable {
     func setupViewHierarchy() {
+        view.addSubview(backgroundView)
         view.addSubview(collectionView)
         view.addSubview(loginView)
     }
     
     func setupLayout() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor ,constant: 80),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor ,constant: 40),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -57,10 +70,15 @@ extension ProfileViewController: HierarchySetupable {
             loginView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             loginView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             loginView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            loginView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            loginView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: view.bounds.height / 8)
         ])
     }
-
+    
     private func setupNavigationItem() {
         navigationItem.title = "프로필"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: nil,
@@ -88,8 +106,12 @@ extension ProfileViewController {
     private func bindViewModel() {
         let loginButtonTaped = Observable.merge(loginView.loginButtonTaped,
                                                 navigationItem.rightBarButtonItem?.rx.tap.asObservable() ?? .empty())
+        let viewWillAppear = rx.sentMessage(#selector(UIViewController.viewWillAppear(_:)))
+            .map { _ in }
         
-        let intput = ProfileViewModel.Input(loginButtonTaped: loginButtonTaped)
+        let intput = ProfileViewModel.Input(loginButtonTaped: loginButtonTaped,
+                                            viewWillAppear: viewWillAppear)
+        
         let output = viewModel.bind(input: intput)
         
         navigationItem.rightBarButtonItem
@@ -111,12 +133,17 @@ extension ProfileViewController {
             .withUnretained(self)
             .subscribe(onNext: { `self`, _ in
                 self.present(OAuth2ViewController(), animated: true)
-        })
+            })
             .disposed(by: disposeBag)
         
         dataSource.flatMap { dataSource in
             output.profileModel.bind(to: collectionView.rx.items(dataSource: dataSource))
                 .disposed(by: disposeBag)
         }
+        
+        collectionView.rx.willDisplayCell
+            .map { _ in false }
+            .bind(to: backgroundView.rx.isHidden)
+            .disposed(by: disposeBag)
     }
 }
