@@ -28,7 +28,7 @@ final class ProfileViewController: UIViewController {
                                 forCellWithReuseIdentifier: ImageListViewCell.cellID)
         collectionView.clipsToBounds = false
         collectionView.backgroundColor = .clear
-        
+       
         return collectionView
     }()
     
@@ -102,8 +102,8 @@ extension ProfileViewController: HierarchySetupable {
                                    totalLikes: String(profile.totalLikes),
                                    totalPhotos: String(profile.totalPhotos),
                                    totalCollections: String(profile.totalCollections))
-                return cell
                 
+                return cell
             case .photo(let photo):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageListViewCell.cellID, for: indexPath) as! ImageListViewCell
                 
@@ -158,7 +158,7 @@ extension ProfileViewController {
         output.loginProgress
             .withUnretained(self)
             .subscribe(onNext: { `self`, _ in
-                self.present(OAuth2ViewController(), animated: true)
+                `self`.present(OAuth2ViewController(), animated: true)
             })
             .disposed(by: disposeBag)
         

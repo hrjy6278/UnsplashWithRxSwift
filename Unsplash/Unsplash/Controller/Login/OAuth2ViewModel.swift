@@ -30,7 +30,7 @@ extension OAuth2ViewModel {
     func bind(input: Input) -> Output {
         input.viewDidAppear
             .withUnretained(self)
-            .subscribe(onNext: { `self`, _ in self.authenticate() })
+            .subscribe(onNext: { `self`, _ in `self`.authenticate() })
             .disposed(by: disposeBag)
             
         return Output(tryLoginResult: isLogin.asObservable())

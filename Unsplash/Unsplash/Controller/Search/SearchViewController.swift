@@ -90,7 +90,7 @@ extension SearchViewController: HierarchySetupable {
             cell.imageButtonObservable
                 .withUnretained(self)
                 .subscribe(onNext: { `self`, photoID in
-                    self.viewModel.inputAction(.likeButtonTaped(photoID: photoID))
+                    `self`.viewModel.inputAction(.likeButtonTaped(photoID: photoID))
             })
                 .disposed(by: cell.disposeBag)
             
@@ -116,8 +116,8 @@ extension SearchViewController {
             .searchButtonClicked
             .withUnretained(self)
             .do(onNext: { `self`, _ in
-                self.view.endEditing(true)
-                self.searchCollectionView.setContentOffset(.zero, animated: true)
+                `self`.view.endEditing(true)
+                `self`.searchCollectionView.setContentOffset(.zero, animated: true)
             })
             .withLatestFrom(searchBar.rx.text.orEmpty)
          
@@ -125,8 +125,8 @@ extension SearchViewController {
                 .contentOffset
                 .withUnretained(self)
                 .flatMap { `self`, _ in
-            self.searchCollectionView.rx.loadNextPageTrigger(offset: CGPoint())
-        }
+                    `self`.searchCollectionView.rx.loadNextPageTrigger(offset: CGPoint())
+                }
         
         let rightButtonTap = navigationItem.rightBarButtonItem?.rx.tap.asObservable() ?? .empty()
         
@@ -139,7 +139,7 @@ extension SearchViewController {
         output.loginPresenting
                 .withUnretained(self)
                 .subscribe(onNext: { `self`, _ in
-                    self.present(OAuth2ViewController(), animated: true, completion: nil)
+                    `self`.present(OAuth2ViewController(), animated: true, completion: nil)
                 })
                 .disposed(by: disposeBag)
                 

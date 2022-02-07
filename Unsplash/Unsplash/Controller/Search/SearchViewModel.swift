@@ -111,16 +111,16 @@ final class SearchViewModel: ViewModelType {
         
         let firstSearchPhoto = photoSearchQuery
             .withUnretained(self)
-            .flatMap { `self`, query -> Observable<SearchPhoto> in
+            .flatMap { viewModel, query -> Observable<SearchPhoto> in
                 searchQuery = query
-                self.pageCounter = .initialPage
-                return self.networkService.searchPhotos(type: SearchPhoto.self,
+                viewModel.pageCounter = .initialPage
+                return viewModel.networkService.searchPhotos(type: SearchPhoto.self,
                                                         query: query,
-                                                        page: self.pageCounter)
+                                                        page: viewModel.pageCounter)
             }
-            .do(onNext: {
-                self.searchPhotosSubject.onNext([])
-                self.totalPage = $0.totalPages
+            .do(onNext: { [weak self] photo in
+                self?.searchPhotosSubject.onNext([])
+                self?.totalPage = photo.totalPages
                 navigationTitle.onNext("\(searchQuery) 검색결과")
             })
             
@@ -130,23 +130,25 @@ final class SearchViewModel: ViewModelType {
         //검색결과를 더 가져오는 옵저버블
         let requestNext = input.loadMore
             .withUnretained(self)
-                .filter { `self`, _ in self.totalPage != .zero }
-                .take(while: { `self`, _ in self.pageCounter != self.totalPage ? true : false })
-                .flatMap { `self`, isLoadMore -> Observable<[Photo]> in
+                .filter { viewModel, _ in viewModel.totalPage != .zero }
+                .take(while: { viewModel, _ in
+                    viewModel.pageCounter != viewModel.totalPage ? true : false
+                })
+                .flatMap { viewModel, isLoadMore -> Observable<[Photo]> in
                     guard isLoadMore else { return .empty() }
-                    self.pageCounter.addPage()
-                    return self.networkService.searchPhotos(type: SearchPhoto.self,
+                    viewModel.pageCounter.addPage()
+                    return viewModel.networkService.searchPhotos(type: SearchPhoto.self,
                                                             query: searchQuery,
-                                                            page: self.pageCounter)
+                                                            page: viewModel.pageCounter)
                         .map{ $0.photos }
                 }
         
         //검색결과를 머지한 뒤 Emit하는 옵저버블
         Observable.merge(requestFirst, requestNext)
             .withUnretained(self)
-            .subscribe(onNext: { `self`, newPhotos in
-                if let originalPhotos = try? self.searchPhotosSubject.value() {
-                    self.searchPhotosSubject.onNext(originalPhotos + newPhotos)
+            .subscribe(onNext: { viewModel, newPhotos in
+                if let originalPhotos = try? viewModel.searchPhotosSubject.value() {
+                    viewModel.searchPhotosSubject.onNext(originalPhotos + newPhotos)
                 }
             })
             .disposed(by: disposeBag)

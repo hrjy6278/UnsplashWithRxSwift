@@ -44,14 +44,15 @@ extension ProfileViewModel {
             .do(onNext: { profile in
                 profileName.onNext(profile.userName)
             })
-                .map { profile in
-                    [ProfileSectionModel.profile(items: [.profile(profile)])]
-                }
+            .map { profile in
+                [ProfileSectionModel.profile(items: [.profile(profile)])]
+            }
            
         let likePhotos = profileName
             .withUnretained(self)
-            .flatMap {`self`, userName in
-                self.networkService.fetchUserLikePhotos(userName: userName, page: 1)
+            .flatMap { viewModel, userName in
+                viewModel.networkService.fetchUserLikePhotos(userName: userName,
+                                                        page: viewModel.page)
             }
             .map { photos -> [ProfileSectionModel] in
                 let photoItem = photos.map { ProfileItem.photo($0) }

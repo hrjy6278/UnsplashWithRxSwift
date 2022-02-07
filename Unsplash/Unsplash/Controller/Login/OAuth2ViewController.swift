@@ -33,7 +33,7 @@ extension OAuth2ViewController {
         output.tryLoginResult
             .withUnretained(self)
             .subscribe(onNext: { `self`, _ in
-                self.dismiss(animated: true, completion: nil)
+                `self`.dismiss(animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
     }
