@@ -8,8 +8,6 @@
 import RxSwift
 import RxDataSources
 
-typealias SectionProfile = SectionModel<String, Profile>
-
 final class ProfileViewModel: ViewModelType {
     private var page: Int = .initialPage
     private let networkService = UnsplashAPIManager()
@@ -24,7 +22,7 @@ final class ProfileViewModel: ViewModelType {
         let barButtonTitle: Observable<String>
         let isLogin: Observable<Bool>
         let loginProgress: Observable<Void>
-        let profileModel: Observable<[SectionProfile]>
+        let profileModel: Observable<[ProfileSectionModel]>
     }
     
 }
@@ -34,14 +32,38 @@ extension ProfileViewModel {
         let barButtonTitle = BehaviorSubject<String>(value: "")
         let isTokenSaved = TokenManager.shared.isTokenSaved.share(replay: 1)
         let loginProgress = PublishSubject<Void>()
+        let profileName = PublishSubject<String>()
         
-        let profileModel = input.viewWillAppear.withLatestFrom(isTokenSaved)
+        let viewWillAppear = input.viewWillAppear.withLatestFrom(isTokenSaved)
+            .share(replay: 1)
+        
+        let profile = viewWillAppear
             .filter { $0 == true }
             .withUnretained(self)
-            .flatMap { `self`, _ in  `self`.networkService.fetchUserProfile() }
-            .map { profile in [SectionProfile(model: "Profile", items: [profile])] }
-            .observe(on: MainScheduler.instance)
+            .flatMap { `self`, _ in `self`.networkService.fetchUserProfile() }
+            .do(onNext: { profile in
+                profileName.onNext(profile.userName)
+            })
+                .map { profile in
+                    [ProfileSectionModel.profile(items: [.profile(profile)])]
+                }
+           
+        let likePhotos = profileName
+            .withUnretained(self)
+            .flatMap {`self`, userName in
+                self.networkService.fetchUserLikePhotos(userName: userName, page: 1)
+            }
+            .map { photos -> [ProfileSectionModel] in
+                let photoItem = photos.map { ProfileItem.photo($0) }
+                return [ProfileSectionModel(original: .photo(items: photoItem),
+                                            items: photoItem)]
+            }
         
+        let profileModel = Observable.combineLatest(profile, likePhotos, resultSelector: { profile, likePhotos in
+            profile + likePhotos
+        })
+            .observe(on: MainScheduler.instance)
+
         isTokenSaved
             .flatMap { $0 ? Observable.just("로그아웃") : Observable.just("로그인") }
             .bind(to: barButtonTitle)

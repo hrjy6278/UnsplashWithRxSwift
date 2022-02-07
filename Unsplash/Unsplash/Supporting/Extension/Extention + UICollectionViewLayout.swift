@@ -28,9 +28,46 @@ extension UICollectionViewLayout {
         return section
     }
     
+    static var createPhotoListSizeSection: NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                              heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8,
+                                                     leading: 8,
+                                                     bottom: 8,
+                                                     trailing: 8)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .fractionalHeight(0.4))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitems: [item])
+        
+        group.contentInsets = NSDirectionalEdgeInsets(top: .zero,
+                                                      leading: 8,
+                                                      bottom: .zero,
+                                                      trailing: 8)
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.6),
+                                                heightDimension: .estimated(20))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                 elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = [header]
+        section.orthogonalScrollingBehavior = .paging
+        
+        return section
+    }
+    
     static func createCompositinalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, environment in
-            return UICollectionViewLayout.createProfileSizeSection
+            switch sectionIndex {
+            case 0:
+                return UICollectionViewLayout.createProfileSizeSection
+            default:
+                return UICollectionViewLayout.createPhotoListSizeSection
+            }
         }
         
         return layout

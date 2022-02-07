@@ -17,11 +17,13 @@
 		745630B327AF8B93000CA812 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630B227AF8B93000CA812 /* ColumnFlowLayout.swift */; };
 		745630BF27B0BC08000CA812 /* Extention + UICollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630BE27B0BC08000CA812 /* Extention + UICollectionViewLayout.swift */; };
 		745630C127B0BC33000CA812 /* InformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630C027B0BC33000CA812 /* InformationCell.swift */; };
+		745630C327B0E78D000CA812 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630C227B0E78D000CA812 /* ProfileHeaderView.swift */; };
+		745630C527B0ECE0000CA812 /* ProfileCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630C427B0ECE0000CA812 /* ProfileCellItem.swift */; };
 		74A22596276CD625002DB300 /* UnsplashAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22595276CD625002DB300 /* UnsplashAPIManager.swift */; };
 		74A22598276CDAF0002DB300 /* PasingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22597276CDAF0002DB300 /* PasingManager.swift */; };
 		74A2259C276CE0CB002DB300 /* SearchPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259B276CE0CB002DB300 /* SearchPhoto.swift */; };
 		74A2259E276ECB7F002DB300 /* ImageListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259D276ECB7F002DB300 /* ImageListViewCell.swift */; };
-		74A225A0276ECBE1002DB300 /* Extension + UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259F276ECBE1002DB300 /* Extension + UITableView.swift */; };
+		74A225A0276ECBE1002DB300 /* Extension + UICollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259F276ECBE1002DB300 /* Extension + UICollectionReusableView.swift */; };
 		74A225A6276ED23D002DB300 /* HierarchySetupable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225A5276ED23D002DB300 /* HierarchySetupable.swift */; };
 		74A225A8277048CE002DB300 /* UnsplashRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225A7277048CE002DB300 /* UnsplashRouter.swift */; };
 		74A225AA277053DA002DB300 /* UnsplashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A225A9277053DA002DB300 /* UnsplashParameter.swift */; };
@@ -83,11 +85,13 @@
 		745630B227AF8B93000CA812 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		745630BE27B0BC08000CA812 /* Extention + UICollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extention + UICollectionViewLayout.swift"; sourceTree = "<group>"; };
 		745630C027B0BC33000CA812 /* InformationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationCell.swift; sourceTree = "<group>"; };
+		745630C227B0E78D000CA812 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		745630C427B0ECE0000CA812 /* ProfileCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCellItem.swift; sourceTree = "<group>"; };
 		74A22595276CD625002DB300 /* UnsplashAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPIManager.swift; sourceTree = "<group>"; };
 		74A22597276CDAF0002DB300 /* PasingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasingManager.swift; sourceTree = "<group>"; };
 		74A2259B276CE0CB002DB300 /* SearchPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhoto.swift; sourceTree = "<group>"; };
 		74A2259D276ECB7F002DB300 /* ImageListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImageListViewCell.swift; path = Unsplash/Controller/ImageListCell/ImageListViewCell.swift; sourceTree = SOURCE_ROOT; };
-		74A2259F276ECBE1002DB300 /* Extension + UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITableView.swift"; sourceTree = "<group>"; };
+		74A2259F276ECBE1002DB300 /* Extension + UICollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UICollectionReusableView.swift"; sourceTree = "<group>"; };
 		74A225A5276ED23D002DB300 /* HierarchySetupable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchySetupable.swift; sourceTree = "<group>"; };
 		74A225A7277048CE002DB300 /* UnsplashRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashRouter.swift; sourceTree = "<group>"; };
 		74A225A9277053DA002DB300 /* UnsplashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashParameter.swift; sourceTree = "<group>"; };
@@ -181,7 +185,7 @@
 		74A225A3276ED0FC002DB300 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				74A2259F276ECBE1002DB300 /* Extension + UITableView.swift */,
+				74A2259F276ECBE1002DB300 /* Extension + UICollectionReusableView.swift */,
 				74A225C4277188EA002DB300 /* Extension + URL.swift */,
 				74CE8D31277560AB008BD593 /* Extention + Notification.Name.swift */,
 				74CE8D3327759634008BD593 /* Extension + Int.swift */,
@@ -264,6 +268,7 @@
 			children = (
 				745630AE27ACC5E4000CA812 /* LoginView.swift */,
 				745630C027B0BC33000CA812 /* InformationCell.swift */,
+				745630C227B0E78D000CA812 /* ProfileHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -335,6 +340,7 @@
 				74A2259B276CE0CB002DB300 /* SearchPhoto.swift */,
 				74A225C62771FF78002DB300 /* PhotoLike.swift */,
 				74A225DC277354DB002DB300 /* Profile.swift */,
+				745630C427B0ECE0000CA812 /* ProfileCellItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -517,7 +523,7 @@
 				745630AF27ACC5E4000CA812 /* LoginView.swift in Sources */,
 				74A225D627730866002DB300 /* ProfileViewController.swift in Sources */,
 				74A225C32771750C002DB300 /* OAuth2ViewController.swift in Sources */,
-				74A225A0276ECBE1002DB300 /* Extension + UITableView.swift in Sources */,
+				74A225A0276ECBE1002DB300 /* Extension + UICollectionReusableView.swift in Sources */,
 				74CE8D3C2775A6EC008BD593 /* Extension + UIViewController.swift in Sources */,
 				74BCE1BF276C703B0093B1E6 /* SearchViewController.swift in Sources */,
 				745630B127ACCA55000CA812 /* Extension + UIFont.swift in Sources */,
@@ -534,11 +540,13 @@
 				74A225A6276ED23D002DB300 /* HierarchySetupable.swift in Sources */,
 				74CE8D3427759634008BD593 /* Extension + Int.swift in Sources */,
 				74A225A8277048CE002DB300 /* UnsplashRouter.swift in Sources */,
+				745630C327B0E78D000CA812 /* ProfileHeaderView.swift in Sources */,
 				74A225AA277053DA002DB300 /* UnsplashParameter.swift in Sources */,
 				74CE8D3A27759F16008BD593 /* Extension + UIAlertController.swift in Sources */,
 				74BCE1EB276C75380093B1E6 /* UnsplashTabbarController.swift in Sources */,
 				745630AD27ACC55D000CA812 /* ProfileViewModel.swift in Sources */,
 				745630C127B0BC33000CA812 /* InformationCell.swift in Sources */,
+				745630C527B0ECE0000CA812 /* ProfileCellItem.swift in Sources */,
 				74A225AC2770642B002DB300 /* UnsplashInterceptor.swift in Sources */,
 				74A225DD277354DB002DB300 /* Profile.swift in Sources */,
 				74A225C72771FF78002DB300 /* PhotoLike.swift in Sources */,

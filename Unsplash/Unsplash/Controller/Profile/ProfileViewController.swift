@@ -22,6 +22,10 @@ final class ProfileViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(InformationCell.self,
                                 forCellWithReuseIdentifier: InformationCell.cellID)
+        collectionView.register(ProfileHeaderView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileHeaderView.cellID)
+        collectionView.register(ImageListViewCell.self,
+                                forCellWithReuseIdentifier: ImageListViewCell.cellID)
         collectionView.clipsToBounds = false
         collectionView.backgroundColor = .clear
         
@@ -39,7 +43,7 @@ final class ProfileViewController: UIViewController {
         return view
     }()
     
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionProfile>?
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<ProfileSectionModel>?
     
     //MARK: View Life Cycle
     override func viewDidLoad() {
@@ -88,15 +92,37 @@ extension ProfileViewController: HierarchySetupable {
     }
     
     private func configureDataSource() {
-        dataSource = RxCollectionViewSectionedReloadDataSource { _, collectionView, row, model in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InformationCell.cellID, for: row) as! InformationCell
+        dataSource = RxCollectionViewSectionedReloadDataSource { dataSource, collectionView, indexPath, model in
+            switch dataSource[indexPath] {
+            case .profile(let profile):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InformationCell.cellID, for: indexPath) as! InformationCell
+                
+                cell.configureCell(userName: profile.userName,
+                                   profileURL: profile.profileImage?.mediumURL,
+                                   totalLikes: String(profile.totalLikes),
+                                   totalPhotos: String(profile.totalPhotos),
+                                   totalCollections: String(profile.totalCollections))
+                return cell
+                
+            case .photo(let photo):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageListViewCell.cellID, for: indexPath) as! ImageListViewCell
+                
+                cell.configure(id: photo.id,
+                               photographerName: photo.profile.userName,
+                               likeCount: String(photo.likes),
+                               isUserLike: photo.isUserLike,
+                               imageUrl: photo.urls.regularURL)
+                
+                return cell
+            }
+        }
+        
+        dataSource?.configureSupplementaryView = { _, collectionView, kind, indexPath in
             
-            cell.configureCell(userName: model.name,
-                               profileURL: model.profileImage?.mediumURL,
-                               totalLikes: String(model.totalLikes),
-                               totalPhotos: String(model.totalPhotos),
-                               totalCollections: String(model.totalCollections))
-            return cell
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeaderView.cellID, for: indexPath) as! ProfileHeaderView
+            headerView.configureCell(title: "Likes")
+            
+            return headerView
         }
     }
 }
@@ -143,6 +169,7 @@ extension ProfileViewController {
         
         collectionView.rx.willDisplayCell
             .map { _ in false }
+            .distinctUntilChanged()
             .bind(to: backgroundView.rx.isHidden)
             .disposed(by: disposeBag)
     }
