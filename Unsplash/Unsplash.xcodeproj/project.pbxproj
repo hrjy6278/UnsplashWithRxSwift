@@ -15,6 +15,8 @@
 		745630AF27ACC5E4000CA812 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630AE27ACC5E4000CA812 /* LoginView.swift */; };
 		745630B127ACCA55000CA812 /* Extension + UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630B027ACCA55000CA812 /* Extension + UIFont.swift */; };
 		745630B327AF8B93000CA812 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630B227AF8B93000CA812 /* ColumnFlowLayout.swift */; };
+		745630BF27B0BC08000CA812 /* Extention + UICollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630BE27B0BC08000CA812 /* Extention + UICollectionViewLayout.swift */; };
+		745630C127B0BC33000CA812 /* InformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630C027B0BC33000CA812 /* InformationCell.swift */; };
 		74A22596276CD625002DB300 /* UnsplashAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22595276CD625002DB300 /* UnsplashAPIManager.swift */; };
 		74A22598276CDAF0002DB300 /* PasingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22597276CDAF0002DB300 /* PasingManager.swift */; };
 		74A2259C276CE0CB002DB300 /* SearchPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259B276CE0CB002DB300 /* SearchPhoto.swift */; };
@@ -80,6 +82,8 @@
 		745630AE27ACC5E4000CA812 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		745630B027ACCA55000CA812 /* Extension + UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Extension + UIFont.swift"; path = "Unsplash/Supporting/Extension/Extension + UIFont.swift"; sourceTree = SOURCE_ROOT; };
 		745630B227AF8B93000CA812 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
+		745630BE27B0BC08000CA812 /* Extention + UICollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extention + UICollectionViewLayout.swift"; sourceTree = "<group>"; };
+		745630C027B0BC33000CA812 /* InformationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationCell.swift; sourceTree = "<group>"; };
 		74A22595276CD625002DB300 /* UnsplashAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPIManager.swift; sourceTree = "<group>"; };
 		74A22597276CDAF0002DB300 /* PasingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasingManager.swift; sourceTree = "<group>"; };
 		74A2259B276CE0CB002DB300 /* SearchPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhoto.swift; sourceTree = "<group>"; };
@@ -186,6 +190,7 @@
 				74CE8D3927759F16008BD593 /* Extension + UIAlertController.swift */,
 				74CE8D3B2775A6EC008BD593 /* Extension + UIViewController.swift */,
 				745630B027ACCA55000CA812 /* Extension + UIFont.swift */,
+				745630BE27B0BC08000CA812 /* Extention + UICollectionViewLayout.swift */,
 				74BF06F32797E213001DBD14 /* Extension + Rx.swift */,
 			);
 			path = Extension;
@@ -260,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				745630AE27ACC5E4000CA812 /* LoginView.swift */,
+				745630C027B0BC33000CA812 /* InformationCell.swift */,
 				74A225D927732A6E002DB300 /* ProfileHeaderView.swift */,
 			);
 			path = View;
@@ -506,6 +512,7 @@
 				745630B327AF8B93000CA812 /* ColumnFlowLayout.swift in Sources */,
 				74A225CC2772C5C1002DB300 /* UnsplashImagesView.swift in Sources */,
 				74A2259E276ECB7F002DB300 /* ImageListViewCell.swift in Sources */,
+				745630BF27B0BC08000CA812 /* Extention + UICollectionViewLayout.swift in Sources */,
 				74A22596276CD625002DB300 /* UnsplashAPIManager.swift in Sources */,
 				74A225B82770A781002DB300 /* UnsplashAccessToken.swift in Sources */,
 				74A225C5277188EA002DB300 /* Extension + URL.swift in Sources */,
@@ -535,6 +542,7 @@
 				74CE8D3A27759F16008BD593 /* Extension + UIAlertController.swift in Sources */,
 				74BCE1EB276C75380093B1E6 /* UnsplashTabbarController.swift in Sources */,
 				745630AD27ACC55D000CA812 /* ProfileViewModel.swift in Sources */,
+				745630C127B0BC33000CA812 /* InformationCell.swift in Sources */,
 				74A225AC2770642B002DB300 /* UnsplashInterceptor.swift in Sources */,
 				74A225DD277354DB002DB300 /* Profile.swift in Sources */,
 				74A225C72771FF78002DB300 /* PhotoLike.swift in Sources */,

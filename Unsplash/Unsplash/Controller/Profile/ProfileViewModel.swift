@@ -6,6 +6,9 @@
 //
 
 import RxSwift
+import RxDataSources
+
+typealias SectionProfile = SectionModel<String, Profile>
 
 final class ProfileViewModel: ViewModelType {
     private var page: Int = .initialPage
@@ -20,6 +23,7 @@ final class ProfileViewModel: ViewModelType {
         let barButtonTitle: Observable<String>
         let isLogin: Observable<Bool>
         let loginProgress: Observable<Void>
+        let profileModel: Observable<[SectionProfile]>
     }
     
 }
@@ -28,25 +32,35 @@ extension ProfileViewModel {
     func bind(input: Input) -> Output {
         let barButtonTitle = BehaviorSubject<String>(value: "")
         let isTokenSaved = TokenManager.shared.isTokenSaved.share(replay: 1)
-        let loginProgress = input.loginButtonTaped.withLatestFrom(isTokenSaved)
+        let loginProgress = PublishSubject<Void>()
+        
+        let profileModel = isTokenSaved
+            .filter { $0 == true }
+            .withUnretained(self)
+            .flatMap { `self`, _ in  `self`.networkService.fetchUserProfile() }
+            .map { profile in [SectionProfile(model: "Profile", items: [profile])] }
+            .observe(on: MainScheduler.instance)
         
         isTokenSaved
             .flatMap { $0 ? Observable.just("로그아웃") : Observable.just("로그인") }
             .bind(to: barButtonTitle)
             .disposed(by: disposeBag)
         
-        let notLogin = loginProgress
-            .filter { $0 == false }
-            .distinctUntilChanged()
-            .map { _ in }
-        
-        loginProgress
-            .filter { $0 == true }
-            .subscribe(onNext: { _ in TokenManager.shared.clearAccessToken() })
+        input.loginButtonTaped
+            .subscribe(onNext: {
+                guard let isToken = try? TokenManager.shared.isTokenSaved.value() else { return }
+                
+                if isToken {
+                    TokenManager.shared.clearAccessToken()
+                } else {
+                    loginProgress.onNext(())
+                }
+            })
             .disposed(by: disposeBag)
         
         return Output(barButtonTitle: barButtonTitle,
                       isLogin: isTokenSaved,
-                      loginProgress: notLogin)
+                      loginProgress: loginProgress,
+                      profileModel: profileModel)
     }
 }
