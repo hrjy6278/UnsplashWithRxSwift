@@ -90,10 +90,10 @@ extension ImageListViewCell: HierarchySetupable {
         let shadowOpacity: Float = 0.40
         let shadowOffsetHeight: CGFloat = 5
         
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowRadius = shadowRadius
-        layer.shadowOpacity = shadowOpacity
-        layer.shadowOffset = CGSize(width: .zero, height: shadowOffsetHeight)
+        layer.configurationShadow(color: .black,
+                                  radius: shadowRadius,
+                                  opacity: shadowOpacity,
+                                  offset: CGSize(width: .zero, height: shadowOffsetHeight))
         layer.shadowPath = UIBezierPath(roundedRect: bounds,
                                         cornerRadius: shadowRadius).cgPath
         

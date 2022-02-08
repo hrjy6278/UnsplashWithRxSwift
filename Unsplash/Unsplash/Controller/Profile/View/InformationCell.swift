@@ -191,10 +191,10 @@ extension InformationCell: HierarchySetupable {
         let shadowOpacity: Float = 0.2
         let shadowOffsetHeight: CGFloat = 1
         
-        layer.shadowColor = UIColor.darkGray.cgColor
-        layer.shadowRadius = shadowRadius
-        layer.shadowOpacity = shadowOpacity
-        layer.shadowOffset = CGSize(width: .zero, height: shadowOffsetHeight)
+        layer.configurationShadow(color: .darkGray,
+                                  radius: shadowRadius,
+                                  opacity: shadowOpacity,
+                                  offset: CGSize(width: .zero, height: shadowOffsetHeight))
         layer.shadowPath = UIBezierPath(roundedRect: bounds,
                                         cornerRadius: shadowRadius).cgPath
         
