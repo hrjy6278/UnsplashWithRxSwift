@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class InformationCell: UICollectionViewCell {
+class ProfileCell: UICollectionViewCell {
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -139,7 +139,7 @@ class InformationCell: UICollectionViewCell {
     }
 }
 
-extension InformationCell: HierarchySetupable {
+extension ProfileCell: HierarchySetupable {
     func setupViewHierarchy() {
         likesStackView.addArrangedSubview(totalLikesCountLabel)
         likesStackView.addArrangedSubview(likesDescriptionLabel)

@@ -20,8 +20,8 @@ final class ProfileViewController: UIViewController {
         let collectionView = UICollectionView.init(frame: .zero,
                                                    collectionViewLayout: .createCompositinalLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(InformationCell.self,
-                                forCellWithReuseIdentifier: InformationCell.cellID)
+        collectionView.register(ProfileCell.self,
+                                forCellWithReuseIdentifier: ProfileCell.cellID)
         collectionView.register(ProfileHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileHeaderView.cellID)
         collectionView.register(ImageListViewCell.self,
@@ -95,7 +95,7 @@ extension ProfileViewController: HierarchySetupable {
         dataSource = RxCollectionViewSectionedReloadDataSource { dataSource, collectionView, indexPath, model in
             switch dataSource[indexPath] {
             case .profile(let profile):
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InformationCell.cellID, for: indexPath) as! InformationCell
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.cellID, for: indexPath) as! ProfileCell
                 
                 cell.configureCell(userName: profile.userName,
                                    profileURL: profile.profileImage?.mediumURL,
