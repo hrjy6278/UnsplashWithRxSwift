@@ -7,6 +7,8 @@
 
 import UIKit
 import Kingfisher
+import RxSwift
+import RxCocoa
 
 class ProfileCell: UICollectionViewCell {
     private let profileImageView: UIImageView = {
@@ -126,11 +128,28 @@ class ProfileCell: UICollectionViewCell {
         return stackView
     }()
     
+    private let profileEditButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Profile Edit", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.titleLabel?.font = .generateFont(font: .SDGothichRegular, size: 14)
+        
+        return button
+    }()
+    
+    var editButtonTap: Observable<Void> {
+        profileEditButton.rx.tap.map { _ in }
+    }
+    
+    let disposeBag = DisposeBag()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
         setupLayer()
         contentView.backgroundColor = .white
+        profileEditButton.animateWhenPressed(disposeBag: disposeBag)
     }
     
     required init?(coder: NSCoder) {
@@ -157,18 +176,29 @@ extension ProfileCell: HierarchySetupable {
         contentView.addSubview(containerStackView)
         contentView.addSubview(profileImageView)
         contentView.addSubview(namaLabel)
+        contentView.addSubview(profileEditButton)
     }
     
     func setupLayout() {
         NSLayoutConstraint.activate([
             profileImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            profileImageView.topAnchor.constraint(equalTo: topAnchor,constant: -30),
-            namaLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor,constant: 8),
+            profileImageView.topAnchor.constraint(equalTo: topAnchor, constant: -30),
+            
+            namaLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor,
+                                           constant: 8),
             namaLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
             containerStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                        constant: 16),
+            containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                         constant: -16),
+            containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                       constant: -8),
+            
+            profileEditButton.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            profileEditButton.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                        constant: -8)
         ])
     }
     
