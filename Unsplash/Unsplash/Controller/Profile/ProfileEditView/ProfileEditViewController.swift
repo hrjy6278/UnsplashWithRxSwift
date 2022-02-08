@@ -13,5 +13,13 @@ class ProfileEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        configureNavigationView()
+    }
+}
+
+extension ProfileEditViewController {
+    private func configureNavigationView() {
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.title = "Profile Edit"
     }
 }

@@ -142,7 +142,7 @@ class ProfileCell: UICollectionViewCell {
         profileEditButton.rx.tap.map { _ in }
     }
     
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -155,6 +155,15 @@ class ProfileCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         fatalError("스토리보드는 지원하지 않습니다.")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+        profileImageView.image = nil
+        totalLikesCountLabel.text = nil
+        totalPhotosCountLabel.text = nil
+        totalCollectionsCountLabel.text = nil
     }
 }
 
