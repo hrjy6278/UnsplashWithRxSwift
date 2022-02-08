@@ -21,6 +21,8 @@
 		745630C527B0ECE0000CA812 /* ProfileSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630C427B0ECE0000CA812 /* ProfileSectionModel.swift */; };
 		7458C65427B23813003900BC /* Extension + CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7458C65327B23813003900BC /* Extension + CALayer.swift */; };
 		7458C65627B24221003900BC /* Extension + UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7458C65527B24221003900BC /* Extension + UIButton.swift */; };
+		7458C65827B244A0003900BC /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7458C65727B244A0003900BC /* ProfileEditViewController.swift */; };
+		7458C65B27B244E7003900BC /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7458C65A27B244E7003900BC /* ProfileEditViewModel.swift */; };
 		74A22596276CD625002DB300 /* UnsplashAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22595276CD625002DB300 /* UnsplashAPIManager.swift */; };
 		74A22598276CDAF0002DB300 /* PasingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22597276CDAF0002DB300 /* PasingManager.swift */; };
 		74A2259C276CE0CB002DB300 /* SearchPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259B276CE0CB002DB300 /* SearchPhoto.swift */; };
@@ -91,6 +93,8 @@
 		745630C427B0ECE0000CA812 /* ProfileSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSectionModel.swift; sourceTree = "<group>"; };
 		7458C65327B23813003900BC /* Extension + CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + CALayer.swift"; sourceTree = "<group>"; };
 		7458C65527B24221003900BC /* Extension + UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIButton.swift"; sourceTree = "<group>"; };
+		7458C65727B244A0003900BC /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
+		7458C65A27B244E7003900BC /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
 		74A22595276CD625002DB300 /* UnsplashAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPIManager.swift; sourceTree = "<group>"; };
 		74A22597276CDAF0002DB300 /* PasingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasingManager.swift; sourceTree = "<group>"; };
 		74A2259B276CE0CB002DB300 /* SearchPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhoto.swift; sourceTree = "<group>"; };
@@ -164,6 +168,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7458C65927B244CF003900BC /* ProfileEditView */ = {
+			isa = PBXGroup;
+			children = (
+				7458C65A27B244E7003900BC /* ProfileEditViewModel.swift */,
+				7458C65727B244A0003900BC /* ProfileEditViewController.swift */,
+			);
+			path = ProfileEditView;
+			sourceTree = "<group>";
+		};
 		74A22594276CD612002DB300 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +256,7 @@
 		74A225C927722A74002DB300 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				7458C65927B244CF003900BC /* ProfileEditView */,
 				74A225DB27732A71002DB300 /* View */,
 				745630AC27ACC55D000CA812 /* ProfileViewModel.swift */,
 				74A225D527730866002DB300 /* ProfileViewController.swift */,
@@ -539,11 +553,13 @@
 				74BCE1BB276C703B0093B1E6 /* AppDelegate.swift in Sources */,
 				74A2259C276CE0CB002DB300 /* SearchPhoto.swift in Sources */,
 				74A225BD2770BEA1002DB300 /* KeyChainQueryable.swift in Sources */,
+				7458C65827B244A0003900BC /* ProfileEditViewController.swift in Sources */,
 				74A225BB2770B93A002DB300 /* TokenManager.swift in Sources */,
 				74BF06F42797E213001DBD14 /* Extension + Rx.swift in Sources */,
 				74BCE1BD276C703B0093B1E6 /* SceneDelegate.swift in Sources */,
 				74BF06F62797FCB8001DBD14 /* OAuth2ViewModel.swift in Sources */,
 				74CE8D32277560AB008BD593 /* Extention + Notification.Name.swift in Sources */,
+				7458C65B27B244E7003900BC /* ProfileEditViewModel.swift in Sources */,
 				74A225BF2770BF93002DB300 /* TokenQuery.swift in Sources */,
 				74A225A6276ED23D002DB300 /* HierarchySetupable.swift in Sources */,
 				74CE8D3427759634008BD593 /* Extension + Int.swift in Sources */,

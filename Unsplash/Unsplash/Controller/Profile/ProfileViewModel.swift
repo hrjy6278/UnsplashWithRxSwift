@@ -10,24 +10,42 @@ import RxDataSources
 import Foundation
 
 final class ProfileViewModel: ViewModelType {
+    //MARK: Properties
     private let networkService = UnsplashAPIManager()
     private let disposeBag = DisposeBag()
+    private var profile: Profile?
     
+    //MARK: - Input
+    enum InputAction {
+        case profileEditButtonTaped
+    }
+    
+    func inputAction(_ action: InputAction) {
+        switch action {
+        case .profileEditButtonTaped:
+            guard let profile = profile else { return }
+            let profileViewModel = ProfileEditViewModel(profile: profile)
+            profileEditPresent.onNext(profileViewModel)
+        }
+    }
     struct Input {
         let loginButtonTaped: Observable<Void>
         let viewWillAppear: Observable<Void>
         let likePhotoItemIndexPath: Observable<IndexPath>
     }
     
+    //MARK: - Output
     struct Output {
         let barButtonTitle: Observable<String>
         let isLogin: Observable<Bool>
         let loginProgress: Observable<Void>
         let profileModel: Observable<[ProfileSectionModel]>
     }
+    let profileEditPresent = PublishSubject<ProfileEditViewModel>()
     
 }
 
+//MARK: - Bind
 extension ProfileViewModel {
     func bind(input: Input) -> Output {
         let barButtonTitle = BehaviorSubject<String>(value: "")
@@ -47,7 +65,8 @@ extension ProfileViewModel {
             .filter { $0 == true }
             .withUnretained(self)
             .flatMap { `self`, _ in `self`.networkService.fetchUserProfile() }
-            .do(onNext: { profile in
+            .do(onNext: { [weak self] profile in
+                self?.profile = profile
                 likePhotos.onNext([])
                 currentPage = .initialPage
                 totalPage = .zero

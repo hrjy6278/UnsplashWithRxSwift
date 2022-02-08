@@ -102,6 +102,11 @@ extension ProfileViewController: HierarchySetupable {
                                    totalLikes: String(profile.totalLikes),
                                    totalPhotos: String(profile.totalPhotos),
                                    totalCollections: String(profile.totalCollections))
+                cell.editButtonTap
+                    .subscribe(onNext: { [weak self] _ in
+                        self?.viewModel.inputAction(.profileEditButtonTaped)
+                    })
+                    .disposed(by: cell.disposeBag)
                 
                 return cell
             case .photo(let photo):
@@ -172,6 +177,15 @@ extension ProfileViewController {
             .map { _ in false }
             .distinctUntilChanged()
             .bind(to: backgroundView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.profileEditPresent
+            .subscribe(onNext: { [weak self] viewModel in
+                let editViewController = ProfileEditViewController()
+                editViewController.viewModel = viewModel
+            
+                self?.present(editViewController, animated: true)
+            })
             .disposed(by: disposeBag)
     }
 }
