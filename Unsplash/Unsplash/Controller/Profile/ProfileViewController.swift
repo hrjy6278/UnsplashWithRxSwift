@@ -136,7 +136,8 @@ extension ProfileViewController {
             .map { _ in }
         
         let intput = ProfileViewModel.Input(loginButtonTaped: loginButtonTaped,
-                                            viewWillAppear: viewWillAppear)
+                                            viewWillAppear: viewWillAppear,
+                                            likePhotoItemIndexPath: UICollectionViewLayout.visibleItemIndexPath)
         
         let output = viewModel.bind(input: intput)
         

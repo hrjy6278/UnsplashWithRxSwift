@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 
 extension UICollectionViewLayout {
-    static let visibleItemSubject = PublishSubject<([NSCollectionLayoutVisibleItem], CGPoint, NSCollectionLayoutEnvironment)>()
+    static let visibleItemIndexPath = PublishSubject<IndexPath>()
     
     static var createProfileSizeSection: NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
@@ -60,7 +60,8 @@ extension UICollectionViewLayout {
         section.boundarySupplementaryItems = [header]
         section.orthogonalScrollingBehavior = .paging
         section.visibleItemsInvalidationHandler = { visibleItems, point, environment in
-            visibleItemSubject.onNext((visibleItems, point, environment))
+            guard let indexPath = visibleItems.last?.indexPath else { return }
+            visibleItemIndexPath.onNext(indexPath)
         }
         
         return section

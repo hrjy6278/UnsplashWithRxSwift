@@ -32,7 +32,7 @@ extension UnsplashAPIManager {
         
         return Observable.create { observer in
             let request =  self.sessionManager.request(UnsplashRouter.searchPhotos(query: query,
-                                                                             page: page))
+                                                                                   page: page))
                 .responseData { responseData in
                     switch responseData.result {
                     case .success(let data):
@@ -78,15 +78,15 @@ extension UnsplashAPIManager {
     
     func photoLike(id: String) -> Observable<PhotoLike> {
         return Observable.create { observer in
-           let request = self.sessionManager.request(UnsplashRouter.photoLike(id: id)).responseDecodable(of: PhotoLike.self) { responseJson in
-                    switch responseJson.result {
-                    case .success(let decodedPhoto):
-                        observer.onNext(decodedPhoto)
-                        observer.onCompleted()
-                    case .failure(let error):
-                        observer.onError(error)
-                    }
+            let request = self.sessionManager.request(UnsplashRouter.photoLike(id: id)).responseDecodable(of: PhotoLike.self) { responseJson in
+                switch responseJson.result {
+                case .success(let decodedPhoto):
+                    observer.onNext(decodedPhoto)
+                    observer.onCompleted()
+                case .failure(let error):
+                    observer.onError(error)
                 }
+            }
             return Disposables.create {
                 request.cancel()
             }
@@ -95,7 +95,7 @@ extension UnsplashAPIManager {
     
     func photoUnlike(id: String) -> Observable<PhotoLike> {
         return Observable.create { observer in
-           let request = self.sessionManager.request(UnsplashRouter.photoUnlike(id: id))
+            let request = self.sessionManager.request(UnsplashRouter.photoUnlike(id: id))
                 .responseDecodable(of: PhotoLike.self) { responseJson in
                     switch responseJson.result {
                     case .success(let decodedPhoto):
@@ -110,12 +110,12 @@ extension UnsplashAPIManager {
                 request.cancel()
             }
         }
-
+        
     }
     
     func fetchUserProfile() -> Observable<Profile> {
         return Observable.create { observer in
-           let request = self.sessionManager.request(UnsplashRouter.myProfile)
+            let request = self.sessionManager.request(UnsplashRouter.myProfile)
                 .responseDecodable(of: Profile.self) { responseJson in
                     switch responseJson.result {
                     case .success(let profile):
@@ -133,26 +133,30 @@ extension UnsplashAPIManager {
         }
     }
     
-    func fetchUserLikePhotos(userName: String, page: Int) -> Observable<[Photo]> {
+    func fetchUserLikePhotos(userName: String, page: Int) -> Observable<([Photo], Int)> {
         guard isFetching == false else { return Observable.empty() }
-
+        
         isFetching = true
         
         return Observable.create { observer in
-            let request = self.sessionManager.request(UnsplashRouter.userLikePhotos(userName: userName,
-                                                                                  page: page))
-                .responseDecodable(of: [Photo].self) { responseData in
-                    
-                    self.isFetching = false
-                    switch responseData.result {
-                    case .success(let photos):
-                        observer.onNext(photos)
-                        observer.onCompleted()
-                    case .failure(let error):
-                        observer.onError(error)
-                    }
-                }
+            let request = self.sessionManager
+                .request(UnsplashRouter.userLikePhotos(userName: userName,
+                                                       page: page))
             
+            request.responseDecodable(of: [Photo].self) { responseData in
+                guard let headerValue = request.response?.value(forHTTPHeaderField: "x-total"),
+                      let totalPage = Int(headerValue) else { return }
+                
+                switch responseData.result {
+                case .success(let photos):
+                    observer.onNext((photos, totalPage))
+                    observer.onCompleted()
+                case .failure(let error):
+                    observer.onError(error)
+                }
+                
+                self.isFetching = false
+            }
             return Disposables.create {
                 request.cancel()
             }

@@ -10,7 +10,7 @@ import RxDataSources
 
 enum ProfileSectionModel {
     case profile(items: [ProfileItem])
-    case photo(items: [ProfileItem])
+    case photos(items: [ProfileItem])
 }
 
 enum ProfileItem {
@@ -23,7 +23,7 @@ extension ProfileSectionModel: SectionModelType {
     
     var items: [ProfileItem] {
         switch self {
-        case .photo(let items):
+        case .photos(let items):
             return items.map { $0 }
         case .profile(let items):
             return items.map { $0 }
@@ -34,8 +34,8 @@ extension ProfileSectionModel: SectionModelType {
         switch original {
         case .profile:
             self = .profile(items: items)
-        case .photo:
-            self = .photo(items: items)
+        case .photos:
+            self = .photos(items: items)
         }
     }
 }
