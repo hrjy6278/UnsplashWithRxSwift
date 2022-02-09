@@ -13,12 +13,20 @@ class ProfileEditViewController: UIViewController {
     private let disposeBag = DisposeBag()
     var viewModel: ProfileEditViewModel?
     
+    @IBOutlet weak var userNameTextField: UITextField!
+    @IBOutlet weak var firstNameTextFiedl: UITextField!
+    @IBOutlet weak var lastNameTextField: UITextField!
+    @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var bioTextView: UITextView!
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureKeyboardHeight()
+        configureButtons()
     }
 }
 
@@ -40,5 +48,29 @@ extension ProfileEditViewController {
                 self.scrollView.contentOffset.y += keyboardVisibleHeight
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func configureButtons() {
+        saveButton.layer.cornerRadius = 10
+        saveButton.layer.masksToBounds = false
+        saveButton.backgroundColor = .white
+        
+        cancelButton.layer.cornerRadius = 10
+        cancelButton.layer.masksToBounds = false
+        cancelButton.backgroundColor = .white
+        
+        let shadowColor = UIColor.black
+        let shadowRadius: CGFloat = 1
+        let shadowOpacity: Float = 0.3
+        let shadowOffset = CGSize(width: .zero, height: 1)
+
+        saveButton.layer.configurationShadow(color: shadowColor,
+                                             radius: shadowRadius,
+                                             opacity: shadowOpacity,
+                                             offset: shadowOffset)
+        cancelButton.layer.configurationShadow(color: shadowColor,
+                                               radius: shadowRadius,
+                                               opacity: shadowOpacity,
+                                               offset: shadowOffset)
     }
 }
