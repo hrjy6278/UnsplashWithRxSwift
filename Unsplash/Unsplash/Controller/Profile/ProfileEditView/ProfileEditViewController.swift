@@ -110,27 +110,13 @@ extension ProfileEditViewController {
     }
     
     private func configureButtons() {
-        saveButton.layer.cornerRadius = 10
+        saveButton.layer.cornerRadius = saveButton.bounds.height / 2
         saveButton.layer.masksToBounds = false
-        saveButton.backgroundColor = .white
         
-        cancelButton.layer.cornerRadius = 10
+        cancelButton.layer.cornerRadius = cancelButton.bounds.height / 2
         cancelButton.layer.masksToBounds = false
-        cancelButton.backgroundColor = .white
-        
-        let shadowColor = UIColor.black
-        let shadowRadius: CGFloat = 1
-        let shadowOpacity: Float = 0.3
-        let shadowOffset = CGSize(width: .zero, height: 1)
-        
-        saveButton.layer.configurationShadow(color: shadowColor,
-                                             radius: shadowRadius,
-                                             opacity: shadowOpacity,
-                                             offset: shadowOffset)
-        cancelButton.layer.configurationShadow(color: shadowColor,
-                                               radius: shadowRadius,
-                                               opacity: shadowOpacity,
-                                               offset: shadowOffset)
+        cancelButton.layer.borderColor = UIColor.systemBlue.cgColor
+        cancelButton.layer.borderWidth = 1
     }
     
     private func configureTextField() {
