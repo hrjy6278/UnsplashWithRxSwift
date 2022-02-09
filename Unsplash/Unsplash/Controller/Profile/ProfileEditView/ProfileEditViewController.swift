@@ -6,20 +6,39 @@
 //
 
 import UIKit
+import RxSwift
+import RxKeyboard
 
 class ProfileEditViewController: UIViewController {
+    private let disposeBag = DisposeBag()
     var viewModel: ProfileEditViewModel?
+    
+    @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        configureNavigationView()
+        configureKeyboardHeight()
     }
 }
 
 extension ProfileEditViewController {
-    private func configureNavigationView() {
-        navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = "Profile Edit"
+    private func configureKeyboardHeight() {
+        RxKeyboard.instance.visibleHeight
+            .drive(onNext: { [weak self] keyboardVisibleHeight in
+                guard let self = self else { return }
+                UIView.animate(withDuration: .zero) {
+                    self.scrollView.contentInset.bottom = keyboardVisibleHeight
+                    self.scrollView.verticalScrollIndicatorInsets.bottom = self.scrollView.contentInset.bottom
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        RxKeyboard.instance.willShowVisibleHeight
+            .drive(onNext: { [weak self] keyboardVisibleHeight in
+                guard let self = self else { return }
+                self.scrollView.contentOffset.y += keyboardVisibleHeight
+            })
+            .disposed(by: disposeBag)
     }
 }
