@@ -13,6 +13,7 @@ enum UnsplashParameter {
         case readUser = "read_user"
         case writeLikes = "write_likes"
         case readPhotos = "read_photos"
+        case wirteUser = "write_user"
     }
     
     static let clientID = "UUGSJm9EzJM5tw1ngfNkKSn_OGW26g-O-z5FgLJEPPk"

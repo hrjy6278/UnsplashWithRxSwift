@@ -110,7 +110,6 @@ extension UnsplashAPIManager {
                 request.cancel()
             }
         }
-        
     }
     
     func fetchUserProfile() -> Observable<Profile> {
@@ -162,4 +161,29 @@ extension UnsplashAPIManager {
             }
         }
     }
+    
+    func updateProfile(_ profile: UpdateProfile) -> Observable<Profile> {
+        let request = sessionManager.request(UnsplashRouter.updateProfile(profile))
+        let successStatus = 200...299
+        
+        return Observable.create { observer in
+            request
+                .validate(statusCode: successStatus)
+                .responseDecodable(of: Profile.self) { response in
+                    switch response.result {
+                    case .success(let profile):
+                        observer.onNext(profile)
+                        observer.onCompleted()
+                    case .failure(let error):
+                        observer.onError(error)
+                    }
+                }
+                
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
 }
+
+    

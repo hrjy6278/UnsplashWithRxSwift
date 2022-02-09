@@ -16,10 +16,11 @@ enum UnsplashRouter {
     case photoUnlike(id: String)
     case myProfile
     case userLikePhotos(userName: String, page: Int)
+    case updateProfile(UpdateProfile)
     
     var baseURL: String {
         switch self {
-        case .searchPhotos, .photoLike, .photoUnlike, .myProfile, .userLikePhotos:
+        case .searchPhotos, .photoLike, .photoUnlike, .myProfile, .userLikePhotos, .updateProfile:
             return "https://api.unsplash.com"
         case .fetchAccessToken, .userAuthorize:
             return "https://unsplash.com"
@@ -34,13 +35,12 @@ enum UnsplashRouter {
             return "/photos/\(id)/like"
         case .userLikePhotos(let userName, _):
             return "/users/\(userName)/likes"
-        case .myProfile:
+        case .myProfile, .updateProfile:
             return "/me"
         case .userAuthorize:
             return "/oauth/authorize"
         case .fetchAccessToken:
             return "/oauth/token"
-            
         }
     }
     
@@ -52,6 +52,8 @@ enum UnsplashRouter {
             return .post
         case .photoUnlike:
             return .delete
+        case .updateProfile:
+            return .put
         }
     }
     
@@ -81,6 +83,14 @@ enum UnsplashRouter {
             return ["page": String(page)]
         case .photoLike, .photoUnlike, .myProfile:
             return [:]
+        case .updateProfile(let profile):
+            return [
+                "username": profile.userName,
+                "first_name": profile.firstName,
+                "last_name": profile.lastName,
+                "location": profile.location,
+                "bio": profile.bio
+            ]
         }
     }
 }
@@ -93,7 +103,7 @@ extension UnsplashRouter: URLRequestConvertible {
         request.method = method
         
         switch self {
-        case .searchPhotos, .userAuthorize, .photoLike, .photoUnlike, .myProfile, .userLikePhotos:
+        case .searchPhotos, .userAuthorize, .photoLike, .photoUnlike, .myProfile, .userLikePhotos, .updateProfile:
             let url = request.url?.appendingQueryParameters(parameters)
             request.url = url
         case .fetchAccessToken:
