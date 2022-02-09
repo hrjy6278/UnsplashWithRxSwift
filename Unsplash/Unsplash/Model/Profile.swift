@@ -11,18 +11,24 @@ struct Profile: Decodable {
     let id: String
     let userName: String
     let name: String
+    let firstName: String?
+    let lastName: String?
+    let location: String?
+    let bio: String?
     let profileImage: SelfieImage?
     let totalLikes: Int
     let totalPhotos: Int
     let totalCollections: Int
     
     enum CodingKeys: String, CodingKey {
-        case id,name
+        case id, name, location, bio
         case profileImage = "profile_image"
         case userName = "username"
         case totalLikes = "total_likes"
         case totalPhotos = "total_photos"
         case totalCollections = "total_collections"
+        case firstName = "first_name"
+        case lastName = "last_name"
     }
 }
 

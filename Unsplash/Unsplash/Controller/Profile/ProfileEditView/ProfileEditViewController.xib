@@ -13,9 +13,10 @@
             <connections>
                 <outlet property="bioTextView" destination="2bs-SC-X65" id="Phj-dg-r7k"/>
                 <outlet property="cancelButton" destination="SWa-rV-Ejt" id="HM6-zg-yk5"/>
-                <outlet property="firstNameTextFiedl" destination="fMG-1T-uYT" id="ZaT-UC-9iN"/>
+                <outlet property="firstNameTextField" destination="fMG-1T-uYT" id="ZaT-UC-9iN"/>
                 <outlet property="lastNameTextField" destination="Du2-gT-8sE" id="KBV-0h-gBd"/>
                 <outlet property="locationTextField" destination="zXl-1q-s09" id="2TU-GR-Ejv"/>
+                <outlet property="profileImageView" destination="dvh-cA-uuy" id="xOs-Z8-WN8"/>
                 <outlet property="saveButton" destination="Zyj-O6-BDb" id="EHW-MC-6Z5"/>
                 <outlet property="scrollView" destination="MZV-pF-Czd" id="4Jd-lM-arz"/>
                 <outlet property="userNameTextField" destination="kyL-Zf-Y6m" id="AAb-OM-Q1Q"/>

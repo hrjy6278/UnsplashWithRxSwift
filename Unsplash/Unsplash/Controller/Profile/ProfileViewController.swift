@@ -181,9 +181,8 @@ extension ProfileViewController {
         
         viewModel.profileEditPresent
             .subscribe(onNext: { [weak self] viewModel in
-                let editViewController = ProfileEditViewController()
-                editViewController.viewModel = viewModel
-            
+                let editViewController = ProfileEditViewController(viewModel: viewModel)
+                
                 self?.present(editViewController, animated: true)
             })
             .disposed(by: disposeBag)
