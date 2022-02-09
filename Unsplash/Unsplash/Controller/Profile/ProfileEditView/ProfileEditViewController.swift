@@ -11,6 +11,7 @@ import RxKeyboard
 import Kingfisher
 
 class ProfileEditViewController: UIViewController {
+    //MARK: - Properties
     private let disposeBag = DisposeBag()
     private let viewModel: ProfileEditViewModel
     
@@ -24,11 +25,13 @@ class ProfileEditViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    //MARK: - View Life Cycle And initaililzer
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureKeyboardHeight()
         configureButtons()
+        configureTextField()
         bindViewModel()
     }
     
@@ -128,5 +131,19 @@ extension ProfileEditViewController {
                                                radius: shadowRadius,
                                                opacity: shadowOpacity,
                                                offset: shadowOffset)
+    }
+    
+    private func configureTextField() {
+        userNameTextField.delegate = self
+        firstNameTextField.delegate = self
+        lastNameTextField.delegate = self
+        locationTextField.delegate = self
+    }
+}
+
+extension ProfileEditViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
     }
 }
