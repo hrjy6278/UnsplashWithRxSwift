@@ -13,7 +13,7 @@ final class ProfileViewModel: ViewModelType {
     //MARK: Properties
     private let networkService = UnsplashAPIManager()
     private let disposeBag = DisposeBag()
-    private var profile: Profile?
+    private var profileSubject = BehaviorSubject<Profile?>(value: nil)
     
     //MARK: - Input
     enum InputAction {
@@ -23,9 +23,13 @@ final class ProfileViewModel: ViewModelType {
     func inputAction(_ action: InputAction) {
         switch action {
         case .profileEditButtonTaped:
-            guard let profile = profile else { return }
+            guard let profile = try? profileSubject.value() else { return }
             let profileViewModel = ProfileEditViewModel(profile: profile)
             profileEditPresent.onNext(profileViewModel)
+            
+            profileViewModel.updatedProfile
+                .bind(to: profileSubject)
+                .disposed(by: disposeBag)
         }
     }
     struct Input {
@@ -61,20 +65,23 @@ extension ProfileViewModel {
         let viewWillAppear = input.viewWillAppear.withLatestFrom(isTokenSaved)
             .share(replay: 1)
         
-        let profileSectionModel = viewWillAppear
+        viewWillAppear
             .filter { $0 == true }
             .withUnretained(self)
             .flatMap { `self`, _ in `self`.networkService.fetchUserProfile() }
-            .do(onNext: { [weak self] profile in
-                self?.profile = profile
+            .do(onNext: { profile in
                 likePhotos.onNext([])
                 currentPage = .initialPage
                 totalPage = .zero
                 profileName.onNext(profile.userName)
             })
-            .map { profile in
-                [ProfileSectionModel.profile(items: [.profile(profile)])]
-            }
+            .bind(to: profileSubject)
+            .disposed(by: disposeBag)
+        
+        let profileSectionModel = profileSubject.compactMap { $0 }
+        .map { profile in
+            [ProfileSectionModel.profile(items: [.profile(profile)])]
+        }
         
         let firstPhtoLikeRequest = profileName
             .withUnretained(self)

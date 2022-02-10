@@ -14,6 +14,12 @@ final class ProfileEditViewModel: ViewModelType {
     private let networkService = UnsplashAPIManager()
     private let disposeBag = DisposeBag()
     
+    private let _updatedProfile = PublishSubject<Profile>()
+    
+    var updatedProfile: Observable<Profile> {
+        return _updatedProfile.asObservable()
+    }
+    
     struct Input {
         let userName: Observable<String>
         let firstName: Observable<String>
@@ -95,6 +101,10 @@ extension ProfileEditViewModel {
             .flatMap { viewModel, profile in
                 viewModel.networkService.updateProfile(profile)
             }
+            .do(onNext: { [weak self] profile in
+                self?._updatedProfile.onNext(profile)
+            })
+            .delay(.seconds(1), scheduler: MainScheduler.instance)
             .subscribe(onNext: { _ in
                 isSavedProfile.accept(true)
             })
