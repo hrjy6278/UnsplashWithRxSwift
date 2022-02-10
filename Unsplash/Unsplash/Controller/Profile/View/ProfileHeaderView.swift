@@ -8,7 +8,7 @@
 import UIKit
 
 class ProfileHeaderView: UICollectionReusableView {
-    
+    //MARK: - Properties
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +26,7 @@ class ProfileHeaderView: UICollectionReusableView {
         return label
     }()
     
+    //MARK: - initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -36,6 +37,7 @@ class ProfileHeaderView: UICollectionReusableView {
     }
 }
 
+//MARK: - Configuration Layout
 extension ProfileHeaderView: HierarchySetupable {
     func setupViewHierarchy() {
         addSubview(separator)

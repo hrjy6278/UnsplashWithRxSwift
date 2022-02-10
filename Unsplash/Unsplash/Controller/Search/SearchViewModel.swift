@@ -68,10 +68,10 @@ final class SearchViewModel: ViewModelType {
             
             Observable.merge(likeObservable, unLikeObservable)
                 .withUnretained(self)
-                .subscribe(onNext: { `self`, photoResult in
+                .subscribe(onNext: { viewModel, photoResult in
                     photos[index].isUserLike = photoResult.isUserLike
                     photos[index].likes = photoResult.likes
-                    self.searchPhotosSubject.onNext(photos)
+                    viewModel.searchPhotosSubject.onNext(photos)
                 })
                 .disposed(by: disposeBag)
         }

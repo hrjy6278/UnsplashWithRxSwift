@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class ProfileEditViewModel: ViewModelType {
+    //MARK: - Properties
     private let profile: Profile
     private let networkService = UnsplashAPIManager()
     private let disposeBag = DisposeBag()
@@ -20,6 +21,7 @@ final class ProfileEditViewModel: ViewModelType {
         return _updatedProfile.asObservable()
     }
     
+    //MARK: - Input
     struct Input {
         let userName: Observable<String>
         let firstName: Observable<String>
@@ -29,6 +31,7 @@ final class ProfileEditViewModel: ViewModelType {
         let saveButtonTaped: Observable<Void>
     }
     
+    //MARK: - Output
     struct Output {
         let userName: Driver<String>
         let firstName: Driver<String>
@@ -39,11 +42,13 @@ final class ProfileEditViewModel: ViewModelType {
         let isSavedProfile: Observable<Bool>
     }
     
+    //MARK: - initializer
     init(profile: Profile) {
         self.profile = profile
     }
 }
 
+//MARK: - Bind View
 extension ProfileEditViewModel {
     func bind(input: Input) -> Output {
         let userNameRelay = BehaviorRelay<String>(value: profile.userName)

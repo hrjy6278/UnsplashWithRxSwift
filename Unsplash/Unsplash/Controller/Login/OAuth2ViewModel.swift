@@ -10,22 +10,26 @@ import RxSwift
 import AuthenticationServices
 
 final class OAuth2ViewModel: NSObject, ViewModelType {
+    //MARK: - Properties
     private var authSession: ASWebAuthenticationSession?
     private let networkService = UnsplashAPIManager()
     private let disposeBag = DisposeBag()
     
     private var isLogin = PublishSubject<Bool>()
 
+    //MARK: - Input
     struct Input {
         let viewDidAppear: Observable<Void>
     }
     
+    //MARK: - Output
     struct Output {
         let tryLoginResult: Observable<Bool>
     }
     
 }
 
+//MARK: - Bind
 extension OAuth2ViewModel {
     func bind(input: Input) -> Output {
         input.viewDidAppear
@@ -62,6 +66,7 @@ extension OAuth2ViewModel {
     }
 }
 
+//MARK: ASWeb Authentication Presentation Context Providing
 extension OAuth2ViewModel: ASWebAuthenticationPresentationContextProviding {
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return ASPresentationAnchor()

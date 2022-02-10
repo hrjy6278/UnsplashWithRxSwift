@@ -132,7 +132,8 @@ extension UnsplashAPIManager {
         }
     }
     
-    func fetchUserLikePhotos(userName: String, page: Int) -> Observable<([Photo], Int)> {
+    func fetchUserLikePhotos(userName: String, page: Int) -> Observable<(photo: [Photo],
+                                                                         totalPage: Int)> {
         guard isFetching == false else { return Observable.empty() }
         
         isFetching = true

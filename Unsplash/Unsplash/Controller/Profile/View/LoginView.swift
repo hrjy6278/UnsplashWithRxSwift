@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class LoginView: UIView {
-    //MARK: Properties
+    //MARK: - Properties
     private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +36,7 @@ final class LoginView: UIView {
         return loginButton.rx.tap.asObservable()
     }
     
+    //MARK: - initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
