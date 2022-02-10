@@ -82,8 +82,7 @@ extension ProfileViewModel {
                 userName = name
             })
             .flatMap { viewModel, _ in
-                return viewModel.networkService.fetchUserLikePhotos(userName: userName,
-                                                                    page: currentPage)
+                viewModel.networkService.fetchUserLikePhotos(userName: userName,page: currentPage)
             }
             .do(onNext: { (_, pageCount) in
                 currentPage.addPage()

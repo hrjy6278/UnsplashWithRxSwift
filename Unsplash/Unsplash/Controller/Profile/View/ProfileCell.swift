@@ -221,7 +221,8 @@ extension ProfileCell: HierarchySetupable {
         totalPhotosCountLabel.text = totalPhotos
         totalCollectionsCountLabel.text = totalCollections
         
-        let processor = RoundCornerImageProcessor(cornerRadius: 25)
+        let cornerRadius = profileImageView.bounds.height / 2
+        let processor = RoundCornerImageProcessor(cornerRadius: cornerRadius)
         profileImageView.kf.setImage(with: profileURL,options: [.processor(processor)])
     }
     
