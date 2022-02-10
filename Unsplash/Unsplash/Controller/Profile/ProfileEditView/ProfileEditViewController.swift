@@ -15,6 +15,7 @@ class ProfileEditViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: ProfileEditViewModel
     
+    @IBOutlet weak var loadingActivitiyIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var firstNameTextField: UITextField!
@@ -48,7 +49,19 @@ class ProfileEditViewController: UIViewController {
 //MARK: - BindViewModel
 extension ProfileEditViewController {
     func bindViewModel() {
-        let input = ProfileEditViewModel.Input()
+        let userName = userNameTextField.rx.text.orEmpty.asObservable()
+        let firstName = firstNameTextField.rx.text.orEmpty.asObservable()
+        let lastName = lastNameTextField.rx.text.orEmpty.asObservable()
+        let location = locationTextField.rx.text.orEmpty.asObservable()
+        let bio = bioTextView.rx.text.orEmpty.asObservable()
+        let saveButtonTaped = saveButton.rx.tap.asObservable()
+        
+        let input = ProfileEditViewModel.Input(userName: userName,
+                                               firstName: firstName,
+                                               lastName: lastName,
+                                               location: location,
+                                               bio: bio,
+                                               saveButtonTaped: saveButtonTaped)
         
         let output = viewModel.bind(input: input)
         
@@ -72,10 +85,20 @@ extension ProfileEditViewController {
             .drive(bioTextView.rx.text)
             .disposed(by: disposeBag)
         
+        output.isSavedProfile
+            .subscribe(onNext: { [weak self] isSavedProfile in
+                self?.isSaveProfile(isSavedProfile)
+            })
+            .disposed(by: disposeBag)
+        
         output.profileImageURL
             .drive(onNext: { [weak self] profileImageURL in
-                let processor = RoundCornerImageProcessor(cornerRadius: 25)
-                self?.profileImageView.kf
+                guard let self = self else { return }
+                let cornerRadius = self.profileImageView.bounds.height / 2
+                let processor = RoundCornerImageProcessor(cornerRadius: cornerRadius)
+                
+                self.profileImageView
+                    .kf
                     .setImage(with: profileImageURL, options: [.processor(processor)])
             })
             .disposed(by: disposeBag)
@@ -124,6 +147,15 @@ extension ProfileEditViewController {
         firstNameTextField.delegate = self
         lastNameTextField.delegate = self
         locationTextField.delegate = self
+    }
+    
+    private func isSaveProfile(_ isSaved: Bool) {
+        if isSaved {
+            loadingActivitiyIndicatorView.isHidden = true
+            dismiss(animated: true, completion: nil)
+        } else {
+            loadingActivitiyIndicatorView.isHidden = false
+        }
     }
 }
 

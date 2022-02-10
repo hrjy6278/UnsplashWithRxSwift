@@ -11,9 +11,16 @@ import RxCocoa
 
 final class ProfileEditViewModel: ViewModelType {
     private let profile: Profile
+    private let networkService = UnsplashAPIManager()
+    private let disposeBag = DisposeBag()
     
     struct Input {
-        
+        let userName: Observable<String>
+        let firstName: Observable<String>
+        let lastName: Observable<String>
+        let location: Observable<String>
+        let bio: Observable<String>
+        let saveButtonTaped: Observable<Void>
     }
     
     struct Output {
@@ -23,6 +30,7 @@ final class ProfileEditViewModel: ViewModelType {
         let location: Driver<String>
         let bio: Driver<String>
         let profileImageURL: Driver<URL?>
+        let isSavedProfile: Observable<Bool>
     }
     
     init(profile: Profile) {
@@ -45,13 +53,59 @@ extension ProfileEditViewModel {
         let locationDriver = locationRelay.asDriver()
         let bioNameDriver = bioRelay.asDriver()
         let profileImageURLDriver = profileImageURL.asDriver()
-       
+        let isSavedProfile = PublishRelay<Bool>()
         
+        input.userName
+            .skip(1)
+            .bind(to: userNameRelay)
+            .disposed(by: disposeBag)
+        
+        input.firstName
+            .skip(1)
+            .bind(to: firstNameRelay)
+            .disposed(by: disposeBag)
+        
+        input.lastName
+            .skip(1)
+            .bind(to: lastNameRelay)
+            .disposed(by: disposeBag)
+        
+        input.location
+            .skip(1)
+            .bind(to: locationRelay)
+            .disposed(by: disposeBag)
+        
+        input.bio
+            .skip(1)
+            .bind(to: bioRelay)
+            .disposed(by: disposeBag)
+        
+        let profile = Observable.combineLatest(userNameRelay, firstNameRelay, lastNameRelay, locationRelay, bioRelay) { userName, firstName, lastName, location, bio in
+            UpdateProfile(userName: userName,
+                          firstName: firstName,
+                          lastName: lastName,
+                          location: location,
+                          bio: bio)
+        }
+        
+        input.saveButtonTaped
+            .do(onNext: { _ in isSavedProfile.accept(false)})
+            .withLatestFrom(profile)
+            .withUnretained(self)
+            .flatMap { viewModel, profile in
+                viewModel.networkService.updateProfile(profile)
+            }
+            .subscribe(onNext: { _ in
+                isSavedProfile.accept(true)
+            })
+            .disposed(by: disposeBag)
+            
         return Output(userName: userNameDriver,
                       firstName: firstNameDriver,
                       lastName: lastNameDriver,
                       location: locationDriver,
                       bio: bioNameDriver,
-                      profileImageURL: profileImageURLDriver)
+                      profileImageURL: profileImageURLDriver,
+                      isSavedProfile: isSavedProfile.asObservable())
     }
 }

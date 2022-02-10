@@ -15,6 +15,7 @@
                 <outlet property="cancelButton" destination="SWa-rV-Ejt" id="HM6-zg-yk5"/>
                 <outlet property="firstNameTextField" destination="fMG-1T-uYT" id="ZaT-UC-9iN"/>
                 <outlet property="lastNameTextField" destination="Du2-gT-8sE" id="KBV-0h-gBd"/>
+                <outlet property="loadingActivitiyIndicatorView" destination="uGC-NM-34W" id="KQI-uz-MVv"/>
                 <outlet property="locationTextField" destination="zXl-1q-s09" id="2TU-GR-Ejv"/>
                 <outlet property="profileImageView" destination="dvh-cA-uuy" id="xOs-Z8-WN8"/>
                 <outlet property="saveButton" destination="Zyj-O6-BDb" id="EHW-MC-6Z5"/>
@@ -49,7 +50,7 @@
                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="hrjy6278" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kyL-Zf-Y6m">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kyL-Zf-Y6m">
                                             <rect key="frame" x="0.0" y="17" width="359" height="40"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="5nD-vu-Gjm"/>
@@ -80,7 +81,7 @@
                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Kim" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fMG-1T-uYT">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fMG-1T-uYT">
                                             <rect key="frame" x="0.0" y="21" width="359" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="2zA-yg-OXs"/>
@@ -111,7 +112,7 @@
                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="JaeYoun" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Du2-gT-8sE">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Du2-gT-8sE">
                                             <rect key="frame" x="0.0" y="21" width="359" height="23.333333333333329"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <textInputTraits key="textInputTraits"/>
@@ -139,7 +140,7 @@
                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Seoul" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zXl-1q-s09">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zXl-1q-s09">
                                             <rect key="frame" x="0.0" y="21" width="359" height="23.333333333333329"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <textInputTraits key="textInputTraits"/>
@@ -167,7 +168,7 @@
                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="gi" translatesAutoresizingMaskIntoConstraints="NO" id="2bs-SC-X65">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2bs-SC-X65">
                                             <rect key="frame" x="0.0" y="21" width="359" height="100"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <color key="textColor" systemColor="labelColor"/>
@@ -230,13 +231,19 @@
                                 <constraint firstItem="cAp-SQ-gCw" firstAttribute="leading" secondItem="LoP-22-cs6" secondAttribute="leading" constant="8" id="zY8-3W-fV6"/>
                             </constraints>
                         </view>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="uGC-NM-34W">
+                            <rect key="frame" x="169" y="322" width="37" height="37"/>
+                            <color key="color" systemColor="labelColor"/>
+                        </activityIndicatorView>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="LoP-22-cs6" secondAttribute="trailing" id="2Fp-h5-pNt"/>
                         <constraint firstItem="LoP-22-cs6" firstAttribute="leading" secondItem="MZV-pF-Czd" secondAttribute="leading" id="308-R4-RfG"/>
                         <constraint firstItem="LoP-22-cs6" firstAttribute="top" secondItem="MZV-pF-Czd" secondAttribute="top" id="IPZ-My-3SU"/>
                         <constraint firstAttribute="bottom" secondItem="LoP-22-cs6" secondAttribute="bottom" id="ZtI-t0-hkV"/>
+                        <constraint firstItem="uGC-NM-34W" firstAttribute="centerY" secondItem="MZV-pF-Czd" secondAttribute="centerY" id="cuW-tg-UlS"/>
                         <constraint firstItem="LoP-22-cs6" firstAttribute="width" secondItem="LzF-9w-Fz6" secondAttribute="width" id="dQd-qz-uq7"/>
+                        <constraint firstItem="uGC-NM-34W" firstAttribute="centerX" secondItem="MZV-pF-Czd" secondAttribute="centerX" id="gvl-Zn-7x3"/>
                     </constraints>
                     <viewLayoutGuide key="contentLayoutGuide" id="aK2-ir-feu"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="LzF-9w-Fz6"/>
