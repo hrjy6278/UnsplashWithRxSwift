@@ -11,10 +11,12 @@ import RxSwift
 import RxCocoa
 
 class ProfileCell: UICollectionViewCell {
+    //MARK: - Properties
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.masksToBounds = true
        
         return imageView
     }()
@@ -144,11 +146,11 @@ class ProfileCell: UICollectionViewCell {
     
     var disposeBag = DisposeBag()
     
+    //MARK: - Cell Life Cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
         setupLayer()
-        contentView.backgroundColor = .white
         profileEditButton.animateWhenPressed(disposeBag: disposeBag)
     }
     
@@ -156,17 +158,9 @@ class ProfileCell: UICollectionViewCell {
         super.init(coder: coder)
         fatalError("스토리보드는 지원하지 않습니다.")
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        disposeBag = DisposeBag()
-        profileImageView.image = nil
-        totalLikesCountLabel.text = nil
-        totalPhotosCountLabel.text = nil
-        totalCollectionsCountLabel.text = nil
-    }
 }
 
+//MARK: - Cell Layout
 extension ProfileCell: HierarchySetupable {
     func setupViewHierarchy() {
         likesStackView.addArrangedSubview(totalLikesCountLabel)
@@ -191,7 +185,11 @@ extension ProfileCell: HierarchySetupable {
     func setupLayout() {
         NSLayoutConstraint.activate([
             profileImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            profileImageView.topAnchor.constraint(equalTo: topAnchor, constant: -30),
+            profileImageView.centerYAnchor.constraint(equalTo: contentView.topAnchor),
+            profileImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                    multiplier: 0.2),
+            profileImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                     multiplier: 0.2),
             
             namaLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor,
                                            constant: 8),
@@ -211,19 +209,18 @@ extension ProfileCell: HierarchySetupable {
         ])
     }
     
-    func configureCell(userName: String,
-                       profileURL: URL?,
-                       totalLikes: String,
-                       totalPhotos: String,
-                       totalCollections: String) {
-        namaLabel.text = userName
-        totalLikesCountLabel.text = totalLikes
-        totalPhotosCountLabel.text = totalPhotos
-        totalCollectionsCountLabel.text = totalCollections
-        
-        let cornerRadius = profileImageView.bounds.height / 2
-        let processor = RoundCornerImageProcessor(cornerRadius: cornerRadius)
-        profileImageView.kf.setImage(with: profileURL,options: [.processor(processor)])
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        profileImageView.layer.cornerRadius = profileImageView.bounds.height / 2
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+        profileImageView.image = nil
+        totalLikesCountLabel.text = nil
+        totalPhotosCountLabel.text = nil
+        totalCollectionsCountLabel.text = nil
     }
     
     private func setupLayer() {
@@ -240,5 +237,21 @@ extension ProfileCell: HierarchySetupable {
         
         contentView.layer.cornerRadius = 5
         contentView.layer.masksToBounds = false
+        contentView.backgroundColor = .white
+    }
+}
+
+//MARK: - Cell Configuration
+extension ProfileCell {
+    func configureCell(userName: String,
+                       profileURL: URL?,
+                       totalLikes: String,
+                       totalPhotos: String,
+                       totalCollections: String) {
+        namaLabel.text = userName
+        totalLikesCountLabel.text = totalLikes
+        totalPhotosCountLabel.text = totalPhotos
+        totalCollectionsCountLabel.text = totalCollections
+        profileImageView.kf.setImage(with: profileURL)
     }
 }
