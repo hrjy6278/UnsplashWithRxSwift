@@ -85,7 +85,7 @@ extension SearchViewController: HierarchySetupable {
                            photographerName: cellModel.profile.userName,
                            likeCount: String(cellModel.likes),
                            isUserLike: cellModel.isUserLike,
-                           imageUrl: cellModel.urls.regularURL)
+                           imageUrl: cellModel.urls.smallURL)
             
             cell.imageButtonObservable
                 .withUnretained(self)

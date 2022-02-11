@@ -38,4 +38,8 @@ struct SelfieImage: Codable {
     var mediumURL: URL? {
         URL(string: medium)
     }
+    
+    var smallURL: URL? {
+        URL(string: small)
+    }
 }

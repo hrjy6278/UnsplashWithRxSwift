@@ -56,7 +56,7 @@ extension ProfileEditViewModel {
         let lastNameRelay = BehaviorRelay<String>(value: profile.lastName ?? "")
         let locationRelay = BehaviorRelay<String>(value: profile.location ?? "")
         let bioRelay = BehaviorRelay<String>(value: profile.bio ?? "")
-        let profileImageURL = BehaviorRelay<URL?>(value: profile.profileImage?.mediumURL)
+        let profileImageURL = BehaviorRelay<URL?>(value: profile.profileImage?.smallURL)
         
         let userNameDriver = userNameRelay.asDriver()
         let firstNameDriver = firstNameRelay.asDriver()

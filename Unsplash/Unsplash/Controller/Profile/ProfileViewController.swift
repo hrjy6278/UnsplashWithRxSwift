@@ -120,7 +120,7 @@ extension ProfileViewController: HierarchySetupable {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.cellID, for: indexPath) as! ProfileCell
                 
                 cell.configureCell(userName: profile.userName,
-                                   profileURL: profile.profileImage?.mediumURL,
+                                   profileURL: profile.profileImage?.smallURL,
                                    totalLikes: String(profile.totalLikes),
                                    totalPhotos: String(profile.totalPhotos),
                                    totalCollections: String(profile.totalCollections))
@@ -138,7 +138,7 @@ extension ProfileViewController: HierarchySetupable {
                                photographerName: photo.profile.userName,
                                likeCount: String(photo.likes),
                                isUserLike: photo.isUserLike,
-                               imageUrl: photo.urls.regularURL)
+                               imageUrl: photo.urls.smallURL)
                 
                 return cell
             }

@@ -66,8 +66,12 @@ extension ProfileViewModel {
             .filter {$0 == true }
             .map { _ in }
         
+        let viewWillAppear = input.viewWillAppear.withLatestFrom(isTokenSaved)
+            .filter { $0 == true }
+            .map { _ in }
+        
         // 로그인이 되어있는 경우 유저 프로필을 가져오는 Observable
-        let fetchUserProfile = Observable.merge(input.viewWillAppear, existsToken)
+        let fetchUserProfile = Observable.merge(viewWillAppear, existsToken)
        
         fetchUserProfile
             .withUnretained(self)
