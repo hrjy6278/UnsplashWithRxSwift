@@ -49,7 +49,7 @@ struct Link: Decodable {
 struct Urls: Decodable {
     let raw, full, regular, small, thumb: String
     
-    var regularURL: URL? {
-        URL(string: regular)
+    var smallURL: URL? {
+        URL(string: small)
     }
 }

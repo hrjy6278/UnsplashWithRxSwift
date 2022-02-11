@@ -86,19 +86,25 @@ extension ImageListViewCell: HierarchySetupable {
     }
     
     private func setupLayer() {
-        let shadowRadius: CGFloat = 3
-        let shadowOpacity: Float = 0.40
-        let shadowOffsetHeight: CGFloat = 5
-        
-        layer.configurationShadow(color: .black,
-                                  radius: shadowRadius,
-                                  opacity: shadowOpacity,
-                                  offset: CGSize(width: .zero, height: shadowOffsetHeight))
-        layer.shadowPath = UIBezierPath(roundedRect: bounds,
-                                        cornerRadius: shadowRadius).cgPath
-        
-        contentView.layer.cornerRadius = 5
-        contentView.layer.masksToBounds = true
+        unsplashImagesView.didFinishedImageLoaded.subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            
+            let shadowRadius: CGFloat = 3
+            let shadowOpacity: Float = 0.40
+            let shadowOffsetHeight: CGFloat = 5
+            
+            self.layer.configurationShadow(color: .black,
+                                      radius: shadowRadius,
+                                      opacity: shadowOpacity,
+                                      offset: CGSize(width: .zero, height: shadowOffsetHeight))
+            self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds,
+                                            cornerRadius: shadowRadius).cgPath
+            
+            self.contentView.layer.cornerRadius = 5
+            self.contentView.layer.masksToBounds = true
+        })
+            .disposed(by: disposeBag)
+
     }
     
     private func bind() {

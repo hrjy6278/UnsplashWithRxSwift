@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import RxSwift
 
 class UnsplashImagesView: UIView {
     //MARK: - Properties
@@ -55,6 +56,12 @@ class UnsplashImagesView: UIView {
         return stackView
     }()
     
+    private let imageLoded = PublishSubject<Void>()
+    
+    var didFinishedImageLoaded: Observable<Void> {
+        return imageLoded.asObservable()
+    }
+    
     //MARK: View Life Cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -83,10 +90,9 @@ extension UnsplashImagesView: HierarchySetupable {
         let stackViewLeadingConstant: CGFloat = 16
         
         NSLayoutConstraint.activate([
-            thumbnailImageView.topAnchor.constraint(equalTo: topAnchor),
-            thumbnailImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            thumbnailImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            thumbnailImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            thumbnailImageView.widthAnchor.constraint(equalTo: widthAnchor,
+                                                      multiplier: 1),
+            thumbnailImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1),
             
             contentStackView.topAnchor.constraint(equalTo: topAnchor,
                                                   constant: stackViewTopConstant),
@@ -113,7 +119,9 @@ extension UnsplashImagesView: HierarchySetupable {
     private func configureThumbnailImageView(_ imageUrl: URL?) {
         thumbnailImageView.kf.indicatorType = .activity
         thumbnailImageView.kf.setImage(with: imageUrl,
-                                       options: [.keepCurrentImageWhileLoading])
+                                       options: [.keepCurrentImageWhileLoading]) { [weak self] _ in
+            self?.imageLoded.onNext(())
+        }
     }
     
     private func configureLikeImageView(isUserLike: Bool) {

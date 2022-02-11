@@ -15,7 +15,7 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
         let inset: CGFloat = 8
         let lineSpacing: CGFloat = 8
         let itemWidth = collectionView.bounds.inset(by: collectionView.layoutMargins).width - inset
-        let itemHeight = collectionView.frame.height / 3.5
+        let itemHeight = collectionView.frame.height / 3
         
         self.itemSize = CGSize(width: itemWidth, height: itemHeight)
         self.sectionInsetReference = .fromSafeArea
