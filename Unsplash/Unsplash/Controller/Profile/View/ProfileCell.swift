@@ -21,7 +21,7 @@ class ProfileCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let namaLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .generateFont(font: .SDGothichBold, size: 26)
         label.textColor = .lightGray
@@ -85,6 +85,8 @@ class ProfileCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .darkGray
         label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.6
         label.text = "내 콜렉션"
         
         return label
@@ -178,7 +180,7 @@ extension ProfileCell: HierarchySetupable {
         
         contentView.addSubview(containerStackView)
         contentView.addSubview(profileImageView)
-        contentView.addSubview(namaLabel)
+        contentView.addSubview(nameLabel)
         contentView.addSubview(profileEditButton)
     }
     
@@ -191,9 +193,9 @@ extension ProfileCell: HierarchySetupable {
             profileImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor,
                                                      multiplier: 0.2),
             
-            namaLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor,
+            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor,
                                            constant: 8),
-            namaLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             containerStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor,
@@ -248,7 +250,7 @@ extension ProfileCell {
                        totalLikes: String,
                        totalPhotos: String,
                        totalCollections: String) {
-        namaLabel.text = userName
+        nameLabel.text = userName
         totalLikesCountLabel.text = totalLikes
         totalPhotosCountLabel.text = totalPhotos
         totalCollectionsCountLabel.text = totalCollections

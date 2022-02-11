@@ -35,8 +35,7 @@ final class ProfileViewController: UIViewController {
     private let backgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemBlue
-        view.layer.cornerRadius = 30
+        view.backgroundColor = .darkGray
         view.layer.masksToBounds = true
         view.isHidden = true
         
@@ -54,6 +53,12 @@ final class ProfileViewController: UIViewController {
         configureDataSource()
         bindViewModel()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        backgroundView.layer.cornerRadius = backgroundView.bounds.height / 5
+        backgroundView.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
+    }
 }
 
 //MARK: - Setup View And Layout
@@ -66,7 +71,8 @@ extension ProfileViewController: HierarchySetupable {
     
     func setupLayout() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor ,constant: 40),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                                constant: view.bounds.height / 20),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -79,7 +85,8 @@ extension ProfileViewController: HierarchySetupable {
             backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
             backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: view.bounds.height / 8)
+            backgroundView.bottomAnchor.constraint(equalTo: collectionView.topAnchor,
+                                                   constant: view.bounds.height / 8)
         ])
     }
     
@@ -89,6 +96,21 @@ extension ProfileViewController: HierarchySetupable {
                                                             style: .plain,
                                                             target: nil,
                                                             action: nil)
+    }
+    
+    private func isLoginProgress(_ isLogin: Bool) {
+        var alpha: CGFloat
+        var isHiddeen: Bool
+        
+        let _ =  isLogin ? (alpha = 1, isHiddeen = false) : (alpha = 0, isHiddeen = true)
+        
+        UIView.animate(withDuration: 0.4) {
+            self.collectionView.alpha = alpha
+            self.backgroundView.alpha = alpha
+        } completion: { _ in
+            self.collectionView.isHidden = isHiddeen
+            self.backgroundView.isHidden = isHiddeen
+        }
     }
     
     private func configureDataSource() {
@@ -137,11 +159,15 @@ extension ProfileViewController {
     private func bindViewModel() {
         let loginButtonTaped = Observable.merge(loginView.loginButtonTaped,
                                                 navigationItem.rightBarButtonItem?.rx.tap.asObservable() ?? .empty())
+
         let viewWillAppear = rx.sentMessage(#selector(UIViewController.viewWillAppear(_:)))
+            .map { _ in }
+        let viewWillDisappear = rx.sentMessage(#selector(UIViewController.viewWillDisappear(_:)))
             .map { _ in }
         
         let intput = ProfileViewModel.Input(loginButtonTaped: loginButtonTaped,
                                             viewWillAppear: viewWillAppear,
+                                            viewWillDisappear: viewWillDisappear,
                                             likePhotoItemIndexPath: UICollectionViewLayout.visibleItemIndexPath)
         
         let output = viewModel.bind(input: intput)
@@ -155,12 +181,11 @@ extension ProfileViewController {
             .disposed(by: disposeBag)
         
         output.isLogin
-            .withUnretained(self)
-            .subscribe(onNext: { `self`, isLogin in
-                isLogin ? (`self`.collectionView.isHidden = false) : (`self`.collectionView.isHidden = true)
+            .subscribe(onNext: { [weak self] isLogin in
+                self?.isLoginProgress(isLogin)
             })
             .disposed(by: disposeBag)
-        
+    
         output.loginProgress
             .withUnretained(self)
             .subscribe(onNext: { `self`, _ in
