@@ -185,6 +185,29 @@ extension UnsplashAPIManager {
             }
         }
     }
+    
+    func searchRandomPhoto() -> Observable<Photo> {
+        let request = sessionManager.request(UnsplashRouter.randomPhoto)
+        let successStatus = 200...299
+        
+        return Observable.create { observer in
+            request.validate(statusCode: successStatus)
+                .responseDecodable(of: [Photo].self) { response in
+                    switch response.result {
+                    case .success(let photos):
+                        guard let photo = photos.first else { return }
+                        observer.onNext(photo)
+                        observer.onCompleted()
+                    case .failure(let error):
+                        observer.onError(error)
+                    }
+                }
+            
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
 }
 
     

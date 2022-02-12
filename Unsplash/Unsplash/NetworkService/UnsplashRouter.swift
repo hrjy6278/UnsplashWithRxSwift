@@ -17,10 +17,11 @@ enum UnsplashRouter {
     case myProfile
     case userLikePhotos(userName: String, page: Int)
     case updateProfile(UpdateProfile)
+    case randomPhoto
     
     var baseURL: String {
         switch self {
-        case .searchPhotos, .photoLike, .photoUnlike, .myProfile, .userLikePhotos, .updateProfile:
+        case .searchPhotos, .photoLike, .photoUnlike, .myProfile, .userLikePhotos, .updateProfile, .randomPhoto:
             return "https://api.unsplash.com"
         case .fetchAccessToken, .userAuthorize:
             return "https://unsplash.com"
@@ -41,12 +42,14 @@ enum UnsplashRouter {
             return "/oauth/authorize"
         case .fetchAccessToken:
             return "/oauth/token"
+        case .randomPhoto:
+            return "/photos/random"
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .searchPhotos, .userAuthorize, .myProfile, .userLikePhotos:
+        case .searchPhotos, .userAuthorize, .myProfile, .userLikePhotos, .randomPhoto:
             return .get
         case .fetchAccessToken, .photoLike:
             return .post
@@ -80,9 +83,9 @@ enum UnsplashRouter {
                 "grant_type": UnsplashParameter.grandType
             ]
         case .userLikePhotos(_, let page):
-            return ["page": String(page)]
-        case .photoLike, .photoUnlike, .myProfile:
-            return [:]
+            return [
+                "page": String(page)
+            ]
         case .updateProfile(let profile):
             return [
                 "username": profile.userName,
@@ -91,6 +94,13 @@ enum UnsplashRouter {
                 "location": profile.location,
                 "bio": profile.bio
             ]
+        case .randomPhoto:
+            return [
+                "count": "1",
+                "query": "universe"
+            ]
+        default:
+            return [:]
         }
     }
 }
@@ -103,12 +113,12 @@ extension UnsplashRouter: URLRequestConvertible {
         request.method = method
         
         switch self {
-        case .searchPhotos, .userAuthorize, .photoLike, .photoUnlike, .myProfile, .userLikePhotos, .updateProfile:
-            let url = request.url?.appendingQueryParameters(parameters)
-            request.url = url
         case .fetchAccessToken:
             request = try JSONParameterEncoder().encode(parameters,
                                                         into: request)
+        default:
+            let url = request.url?.appendingQueryParameters(parameters)
+            request.url = url
         }
         
         return request
