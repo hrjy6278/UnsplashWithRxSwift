@@ -1,5 +1,17 @@
 # Unsplash App
 
+## 프로젝트에 대해
+
+야곰 iOS 커리어 스타터를 다니고 수료하면서 까지 RxSwift에 대한 얘기가 캠퍼들 사이에 많이 오갔고, 신입은 안해도 되는 라이브러리이다 라는 말을 많이 들었습니다.
+
+하지만 저는 취업준비를 진행하면서 회사에서 사용하고 있는 라이브러리중 `RxSwift`의 비중이 높단 걸 알게되었습니다.
+
+자연스럽게 `RxSwift에` 대해 호기심이 많아졌고, 이것저것 검색을해보고 공부를 해가면서 프로젝트를 진행을 해보았습니다.
+
+많이 부족한 코드지만 이렇게 프로젝트를 진행해보니 `RxSwift`가 뭔지, 어떻게 로직을 짜야하는지 선언형, 함수형 패러다임을 조금이나마 알 수 있었던 기회였던 것 같습니다.
+
+
+---
 ## 기술 스택
 ### 사용언어 : Swift
 ### 아키텍처 : MVVM
@@ -21,7 +33,7 @@
 
 | 사진 검색 | Like | OAth2를 이용한 로그인 |
 |:----------------------------------------------------------:|:------------------------------------------------------------:|:----------------------------------------------------------:|
-| ![Search](https://imgur.com/4HNgBjP.gif) | <img src ="https://imgur.com/CFcScPD.gif" width = 800> | ![Login](https://imgur.com/mcr12vC.gif) |
+| ![Search](https://imgur.com/jXFHITP.gif) | <img src ="https://imgur.com/CFcScPD.gif" width = 800> | ![Login](https://imgur.com/OREG96V.gif)|
 
 ---
 
@@ -29,7 +41,7 @@
 
 | Profile Login| Profil Edit|
 | :-: | :-----------------------------: |
-| ![Profile Login](https://imgur.com/jhbMoe1.gif) | ![Profile Edit](https://imgur.com/PirHlyu.gif) |
+| ![Profile Login](https://imgur.com/pCe2Bi1.gif) | ![Profile Edit](https://imgur.com/PirHlyu.gif) |
 
 <br>
 
@@ -111,15 +123,3 @@
 - 탭바의 검색 영역입니다. `SearchViewController` 에서는 searchBar를 구현하고, 검색 로직을 담고 있습니다.
 
 ---
-
-
-
-### 프로젝트에 대해
-
-야곰 iOS 커리어 스타터를 다니고 수료하면서 까지 RxSwift에 대한 얘기가 캠퍼들 사이에 많이 오갔고, 신입은 안해도 되는 라이브러리이다 라는 말을 많이 들었습니다.
-
-하지만 저는 취업준비를 진행하면서 회사에서 사용하고 있는 라이브러리중 `RxSwift`의 비중이 높단 걸 알게되었습니다.
-
-그러면서 RxSwift에 대해 호기심이 많아졌고, 이것저것 검색을해보고 공부를 해가면서 프로젝트를 진행을 해보았습니다.
-
-많이 부족한 코드지만 이렇게 프로젝트를 진행해보니 RxSwift가 뭔지, 어떻게 로직을 짜야하는지 선언형, 함수형 패러다임을 조금이나마 알 수 있었던 기회였던 것 같습니다.
