@@ -46,6 +46,7 @@ final class ProfileViewModel: ViewModelType {
         let isLogin: Observable<Bool>
         let loginProgress: Observable<Void>
         let profileModel: Observable<[ProfileSectionModel]>
+        let randomPhoto: Observable<Photo>
     }
     let profileEditPresent = PublishSubject<ProfileEditViewModel>()
     
@@ -190,9 +191,17 @@ extension ProfileViewModel {
             })
             .disposed(by: disposeBag)
         
+        // 랜덤 Photo를 가져오는 Observable
+        let randomPhoto = isTokenSaved
+            .distinctUntilChanged()
+            .filter { $0 == false }
+            .withUnretained(self)
+            .flatMap { viewModel, _ in viewModel.networkService.searchRandomPhoto() }
+        
         return Output(barButtonTitle: barButtonTitle,
                       isLogin: isTokenSaved,
                       loginProgress: loginProgress,
-                      profileModel: profileModel)
+                      profileModel: profileModel,
+                      randomPhoto: randomPhoto)
     }
 }

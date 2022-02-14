@@ -15,6 +15,7 @@ final class LoginView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.generateFont(font: .SDGothichBold, size: 20)
+        label.textColor = .white
         label.text = "로그인후 이용해 주세요."
         
         return label
@@ -32,6 +33,14 @@ final class LoginView: UIView {
         return button
     }()
     
+    private let backgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        
+        return imageView
+    }()
+    
     var loginButtonTaped: Observable<Void> {
         return loginButton.rx.tap.asObservable()
     }
@@ -41,6 +50,7 @@ final class LoginView: UIView {
         super.init(frame: frame)
         setupView()
         translatesAutoresizingMaskIntoConstraints = false
+        clipsToBounds = true
     }
     
     required init?(coder: NSCoder) {
@@ -52,6 +62,7 @@ final class LoginView: UIView {
 //MARK: - Setup View And Layout
 extension LoginView: HierarchySetupable {
     func setupViewHierarchy() {
+        addSubview(backgroundImageView)
         addSubview(descriptionLabel)
         addSubview(loginButton)
     }
@@ -59,6 +70,9 @@ extension LoginView: HierarchySetupable {
     func setupLayout() {
         let descriptionLabelConstrant: CGFloat = -40
         NSLayoutConstraint.activate([
+            backgroundImageView.widthAnchor.constraint(equalTo: widthAnchor),
+            backgroundImageView.heightAnchor.constraint(equalTo: heightAnchor),
+            
             descriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             descriptionLabel.centerYAnchor.constraint(equalTo: centerYAnchor,
                                                       constant: descriptionLabelConstrant),
@@ -66,5 +80,20 @@ extension LoginView: HierarchySetupable {
             loginButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             loginButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+    }
+    
+    func configureBackgroundImage(_ imageURL: URL?) {
+        let animateDration: TimeInterval = 30
+        let animateScaleX = 1.3
+        let animateScaleY = 1.3
+        backgroundImageView.kf.setImage(with: imageURL) { [weak self] _ in
+            UIView.animate(withDuration: animateDration,
+                           delay: .zero,
+                           options: .curveLinear) {
+                self?.backgroundImageView.transform = CGAffineTransform.identity.scaledBy(x: animateScaleX, y: animateScaleY)
+            } completion: { _ in
+                self?.backgroundImageView.transform = CGAffineTransform.identity
+            }
+        }
     }
 }

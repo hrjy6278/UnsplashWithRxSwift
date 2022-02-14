@@ -193,6 +193,13 @@ extension ProfileViewController {
             })
             .disposed(by: disposeBag)
         
+        output.randomPhoto
+            .map { $0.urls.regularURL }
+            .subscribe(onNext: { [weak self] URL in
+                self?.loginView.configureBackgroundImage(URL)
+            })
+            .disposed(by: disposeBag)
+        
         dataSource.flatMap { dataSource in
             output.profileModel.bind(to: collectionView.rx.items(dataSource: dataSource))
                 .disposed(by: disposeBag)

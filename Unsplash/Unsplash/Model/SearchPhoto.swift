@@ -52,4 +52,8 @@ struct Urls: Decodable {
     var smallURL: URL? {
         URL(string: small)
     }
+    
+    var regularURL: URL? {
+        URL(string: regular)
+    }
 }
