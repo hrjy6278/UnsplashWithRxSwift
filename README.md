@@ -33,7 +33,7 @@
 
 | 사진 검색 | Like | OAth2를 이용한 로그인 |
 |:----------------------------------------------------------:|:------------------------------------------------------------:|:----------------------------------------------------------:|
-| ![Search](https://imgur.com/jXFHITP.gif) | <img src ="https://imgur.com/CFcScPD.gif" width = 800> | ![Login](https://imgur.com/OREG96V.gif)|
+| <img src ="https://imgur.com/DjMyaeW.gif" width = 800> | <img src ="https://imgur.com/CFcScPD.gif" width = 800> | <img src ="https://imgur.com/3GS8eo3.gif" width = 800>|
 
 ---
 
@@ -41,7 +41,7 @@
 
 | Profile Login| Profil Edit|
 | :-: | :-----------------------------: |
-| ![Profile Login](https://imgur.com/pCe2Bi1.gif) | ![Profile Edit](https://imgur.com/PirHlyu.gif) |
+| <img src ="https://imgur.com/8Pd37Pw.gif"> | ![Profile Edit](https://imgur.com/PirHlyu.gif) |
 
 <br>
 
