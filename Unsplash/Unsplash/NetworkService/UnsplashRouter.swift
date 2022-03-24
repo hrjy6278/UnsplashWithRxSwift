@@ -10,8 +10,6 @@ import Alamofire
 
 enum UnsplashRouter {
     case searchPhotos(query: String, page: Int)
-    case userAuthorize
-    case fetchAccessToken(accessCode: String)
     case photoLike(id: String)
     case photoUnlike(id: String)
     case myProfile
@@ -20,12 +18,7 @@ enum UnsplashRouter {
     case randomPhoto
     
     var baseURL: String {
-        switch self {
-        case .searchPhotos, .photoLike, .photoUnlike, .myProfile, .userLikePhotos, .updateProfile, .randomPhoto:
-            return "https://api.unsplash.com"
-        case .fetchAccessToken, .userAuthorize:
-            return "https://unsplash.com"
-        }
+        return "https://api.unsplash.com"
     }
     
     var path: String {
@@ -38,10 +31,6 @@ enum UnsplashRouter {
             return "/users/\(userName)/likes"
         case .myProfile, .updateProfile:
             return "/me"
-        case .userAuthorize:
-            return "/oauth/authorize"
-        case .fetchAccessToken:
-            return "/oauth/token"
         case .randomPhoto:
             return "/photos/random"
         }
@@ -49,9 +38,9 @@ enum UnsplashRouter {
     
     var method: HTTPMethod {
         switch self {
-        case .searchPhotos, .userAuthorize, .myProfile, .userLikePhotos, .randomPhoto:
+        case .searchPhotos,.myProfile, .userLikePhotos, .randomPhoto:
             return .get
-        case .fetchAccessToken, .photoLike:
+        case .photoLike:
             return .post
         case .photoUnlike:
             return .delete
@@ -66,21 +55,6 @@ enum UnsplashRouter {
             return [
                 "page": String(page),
                 "query": query
-            ]
-        case .userAuthorize:
-            return [
-                "client_id": UnsplashParameter.clientID,
-                "redirect_uri": UnsplashParameter.redirectURL,
-                "response_type": UnsplashParameter.responseType,
-                "scope": UnsplashParameter.scope.map { $0.rawValue }.joined(separator: "+")
-            ]
-        case .fetchAccessToken(let code):
-            return [
-                "client_id": UnsplashParameter.clientID,
-                "client_secret": UnsplashParameter.clientSecret,
-                "redirect_uri": UnsplashParameter.redirectURL,
-                "code": code,
-                "grant_type": UnsplashParameter.grandType
             ]
         case .userLikePhotos(_, let page):
             return [
@@ -105,22 +79,18 @@ enum UnsplashRouter {
     }
 }
 
+enum URLError: Error {
+    case invalidURL
+}
+
 //MARK: - Method
 extension UnsplashRouter: URLRequestConvertible {
     func asURLRequest() throws -> URLRequest {
-        let url = try baseURL.asURL().appendingPathComponent(path)
-        var request = URLRequest(url: url)
-        request.method = method
-        
-        switch self {
-        case .fetchAccessToken:
-            request = try JSONParameterEncoder().encode(parameters,
-                                                        into: request)
-        default:
-            let url = request.url?.appendingQueryParameters(parameters)
-            request.url = url
+        guard let url = try baseURL.asURL()
+            .appendingPathComponent(path)
+            .appendingQueryParameters(parameters) else {
+            throw URLError.invalidURL
         }
-        
-        return request
+        return URLRequest(url: url)
     }
 }

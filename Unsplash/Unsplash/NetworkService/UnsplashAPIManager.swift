@@ -55,27 +55,6 @@ extension UnsplashAPIManager {
         .observe(on: CurrentThreadScheduler.instance)
     }
     
-    func fetchAccessToken(accessCode: String) -> Observable<Bool> {
-        return Observable.create { observer in
-            self.sessionManager.request(UnsplashRouter.fetchAccessToken(accessCode: accessCode)).responseDecodable(of: UnsplashAccessToken.self) { reponseJson in
-                guard let token = reponseJson.value else {
-                    observer.onNext(false)
-                    return
-                }
-                
-                do {
-                    try TokenManager.shared.saveAccessToken(unsplashToken: token)
-                    observer.onNext(true)
-                    observer.onCompleted()
-                } catch (let saveError) {
-                    observer.onError(saveError)
-                }
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
     func photoLike(id: String) -> Observable<PhotoLike> {
         return Observable.create { observer in
             let request = self.sessionManager.request(UnsplashRouter.photoLike(id: id)).responseDecodable(of: PhotoLike.self) { responseJson in

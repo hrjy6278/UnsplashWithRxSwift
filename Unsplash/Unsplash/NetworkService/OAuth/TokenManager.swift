@@ -53,7 +53,7 @@ extension TokenManager {
     
     func clearAccessToken() {
         keyChaineStore.removeValue(for: userAccount)
-        let isTokenSaved = self.keyChaineStore.isValueSaved(for: self.userAccount)
+        let isTokenSaved = self.keyChaineStore.isValueSaved(for: userAccount)
         self.isTokenSaved.onNext(isTokenSaved)
     }
 }

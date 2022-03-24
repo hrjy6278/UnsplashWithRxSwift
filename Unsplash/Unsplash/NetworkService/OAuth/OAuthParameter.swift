@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum UnsplashParameter {
+enum OAuthParameter {
     enum Scope: String, CaseIterable {
         case pub = "public"
         case readUser = "read_user"

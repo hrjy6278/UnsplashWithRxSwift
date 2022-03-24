@@ -16,7 +16,7 @@ final class UnsplashInterceptor: RequestInterceptor {
             request.setValue("Bearer \(token)",
                              forHTTPHeaderField: "Authorization")
         } else {
-            request.setValue("Client-ID \(UnsplashParameter.clientID)",
+            request.setValue("Client-ID \(OAuthParameter.clientID)",
                              forHTTPHeaderField: "Authorization")
         }
         

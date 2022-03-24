@@ -12,7 +12,7 @@ import AuthenticationServices
 final class OAuth2ViewModel: NSObject, ViewModelType {
     //MARK: - Properties
     private var authSession: ASWebAuthenticationSession?
-    private let networkService = UnsplashAPIManager()
+    private let networkService = OAuthManager()
     private let disposeBag = DisposeBag()
     
     private var isLogin = PublishSubject<Bool>()
@@ -41,7 +41,7 @@ extension OAuth2ViewModel {
     }
     
     private func authenticate() {
-        guard let URL = try? UnsplashRouter.userAuthorize.asURLRequest().url else { return }
+        guard let URL = try? OAuthRouter.userAuthorize.asURLRequest().url else { return }
         let callbackURLScheme = "jissCallback"
         
         authSession = ASWebAuthenticationSession(

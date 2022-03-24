@@ -97,6 +97,7 @@ extension MainHomeViewController {
             self?.headerView.scrollToItem(at: indexPath,
                                     at: .centeredHorizontally,
                                     animated: true)
+            self?.navigationItem.title = self?.headerList[indexPath.row]
         })
         .disposed(by: disposeBag)
     }
