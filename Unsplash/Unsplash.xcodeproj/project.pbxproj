@@ -11,6 +11,9 @@
 		740FF20A279688C70025235F /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 740FF209279688C70025235F /* RxRelay */; };
 		740FF20C279688C70025235F /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 740FF20B279688C70025235F /* RxSwift */; };
 		740FF21C2796B0C50025235F /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740FF21B2796B0C50025235F /* SearchViewModel.swift */; };
+		743E694D27EB3DFC00C27008 /* MainHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743E694C27EB3DFC00C27008 /* MainHomeViewController.swift */; };
+		743E695027EB3EBA00C27008 /* MainHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743E694F27EB3EBA00C27008 /* MainHomeViewModel.swift */; };
+		743E695227EB485D00C27008 /* MainHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743E695127EB485D00C27008 /* MainHeaderViewCell.swift */; };
 		745630AD27ACC55D000CA812 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630AC27ACC55D000CA812 /* ProfileViewModel.swift */; };
 		745630AF27ACC5E4000CA812 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630AE27ACC5E4000CA812 /* LoginView.swift */; };
 		745630B127ACCA55000CA812 /* Extension + UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745630B027ACCA55000CA812 /* Extension + UIFont.swift */; };
@@ -86,6 +89,9 @@
 
 /* Begin PBXFileReference section */
 		740FF21B2796B0C50025235F /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		743E694C27EB3DFC00C27008 /* MainHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeViewController.swift; sourceTree = "<group>"; };
+		743E694F27EB3EBA00C27008 /* MainHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeViewModel.swift; sourceTree = "<group>"; };
+		743E695127EB485D00C27008 /* MainHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHeaderViewCell.swift; sourceTree = "<group>"; };
 		745630AC27ACC55D000CA812 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		745630AE27ACC5E4000CA812 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		745630B027ACCA55000CA812 /* Extension + UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Extension + UIFont.swift"; path = "Unsplash/Supporting/Extension/Extension + UIFont.swift"; sourceTree = SOURCE_ROOT; };
@@ -175,6 +181,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		743E694E27EB3E0400C27008 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				743E694C27EB3DFC00C27008 /* MainHomeViewController.swift */,
+				743E695127EB485D00C27008 /* MainHeaderViewCell.swift */,
+				743E694F27EB3EBA00C27008 /* MainHomeViewModel.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		7458C65927B244CF003900BC /* ProfileEditView */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				74BCE1EA276C75380093B1E6 /* UnsplashTabbarController.swift */,
+				743E694E27EB3E0400C27008 /* Main */,
 				74A225D22772EC0C002DB300 /* ImageListCell */,
 				74A225C927722A74002DB300 /* Profile */,
 				74A225CA27722A89002DB300 /* Login */,
@@ -545,6 +562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7458C65427B23813003900BC /* Extension + CALayer.swift in Sources */,
+				743E694D27EB3DFC00C27008 /* MainHomeViewController.swift in Sources */,
 				740FF21C2796B0C50025235F /* SearchViewModel.swift in Sources */,
 				745630B327AF8B93000CA812 /* ColumnFlowLayout.swift in Sources */,
 				74A225CC2772C5C1002DB300 /* UnsplashImagesView.swift in Sources */,
@@ -571,12 +589,14 @@
 				74BCE1BD276C703B0093B1E6 /* SceneDelegate.swift in Sources */,
 				74BF06F62797FCB8001DBD14 /* OAuth2ViewModel.swift in Sources */,
 				74CE8D32277560AB008BD593 /* Extention + Notification.Name.swift in Sources */,
+				743E695227EB485D00C27008 /* MainHeaderViewCell.swift in Sources */,
 				7458C65B27B244E7003900BC /* ProfileEditViewModel.swift in Sources */,
 				74A225BF2770BF93002DB300 /* TokenQuery.swift in Sources */,
 				74A225A6276ED23D002DB300 /* HierarchySetupable.swift in Sources */,
 				7458C66B27B3E355003900BC /* UpdateProfile.swift in Sources */,
 				74CE8D3427759634008BD593 /* Extension + Int.swift in Sources */,
 				74A225A8277048CE002DB300 /* UnsplashRouter.swift in Sources */,
+				743E695027EB3EBA00C27008 /* MainHomeViewModel.swift in Sources */,
 				745630C327B0E78D000CA812 /* ProfileHeaderView.swift in Sources */,
 				74A225AA277053DA002DB300 /* UnsplashParameter.swift in Sources */,
 				74CE8D3A27759F16008BD593 /* Extension + UIAlertController.swift in Sources */,

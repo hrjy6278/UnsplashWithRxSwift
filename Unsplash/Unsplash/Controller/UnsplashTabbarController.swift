@@ -7,9 +7,10 @@
 
 import UIKit
 
-enum TabBarType: CustomStringConvertible {
+enum TabBarType: CustomStringConvertible, CaseIterable {
     case search
     case profile
+    case main
     
     var description: String {
         switch self {
@@ -17,6 +18,8 @@ enum TabBarType: CustomStringConvertible {
             return "Search"
         case .profile:
             return "Profile"
+        case .main:
+            return "Home"
         }
     }
     
@@ -24,6 +27,8 @@ enum TabBarType: CustomStringConvertible {
         switch self {
         case .search:
             return UIImage(systemName: "magnifyingglass.circle")
+        case .main:
+            return UIImage(systemName: "house")
         case .profile:
             return UIImage(systemName: "person")
         }
@@ -31,6 +36,8 @@ enum TabBarType: CustomStringConvertible {
     
     var selectedImage: UIImage? {
         switch self {
+        case .main:
+            return UIImage(systemName: "house.fill")
         case .search:
             return UIImage(systemName: "magnifyingglass.circle.fill")
         case .profile:
@@ -43,18 +50,12 @@ final class UnsplashTabbarController: UITabBarController {
     //MARK: Properties
     private let searchViewController = SearchViewController()
     private let profileViewController = ProfileViewController()
+    private let mainHomeViewController = MainHomeViewController()
 
     //MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTabBarController()
-        setupTabBarItem(for: .search)
-        setupTabBarItem(for: .profile)
-        
-        viewControllers = [
-            UINavigationController(rootViewController: searchViewController),
-            UINavigationController(rootViewController: profileViewController)
-        ]
     }
 }
 
@@ -62,6 +63,19 @@ final class UnsplashTabbarController: UITabBarController {
 extension UnsplashTabbarController {
     private func configureTabBarController() {
         delegate = self
+        
+        TabBarType.allCases.forEach { type in
+            setupTabBarItem(for: type)
+        }
+        
+        viewControllers = [
+            UINavigationController(rootViewController: searchViewController),
+            UINavigationController(rootViewController: mainHomeViewController),
+            UINavigationController(rootViewController: profileViewController)
+        ]
+        
+        let firstSelectedIndex = 1
+        selectedIndex = firstSelectedIndex
     }
     
     private func setupTabBarItem(for type: TabBarType) {
@@ -73,6 +87,8 @@ extension UnsplashTabbarController {
             searchViewController.tabBarItem = tabBarItem
         case .profile:
             profileViewController.tabBarItem = tabBarItem
+        case .main:
+            mainHomeViewController.tabBarItem = tabBarItem
         }
     }
 }
