@@ -10,13 +10,6 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-protocol ViewModelType {
-    associatedtype Input
-    associatedtype Output
-    
-    func bind(input: Input) -> Output
-}
-
 typealias SearchSection = SectionModel<String, Photo>
 
 final class SearchViewModel: ViewModelType {
@@ -124,7 +117,6 @@ final class SearchViewModel: ViewModelType {
                 navigationTitle.onNext("\(searchQuery) 검색결과")
             })
             
-        
         let requestFirst = firstSearchPhoto.map { $0.photos }
         
         //검색결과를 더 가져오는 옵저버블
@@ -140,7 +132,7 @@ final class SearchViewModel: ViewModelType {
                     return viewModel.networkService.searchPhotos(type: SearchPhoto.self,
                                                             query: searchQuery,
                                                             page: viewModel.pageCounter)
-                        .map{ $0.photos }
+                        .map { $0.photos }
                 }
         
         //검색결과를 머지한 뒤 Emit하는 옵저버블

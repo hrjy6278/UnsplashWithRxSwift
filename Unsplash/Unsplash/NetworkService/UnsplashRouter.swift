@@ -16,7 +16,7 @@ enum UnsplashRouter {
     case userLikePhotos(userName: String, page: Int)
     case updateProfile(UpdateProfile)
     case randomPhoto
-    
+
     var baseURL: String {
         return "https://api.unsplash.com"
     }
@@ -38,14 +38,14 @@ enum UnsplashRouter {
     
     var method: HTTPMethod {
         switch self {
-        case .searchPhotos,.myProfile, .userLikePhotos, .randomPhoto:
-            return .get
         case .photoLike:
             return .post
         case .photoUnlike:
             return .delete
         case .updateProfile:
             return .put
+        default:
+            return .get
         }
     }
     

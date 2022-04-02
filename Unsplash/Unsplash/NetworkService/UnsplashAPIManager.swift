@@ -187,6 +187,27 @@ extension UnsplashAPIManager {
             }
         }
     }
+    
+    func fetchList<T: Decodable>(type: T.Type, kind: UnsplashListRouter) -> Observable<T> {
+        let reqeust = sessionManager.request(kind)
+        
+        return Observable.create { observer in
+            reqeust.validate(statusCode: 200...299)
+                .responseDecodable(of: type) { response in
+                    switch response.result {
+                    case .success(let decodedData):
+                        observer.onNext(decodedData)
+                        observer.onCompleted()
+                    case .failure(let error):
+                        observer.onError(error)
+                    }
+                }
+
+            return Disposables.create {
+                reqeust.cancel()
+            }
+        }
+    }
 }
 
     

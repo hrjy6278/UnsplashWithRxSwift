@@ -31,6 +31,11 @@
 		7458C66B27B3E355003900BC /* UpdateProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7458C66A27B3E355003900BC /* UpdateProfile.swift */; };
 		748DFDF727EC6523005906C4 /* OAuthManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748DFDF627EC6523005906C4 /* OAuthManger.swift */; };
 		748DFDF927EC6C1A005906C4 /* OAuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748DFDF827EC6C1A005906C4 /* OAuthRouter.swift */; };
+		748DFDFB27F6E6C2005906C4 /* MainDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748DFDFA27F6E6C2005906C4 /* MainDetailViewController.swift */; };
+		748DFDFF27F6E982005906C4 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748DFDFE27F6E982005906C4 /* ViewModelType.swift */; };
+		748DFE0127F6ECE6005906C4 /* MainDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748DFE0027F6ECE6005906C4 /* MainDetailViewModel.swift */; };
+		748DFE0327F6F50E005906C4 /* CollectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748DFE0227F6F50E005906C4 /* CollectionList.swift */; };
+		748DFE0527F71BA2005906C4 /* UnsplashListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748DFE0427F71BA2005906C4 /* UnsplashListRouter.swift */; };
 		74A22596276CD625002DB300 /* UnsplashAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22595276CD625002DB300 /* UnsplashAPIManager.swift */; };
 		74A22598276CDAF0002DB300 /* PasingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A22597276CDAF0002DB300 /* PasingManager.swift */; };
 		74A2259C276CE0CB002DB300 /* SearchPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2259B276CE0CB002DB300 /* SearchPhoto.swift */; };
@@ -111,6 +116,11 @@
 		7458C66C27B9F690003900BC /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		748DFDF627EC6523005906C4 /* OAuthManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthManger.swift; sourceTree = "<group>"; };
 		748DFDF827EC6C1A005906C4 /* OAuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthRouter.swift; sourceTree = "<group>"; };
+		748DFDFA27F6E6C2005906C4 /* MainDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailViewController.swift; sourceTree = "<group>"; };
+		748DFDFE27F6E982005906C4 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		748DFE0027F6ECE6005906C4 /* MainDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailViewModel.swift; sourceTree = "<group>"; };
+		748DFE0227F6F50E005906C4 /* CollectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionList.swift; sourceTree = "<group>"; };
+		748DFE0427F71BA2005906C4 /* UnsplashListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashListRouter.swift; sourceTree = "<group>"; };
 		74A22595276CD625002DB300 /* UnsplashAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPIManager.swift; sourceTree = "<group>"; };
 		74A22597276CDAF0002DB300 /* PasingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasingManager.swift; sourceTree = "<group>"; };
 		74A2259B276CE0CB002DB300 /* SearchPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhoto.swift; sourceTree = "<group>"; };
@@ -188,9 +198,9 @@
 		743E694E27EB3E0400C27008 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				743E694C27EB3DFC00C27008 /* MainHomeViewController.swift */,
+				748DFDFC27F6E834005906C4 /* MainHome */,
+				748DFDFD27F6E844005906C4 /* MainDetail */,
 				743E695127EB485D00C27008 /* MainHeaderViewCell.swift */,
-				743E694F27EB3EBA00C27008 /* MainHomeViewModel.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -205,6 +215,24 @@
 			path = ProfileEditView;
 			sourceTree = "<group>";
 		};
+		748DFDFC27F6E834005906C4 /* MainHome */ = {
+			isa = PBXGroup;
+			children = (
+				743E694C27EB3DFC00C27008 /* MainHomeViewController.swift */,
+				743E694F27EB3EBA00C27008 /* MainHomeViewModel.swift */,
+			);
+			path = MainHome;
+			sourceTree = "<group>";
+		};
+		748DFDFD27F6E844005906C4 /* MainDetail */ = {
+			isa = PBXGroup;
+			children = (
+				748DFDFA27F6E6C2005906C4 /* MainDetailViewController.swift */,
+				748DFE0027F6ECE6005906C4 /* MainDetailViewModel.swift */,
+			);
+			path = MainDetail;
+			sourceTree = "<group>";
+		};
 		74A22594276CD612002DB300 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +240,7 @@
 				74A22595276CD625002DB300 /* UnsplashAPIManager.swift */,
 				74A225AB2770642B002DB300 /* UnsplashInterceptor.swift */,
 				74A225A7277048CE002DB300 /* UnsplashRouter.swift */,
+				748DFE0427F71BA2005906C4 /* UnsplashListRouter.swift */,
 				74A22597276CDAF0002DB300 /* PasingManager.swift */,
 			);
 			path = NetworkService;
@@ -249,6 +278,7 @@
 			children = (
 				74A225BC2770BEA1002DB300 /* KeyChainQueryable.swift */,
 				74A225A5276ED23D002DB300 /* HierarchySetupable.swift */,
+				748DFDFE27F6E982005906C4 /* ViewModelType.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -393,6 +423,7 @@
 				74A225DC277354DB002DB300 /* Profile.swift */,
 				745630C427B0ECE0000CA812 /* ProfileSectionModel.swift */,
 				7458C66A27B3E355003900BC /* UpdateProfile.swift */,
+				748DFE0227F6F50E005906C4 /* CollectionList.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -590,15 +621,19 @@
 				74A225AF27706A97002DB300 /* KeyChainStore.swift in Sources */,
 				74BCE1BB276C703B0093B1E6 /* AppDelegate.swift in Sources */,
 				74A2259C276CE0CB002DB300 /* SearchPhoto.swift in Sources */,
+				748DFDFB27F6E6C2005906C4 /* MainDetailViewController.swift in Sources */,
 				74A225BD2770BEA1002DB300 /* KeyChainQueryable.swift in Sources */,
 				74A225BB2770B93A002DB300 /* TokenManager.swift in Sources */,
 				74BF06F42797E213001DBD14 /* Extension + Rx.swift in Sources */,
 				74BCE1BD276C703B0093B1E6 /* SceneDelegate.swift in Sources */,
+				748DFE0527F71BA2005906C4 /* UnsplashListRouter.swift in Sources */,
+				748DFE0127F6ECE6005906C4 /* MainDetailViewModel.swift in Sources */,
 				74BF06F62797FCB8001DBD14 /* OAuth2ViewModel.swift in Sources */,
 				74CE8D32277560AB008BD593 /* Extention + Notification.Name.swift in Sources */,
 				748DFDF927EC6C1A005906C4 /* OAuthRouter.swift in Sources */,
 				743E695227EB485D00C27008 /* MainHeaderViewCell.swift in Sources */,
 				7458C65B27B244E7003900BC /* ProfileEditViewModel.swift in Sources */,
+				748DFE0327F6F50E005906C4 /* CollectionList.swift in Sources */,
 				74A225BF2770BF93002DB300 /* TokenQuery.swift in Sources */,
 				74A225A6276ED23D002DB300 /* HierarchySetupable.swift in Sources */,
 				7458C66B27B3E355003900BC /* UpdateProfile.swift in Sources */,
@@ -610,6 +645,7 @@
 				74CE8D3A27759F16008BD593 /* Extension + UIAlertController.swift in Sources */,
 				74BCE1EB276C75380093B1E6 /* UnsplashTabbarController.swift in Sources */,
 				7458C66527B263AB003900BC /* ProfileEditViewController.swift in Sources */,
+				748DFDFF27F6E982005906C4 /* ViewModelType.swift in Sources */,
 				745630AD27ACC55D000CA812 /* ProfileViewModel.swift in Sources */,
 				745630C127B0BC33000CA812 /* ProfileCell.swift in Sources */,
 				745630C527B0ECE0000CA812 /* ProfileSectionModel.swift in Sources */,
