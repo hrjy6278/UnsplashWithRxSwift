@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import RxSwift
 
 final class MainHeaderViewCell: UICollectionViewCell {
+    var disposeBag = DisposeBag()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +28,7 @@ final class MainHeaderViewCell: UICollectionViewCell {
     }()
     
     override var isSelected: Bool {
-        didSet{
+        didSet {
             if isSelected {
                 titleLabel.textColor = .black
                 seperatorView.isHidden = false
@@ -74,5 +77,6 @@ extension MainHeaderViewCell {
         super.prepareForReuse()
         titleLabel.text = nil
         seperatorView.backgroundColor = .black
+        disposeBag = DisposeBag()
     }
 }
