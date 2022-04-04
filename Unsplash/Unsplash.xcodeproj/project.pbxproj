@@ -200,7 +200,6 @@
 			children = (
 				748DFDFC27F6E834005906C4 /* MainHome */,
 				748DFDFD27F6E844005906C4 /* MainDetail */,
-				743E695127EB485D00C27008 /* MainHeaderViewCell.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -220,6 +219,7 @@
 			children = (
 				743E694C27EB3DFC00C27008 /* MainHomeViewController.swift */,
 				743E694F27EB3EBA00C27008 /* MainHomeViewModel.swift */,
+				743E695127EB485D00C27008 /* MainHeaderViewCell.swift */,
 			);
 			path = MainHome;
 			sourceTree = "<group>";
